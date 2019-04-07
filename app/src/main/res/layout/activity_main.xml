@@ -22,7 +22,44 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            android:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar" >
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_gravity="end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <android.widget.SearchView
+                    android:id="@+id/search_field"
+                    android:maxWidth="10000dp"
+                    app:actionViewClass="android.widget.SearchView"
+                    app:showAsAction="always"
+                    android:paddingTop="2dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                </android.widget.SearchView>
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_cart"
+                    android:background="@null"
+                    android:paddingTop="14dp"
+                    />
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_inbox"
+                    android:background="@null"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="14dp"
+                    />
+
+            </LinearLayout>
+        </android.support.v7.widget.Toolbar>
+
 
 
 
