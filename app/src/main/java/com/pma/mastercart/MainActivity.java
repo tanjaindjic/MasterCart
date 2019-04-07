@@ -1,5 +1,7 @@
 package com.pma.mastercart;
 
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -7,21 +9,50 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.options_menu, menu);
+        return true;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
+
+        ImageButton b1=new ImageButton(this);
+        b1.setImageResource(R.drawable.ic_cart);
+        b1.setBackgroundColor(Color.alpha(0));
+        Toolbar.LayoutParams l3=new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
+        l3.gravity=Gravity.END;
+        b1.setLayoutParams(l3);
+        b1.setPadding(25,0,0,0);
+        toolbar.addView(b1);
+
+        ImageButton b2=new ImageButton(this);
+        b2.setImageResource(R.drawable.ic_inbox);
+        b2.setBackgroundColor(Color.alpha(0));
+        l3.gravity=Gravity.END;
+        b2.setLayoutParams(l3);
+        toolbar.addView(b2);
+
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -69,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Toast.makeText(this, "Selected Item: " +item.getTitle(), Toast.LENGTH_SHORT).show();
         switch (item.getItemId()) {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);

@@ -6,4 +6,6 @@
     <string name="profile">Profile</string>
     <string name="logout">Log Out</string>
     <string name="inbox">Inbox</string>
+    <string name="mail">Email</string>
+    <string name="share">Share</string>
 </resources>
