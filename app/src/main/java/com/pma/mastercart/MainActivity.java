@@ -2,8 +2,10 @@ package com.pma.mastercart;
 
 import android.graphics.Color;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +22,9 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private SearchView searchView;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -34,6 +39,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        HomePageTabsAdapter adapter = new HomePageTabsAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(adapter);
+
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
+
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
