@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar.LayoutParams l3=new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
         l3.gravity=Gravity.END;
         b1.setLayoutParams(l3);
-        b1.setPadding(25,0,0,0);
+        b1.setPadding(30,0,0,0);
         toolbar.addView(b1);
 
         ImageButton b2=new ImageButton(this);
