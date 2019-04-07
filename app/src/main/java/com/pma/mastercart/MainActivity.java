@@ -1,7 +1,6 @@
 package com.pma.mastercart;
 
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -50,8 +49,17 @@ public class MainActivity extends AppCompatActivity {
         b2.setImageResource(R.drawable.ic_inbox);
         b2.setBackgroundColor(Color.alpha(0));
         l3.gravity=Gravity.END;
+        b2.setPadding(30,0,0,0);
         b2.setLayoutParams(l3);
         toolbar.addView(b2);
+
+        ImageButton b3=new ImageButton(this);
+        b3.setImageResource(R.drawable.ic_search);
+        b3.setBackgroundColor(Color.alpha(0));
+        l3.gravity=Gravity.END;
+        b3.setLayoutParams(l3);
+        toolbar.addView(b3);
+
 
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
