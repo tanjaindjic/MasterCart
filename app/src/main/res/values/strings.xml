@@ -15,11 +15,25 @@
         <item name="usb">USB Cables</item>
         <item name="earphones">Earphones</item>
     </array>
-    <array name="sorting_array">
+    <array name="sort_products_array">
         <item name="best_match">Best Match</item>
         <item name="price_asc">Price ↑</item>
         <item name="price_desc">Price ↓</item>
         <item name="rating">Rating</item>
         <item name="orders">Orders</item>
     </array>
+    <array name="sort_shops_array">
+        <item name="best_match">Best Match</item>
+        <item name="price_asc">Name ↑</item>
+        <item name="price_desc">Name ↓</item>
+        <item name="rating">Rating</item>
+        <item name="distance">Distance</item>
+    </array>
+    <string name="dummy1">Dummy 1</string>
+
+    <string name="dummy2">Dummy 2</string>
+
+    <string name="dummy3">Dummy 3</string>
+    <string name="dummyPrice">100</string>
+    <string name="dummyLocation">Petra Drapsina 4</string>
 </resources>
