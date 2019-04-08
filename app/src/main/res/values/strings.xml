@@ -17,15 +17,15 @@
     </array>
     <array name="sort_products_array">
         <item name="best_match">Best Match</item>
-        <item name="price_asc">Price ↑</item>
-        <item name="price_desc">Price ↓</item>
+        <item name="price_asc">Price: Low</item>
+        <item name="price_desc">Price: High</item>
         <item name="rating">Rating</item>
         <item name="orders">Orders</item>
     </array>
     <array name="sort_shops_array">
         <item name="best_match">Best Match</item>
-        <item name="price_asc">Name ↑</item>
-        <item name="price_desc">Name ↓</item>
+        <item name="price_asc">Name Asc</item>
+        <item name="price_desc">Name Desc</item>
         <item name="rating">Rating</item>
         <item name="distance">Distance</item>
     </array>
