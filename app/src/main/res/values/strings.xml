@@ -10,11 +10,13 @@
     <string name="share">Share</string>
     <array name="categories_array">
         <item name="all">All</item>
-        <item name="all">Cases</item>
-        <item name="all">Chargers</item>
-        <item name="all">Accessories</item>
+        <item name="cases">Cases</item>
+        <item name="chargers">Chargers</item>
+        <item name="usb">USB Cables</item>
+        <item name="earphones">Earphones</item>
     </array>
     <array name="sorting_array">
+        <item name="best_match">Best Match</item>
         <item name="price_asc">Price ↑</item>
         <item name="price_desc">Price ↓</item>
         <item name="rating">Rating</item>
