@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -95,7 +96,9 @@ public class TabFragment extends Fragment {
             productsAdapter = new ProductAdapter(view.getContext(), products);
             gridView.setAdapter(productsAdapter);
 
-            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            //OVO NE RADI AKO U GRID VIEW IMA NEKI DRUGI CLICKABLE VIEW
+           /* gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Product product = products[position];
@@ -108,7 +111,7 @@ public class TabFragment extends Fragment {
                     startActivity(intent);
                 }
             });
-
+*/
 
             category.setVisibility(View.VISIBLE);
             sort.setVisibility(View.VISIBLE);

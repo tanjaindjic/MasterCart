@@ -1,21 +1,32 @@
 package com.pma.mastercart.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.pma.mastercart.MainActivity;
 import com.pma.mastercart.R;
+import com.pma.mastercart.ViewProductActivity;
 import com.pma.mastercart.model.Product;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 
 public class ProductAdapter extends BaseAdapter {
 
     private final Context mContext;
     private final Product[] products;
+    private ImageButton product_details;
 
     // 1
     public ProductAdapter(Context context, Product[] products) {
@@ -57,6 +68,35 @@ public class ProductAdapter extends BaseAdapter {
         imageView.setImageResource(product.getImageResource());
         nameTextView.setText(mContext.getString(product.getName()));
         priceTextView.setText(mContext.getString(product.getPrice()) + "$");
+
+        product_details = (ImageButton)convertView.findViewById(R.id.details);
+        product_details.setTag(Integer.valueOf(product.getId()));
+
+        product_details.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+                //Toast.makeText(mContext,"ImageButton is clicked! Item id: " + view.getTag(), Toast.LENGTH_SHORT).show();
+                Product product = null;
+                //dok ne predjemo na SQLite
+                for(Product p : products)
+                    if(p.getId()==(Integer) view.getTag()){
+                        product = p;
+                        break;
+                    }
+
+                //open new activity to view this product
+                Intent intent = new Intent(mContext, ViewProductActivity.class);
+                intent.putExtra("PRODUCT_ID", String.valueOf(product.getId()));
+                intent.putExtra("PRODUCT_NAME", view.getResources().getString(product.getName()));
+                intent.putExtra("PRODUCT_PRICE", String.valueOf(product.getPrice()));
+                intent.putExtra("PRODUCT_PIC", String.valueOf(product.getImageResource()));
+                mContext.startActivity(intent);
+            }
+
+        });
+
 
         return convertView;
     }
