@@ -98,7 +98,7 @@
         android:fitsSystemWindows="true"
         app:itemTextColor="@color/colorPrimaryDark"
         app:itemIconTint="@color/colorPrimaryDark"
-        app:menu="@menu/drawer_view"
+        app:menu="@menu/drawer_menu"
         app:headerLayout="@layout/nav_header" />
 
 
