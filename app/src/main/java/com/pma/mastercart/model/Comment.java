@@ -2,15 +2,15 @@ package com.pma.mastercart.model;
 
 public class Comment {
     private int id;
-    private int product_id;
+    private int productId;
     private String user;
-    private String review;
+    private String comment;
 
-    public Comment(int id, int product_id, String user, String review) {
+    public Comment(int id, int productId, String user, String comment) {
         this.id = id;
-        this.product_id = product_id;
+        this.productId = productId;
         this.user = user;
-        this.review = review;
+        this.comment = comment;
     }
 
     public int getId() {
@@ -21,12 +21,12 @@ public class Comment {
         this.id = id;
     }
 
-    public int getProduct_id() {
-        return product_id;
+    public int getProductId() {
+        return productId;
     }
 
-    public void setProduct_id(int product_id) {
-        this.product_id = product_id;
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
     public String getUser() {
@@ -37,11 +37,11 @@ public class Comment {
         this.user = user;
     }
 
-    public String getReview() {
-        return review;
+    public String getComment() {
+        return comment;
     }
 
-    public void setReview(String review) {
-        this.review = review;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

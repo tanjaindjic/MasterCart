@@ -57,6 +57,7 @@
 
                         <TextView
                             android:id="@+id/single_product_name"
+                            android:textSize="16dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
@@ -66,6 +67,7 @@
 
                         <TextView
                             android:id="@+id/single_product_price"
+                            android:textSize="16dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="8dp"
@@ -74,6 +76,7 @@
 
                         <TextView
                             android:id="@+id/single_product_description"
+                            android:textSize="16dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="8dp"
@@ -118,24 +121,32 @@
         </LinearLayout>
 
         //RATING
-        <TextView
-            android:id="@+id/rating_text"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="24dp"
-            android:layout_marginTop="24dp"
-            android:text="Rating:"/>
+            android:layout_height="wrap_content">
 
-        <RatingBar
-            style="@android:style/Widget.Material.RatingBar.Small"
-            android:layout_marginLeft="24dp"
-            android:layout_marginTop="8dp"
-            android:id="@+id/single_product_rating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:numStars="5"
-            android:stepSize="0.5"
-            android:rating="3.5" />
+                <TextView
+                    android:id="@+id/rating_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginTop="24dp"
+                    android:textSize="16dp"
+                    android:text="Rating:"/>
+
+                <RatingBar
+                    style="@android:style/Widget.Material.RatingBar.Small"
+                    android:id="@+id/single_product_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="29dp"
+                    android:layout_marginLeft="13dp"
+                    android:numStars="5"
+                    android:stepSize="0.5"
+                    android:rating="3.5" />
+        </LinearLayout>
+
 
 
         //KOMENTARI
@@ -145,12 +156,11 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="24dp"
             android:layout_marginTop="24dp"
+            android:textSize="16dp"
             android:text="Comments:"/>
 
         <ListView
             android:id="@+id/comments_list"
-            android:layout_marginLeft="24dp"
-            android:layout_marginTop="8dp"
             android:layout_height="wrap_content"
             android:layout_width="match_parent">
         </ListView>
