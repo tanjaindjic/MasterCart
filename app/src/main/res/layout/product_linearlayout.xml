@@ -54,7 +54,7 @@
             <ImageButton
                 android:layout_marginRight="8dp"
                 android:layout_marginLeft="8dp"
-                android:id="@+id/details"
+                android:id="@+id/product_details"
                 android:background="@android:color/transparent"
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/ic_info"

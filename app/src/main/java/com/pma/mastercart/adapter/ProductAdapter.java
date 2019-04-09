@@ -69,23 +69,13 @@ public class ProductAdapter extends BaseAdapter {
         nameTextView.setText(mContext.getString(product.getName()));
         priceTextView.setText(mContext.getString(product.getPrice()) + "$");
 
-        product_details = (ImageButton)convertView.findViewById(R.id.details);
+        product_details = (ImageButton)convertView.findViewById(R.id.product_details);
         product_details.setTag(Integer.valueOf(product.getId()));
 
         product_details.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-
-                //Toast.makeText(mContext,"ImageButton is clicked! Item id: " + view.getTag(), Toast.LENGTH_SHORT).show();
-                Product product = null;
-                //dok ne predjemo na SQLite
-                for(Product p : products)
-                    if(p.getId()==(Integer) view.getTag()){
-                        product = p;
-                        break;
-                    }
-
                 //open new activity to view this product
                 Intent intent = new Intent(mContext, ViewProductActivity.class);
                 intent.putExtra("PRODUCT_ID", product.getId()); //int

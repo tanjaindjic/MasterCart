@@ -18,6 +18,9 @@
         <activity android:name=".ViewProductActivity"
             android:parentActivityName=".MainActivity">
         </activity>
+        <activity android:name=".ViewShopActivity"
+            android:parentActivityName=".MainActivity">
+        </activity>
 
         <activity android:name=".LoginActivity"
             android:label="Login to your Account">
