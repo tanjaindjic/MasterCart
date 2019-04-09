@@ -15,7 +15,7 @@
         android:layout_height="match_parent" >
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/main_toolbar"
             android:gravity="top"
             app:contentInsetStartWithNavigation="0dp"
             app:title="Master Cart"

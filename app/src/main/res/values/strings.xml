@@ -30,10 +30,11 @@
         <item name="distance">Distance</item>
     </array>
     <string name="dummy1">Dummy 1</string>
-
     <string name="dummy2">Dummy 2</string>
-
     <string name="dummy3">Dummy 3</string>
     <string name="dummyPrice">100</string>
     <string name="dummyLocation">Petra Drapsina 4</string>
+    <string name="favorite">Favorites</string>
+    <string name="wallet">Wallet</string>
+    <string name="orders">Orders</string>
 </resources>

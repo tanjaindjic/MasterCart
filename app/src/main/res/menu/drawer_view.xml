@@ -10,6 +10,15 @@
             android:id="@+id/nav_cart"
             android:icon="@drawable/ic_cart"
             android:title="@string/cart" />
+        <item
+            android:id="@+id/nav_orders"
+            android:icon="@drawable/ic_orders"
+            android:title="@string/orders" />
+
+        <item
+            android:id="@+id/nav_favorite"
+            android:icon="@drawable/ic_favorite"
+            android:title="@string/favorite" />
 
         <item
             android:id="@+id/nav_inbox"
@@ -20,6 +29,11 @@
             android:id="@+id/nav_profile"
             android:icon="@drawable/ic_profile"
             android:title="@string/profile" />
+
+        <item
+            android:id="@+id/nav_wallet"
+            android:icon="@drawable/ic_wallet"
+            android:title="@string/wallet" />
 
         <item
             android:id="@+id/nav_logout"

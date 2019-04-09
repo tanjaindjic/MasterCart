@@ -24,12 +24,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <android.support.v7.widget.AppCompatSpinner
+        <Spinner
             android:id="@+id/category_spinner"
             android:entries="@array/categories_array"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-        </android.support.v7.widget.AppCompatSpinner>
+
+        </Spinner>
+       <!-- <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/category_spinner"
+            android:entries="@array/categories_array"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.AppCompatSpinner>-->
 
         <TextView
             android:id="@+id/sort"
@@ -39,12 +47,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <android.support.v7.widget.AppCompatSpinner
+        <Spinner
             android:id="@+id/sort_spinner"
             android:entries="@array/sort_products_array"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-        </android.support.v7.widget.AppCompatSpinner>
+        </Spinner>
 
         <TextView
             android:id="@+id/sort2"

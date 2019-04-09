@@ -1,8 +1,10 @@
-package com.pma.mastercart;
+package com.pma.mastercart.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import com.pma.mastercart.TabFragment;
 
 public class HomePageTabsAdapter extends FragmentPagerAdapter {
 

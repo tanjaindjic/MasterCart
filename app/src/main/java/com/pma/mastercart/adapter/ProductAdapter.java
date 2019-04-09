@@ -1,4 +1,4 @@
-package com.pma.mastercart;
+package com.pma.mastercart.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.pma.mastercart.R;
 import com.pma.mastercart.model.Product;
 
 
