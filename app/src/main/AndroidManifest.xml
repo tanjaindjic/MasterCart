@@ -18,6 +18,18 @@
         <activity android:name=".ViewProductActivity"
             android:parentActivityName=".MainActivity">
         </activity>
+
+        <activity android:name=".LoginActivity"
+            android:label="Login to your Account">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--  Entry for RegisterActivity.class -->
+        <activity android:name=".RegistrationActivity"
+            android:label="Register New Account"></activity>
     </application>
 
 </manifest>
