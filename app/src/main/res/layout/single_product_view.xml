@@ -65,6 +65,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
+                            android:textColor="@android:color/black"
                             android:layout_marginBottom="8dp"
                             android:layout_gravity="start"
                             android:gravity="start"/>
@@ -72,6 +73,7 @@
                         <TextView
                             android:id="@+id/single_product_price"
                             android:textSize="16dp"
+                            android:textColor="@android:color/black"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="8dp"
@@ -81,6 +83,7 @@
                         <TextView
                             android:id="@+id/single_product_description"
                             android:textSize="16dp"
+                            android:textColor="@android:color/black"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="8dp"
@@ -147,6 +150,7 @@
                     android:layout_marginLeft="24dp"
                     android:layout_marginTop="24dp"
                     android:textSize="16dp"
+                    android:textColor="@android:color/black"
                     android:text="Rating:"/>
 
                 <RatingBar
@@ -171,6 +175,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="24dp"
             android:layout_marginTop="24dp"
+            android:textColor="@android:color/black"
             android:textSize="16dp"
             android:text="Comments:"/>
 

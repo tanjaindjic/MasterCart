@@ -1,5 +1,6 @@
 package com.pma.mastercart;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -103,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
             }
         );
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

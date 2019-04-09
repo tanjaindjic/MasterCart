@@ -66,6 +66,7 @@
                             android:id="@+id/single_shop_name"
                             android:textSize="16dp"
                             android:layout_width="wrap_content"
+                            android:textColor="@android:color/black"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
                             android:layout_marginBottom="8dp"
@@ -76,6 +77,7 @@
                             android:id="@+id/single_shop_address"
                             android:textSize="16dp"
                             android:layout_width="wrap_content"
+                            android:textColor="@android:color/black"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="8dp"
                             android:layout_gravity="start"
@@ -132,6 +134,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="24dp"
                     android:layout_marginTop="24dp"
+                    android:textColor="@android:color/black"
                     android:textSize="16dp"
                     android:text="Rating:"/>
 
@@ -157,6 +160,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="24dp"
             android:layout_marginTop="24dp"
+            android:textColor="@android:color/black"
             android:textSize="16dp"
             android:text="Comments:"/>
 

@@ -33,6 +33,7 @@
             android:layout_height="wrap_content"
             android:textSize="16dp"
             android:textStyle="bold"
+            android:textColor="@android:color/black"
             android:paddingLeft="8dp"
             android:layout_alignParentLeft="true"/>
 
@@ -42,6 +43,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="8dp"
             android:textSize="16dp"
+            android:textColor="@android:color/black"
             android:layout_below="@id/shop_name"/>
 
         <ImageButton

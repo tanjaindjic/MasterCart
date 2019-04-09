@@ -2,8 +2,12 @@ package com.pma.mastercart;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -22,6 +26,8 @@ public class ViewShopActivity extends AppCompatActivity {
             new Comment(4,1,"Sam Doe", "My phone looks amazing now!"),
 
     };
+    private ImageButton shop_location;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +60,23 @@ public class ViewShopActivity extends AppCompatActivity {
         CommentAdapter commentAdapter = new CommentAdapter(this, singleShopCommentsArray);
         listView.setAdapter(commentAdapter);
 
-    }
+        shop_location = (ImageButton) findViewById(R.id.single_shop_location);
+        shop_location.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View view) {
+
+                //open new activity to view location
+                Intent intent = new Intent(view.getContext(), MapsActivity.class);
+                startActivity(intent);
+            }
+
+        });
+
+    }
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 }

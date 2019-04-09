@@ -1,5 +1,6 @@
 package com.pma.mastercart.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.pma.mastercart.MapsActivity;
 import com.pma.mastercart.R;
 import com.pma.mastercart.ViewShopActivity;
 import com.pma.mastercart.model.Product;
@@ -20,6 +22,7 @@ public class ShopAdapter  extends BaseAdapter {
     private final Context mContext;
     private final Shop[] shops;
     private ImageButton shop_details;
+    private ImageButton shop_location;
 
     public ShopAdapter(Context mContext, Shop[] shops) {
         this.mContext = mContext;
@@ -71,6 +74,22 @@ public class ShopAdapter  extends BaseAdapter {
 
         });
 
+        shop_location = (ImageButton) convertView.findViewById(R.id.shop_location);
+        shop_location.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+                //open new activity to view location
+                Intent intent = new Intent(mContext, MapsActivity.class);
+                mContext.startActivity(intent);
+            }
+
+        });
+
+
         return convertView;
     }
+
+
 }

@@ -55,12 +55,11 @@ public class ViewProductActivity  extends AppCompatActivity {
         CommentAdapter commentAdapter = new CommentAdapter(this, singleProductCommentsArray);
         listView.setAdapter(commentAdapter);
 
+    }
 
-
-
-
-
-
-
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }
