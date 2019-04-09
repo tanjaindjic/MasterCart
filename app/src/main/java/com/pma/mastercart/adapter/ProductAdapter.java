@@ -88,10 +88,10 @@ public class ProductAdapter extends BaseAdapter {
 
                 //open new activity to view this product
                 Intent intent = new Intent(mContext, ViewProductActivity.class);
-                intent.putExtra("PRODUCT_ID", String.valueOf(product.getId()));
-                intent.putExtra("PRODUCT_NAME", view.getResources().getString(product.getName()));
-                intent.putExtra("PRODUCT_PRICE", String.valueOf(product.getPrice()));
-                intent.putExtra("PRODUCT_PIC", String.valueOf(product.getImageResource()));
+                intent.putExtra("PRODUCT_ID", product.getId()); //int
+                intent.putExtra("PRODUCT_NAME", view.getResources().getString(product.getName())); //string
+                intent.putExtra("PRODUCT_PRICE", product.getPrice());//int
+                intent.putExtra("PRODUCT_PIC", product.getImageResource());//int
                 mContext.startActivity(intent);
             }
 
