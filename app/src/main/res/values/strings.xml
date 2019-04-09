@@ -38,4 +38,5 @@
     <string name="wallet">Wallet</string>
     <string name="orders">Orders</string>
     <string name="title_activity_maps">Map</string>
+    <string name="settings">Settings</string>
 </resources>

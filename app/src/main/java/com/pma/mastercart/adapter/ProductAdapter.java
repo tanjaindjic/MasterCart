@@ -27,6 +27,8 @@ public class ProductAdapter extends BaseAdapter {
     private final Context mContext;
     private final Product[] products;
     private ImageButton product_details;
+    private ImageButton add_favorite;
+    private ImageButton add_cart;
 
     // 1
     public ProductAdapter(Context context, Product[] products) {
@@ -87,6 +89,24 @@ public class ProductAdapter extends BaseAdapter {
 
         });
 
+
+        add_favorite = (ImageButton)convertView.findViewById(R.id.add_favorite);
+        add_favorite.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(mContext, "Item added to favorites.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        add_cart = (ImageButton)convertView.findViewById(R.id.add_cart);
+        add_cart.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(mContext, "Item added to cart.", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         return convertView;
     }

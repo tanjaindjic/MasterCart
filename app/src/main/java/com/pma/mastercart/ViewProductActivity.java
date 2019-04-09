@@ -4,9 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pma.mastercart.adapter.CommentAdapter;
 import com.pma.mastercart.model.Comment;
@@ -22,6 +25,8 @@ public class ViewProductActivity  extends AppCompatActivity {
             new Comment(4,1,"Sam Doe", "My phone looks amazing now!"),
 
     };
+    private ImageButton add_favorite;
+    private ImageButton add_cart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +60,22 @@ public class ViewProductActivity  extends AppCompatActivity {
         CommentAdapter commentAdapter = new CommentAdapter(this, singleProductCommentsArray);
         listView.setAdapter(commentAdapter);
 
+        add_favorite = (ImageButton) findViewById(R.id.single_add_favorite);
+        add_favorite.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(view.getContext(), "Item added to favorites.", Toast.LENGTH_SHORT).show();
+            }
+        });
+        add_cart = (ImageButton)findViewById(R.id.single_add_cart);
+        add_cart.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(view.getContext(), "Item added to cart.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
