@@ -1,15 +1,12 @@
 package com.pma.mastercart;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -45,14 +42,14 @@ public class TabFragment extends Fragment {
     };
 
     private Shop[] shops = {
-            new Shop(R.string.dummy1, R.drawable.ic_dummy, R.string.dummyLocation),
-            new Shop(R.string.dummy2, R.drawable.ic_dummy, R.string.dummyLocation),
-            new Shop(R.string.dummy3, R.drawable.ic_dummy, R.string.dummyLocation),
-            new Shop(R.string.dummy3, R.drawable.ic_dummy, R.string.dummyLocation),
-            new Shop(R.string.dummy3, R.drawable.ic_dummy, R.string.dummyLocation),
-            new Shop(R.string.dummy3, R.drawable.ic_dummy, R.string.dummyLocation),
-            new Shop(R.string.dummy3, R.drawable.ic_dummy, R.string.dummyLocation),
-            new Shop(R.string.dummy3, R.drawable.ic_dummy, R.string.dummyLocation),
+            new Shop(1, R.string.dummy1, R.drawable.ic_dummy, R.string.dummyLocation),
+            new Shop(2, R.string.dummy2, R.drawable.ic_dummy, R.string.dummyLocation),
+            new Shop(3, R.string.dummy3, R.drawable.ic_dummy, R.string.dummyLocation),
+            new Shop(4, R.string.dummy3, R.drawable.ic_dummy, R.string.dummyLocation),
+            new Shop(5, R.string.dummy3, R.drawable.ic_dummy, R.string.dummyLocation),
+            new Shop(6, R.string.dummy3, R.drawable.ic_dummy, R.string.dummyLocation),
+            new Shop(7, R.string.dummy3, R.drawable.ic_dummy, R.string.dummyLocation),
+            new Shop(8, R.string.dummy3, R.drawable.ic_dummy, R.string.dummyLocation),
 
     };
 

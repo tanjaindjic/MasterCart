@@ -27,7 +27,7 @@ public class ViewProductActivity  extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.product_view);
+        setContentView(R.layout.single_product_view);
 
         Toolbar back_toolbar = (Toolbar) findViewById(R.id.back_toolbar);
         setSupportActionBar(back_toolbar);
@@ -47,7 +47,7 @@ public class ViewProductActivity  extends AppCompatActivity {
         Comment[] singleProductCommentsArray = {};
         List<Comment> singleProductCommentsList = new ArrayList<>();
         for(Comment c : comments)
-            if(c.getProductId()==singleProductId)
+            if(c.getItemId()==singleProductId)
                 singleProductCommentsList.add(c);
 
         singleProductCommentsArray = singleProductCommentsList.toArray(new Comment[singleProductCommentsList.size()]);

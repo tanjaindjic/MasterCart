@@ -2,13 +2,13 @@ package com.pma.mastercart.model;
 
 public class Comment {
     private int id;
-    private int productId;
+    private int itemId; //da bi se koristilo i za shop i product, samo za prvu kontrolnu tacku dok nemamo prave podatke
     private String user;
     private String comment;
 
-    public Comment(int id, int productId, String user, String comment) {
+    public Comment(int id, int itemId, String user, String comment) {
         this.id = id;
-        this.productId = productId;
+        this.itemId = itemId;
         this.user = user;
         this.comment = comment;
     }
@@ -21,12 +21,12 @@ public class Comment {
         this.id = id;
     }
 
-    public int getProductId() {
-        return productId;
+    public int getItemId() {
+        return itemId;
     }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
     }
 
     public String getUser() {

@@ -63,6 +63,7 @@ public class ShopAdapter  extends BaseAdapter {
 
                 //open new activity to view this product
                 Intent intent = new Intent(mContext, ViewShopActivity.class);
+                intent.putExtra("SHOP_ID", shop.getId());
                 intent.putExtra("SHOP_NAME", view.getResources().getString(shop.getName()));
                 intent.putExtra("SHOP_ADDRESS", view.getResources().getString(shop.getLocation()));
                 mContext.startActivity(intent);
