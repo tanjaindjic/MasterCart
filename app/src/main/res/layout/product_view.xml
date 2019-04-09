@@ -100,18 +100,26 @@
 
                     <ImageButton
                         android:layout_marginRight="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:id="@+id/single_add_cart"
+                        android:id="@+id/single_share"
                         android:background="@android:color/transparent"
-                        android:src="@drawable/ic_cart"
+                        android:src="@drawable/ic_share"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
                     <ImageButton
                         android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
                         android:id="@+id/single_add_favorite"
                         android:background="@android:color/transparent"
                         android:src="@drawable/ic_favorite"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <ImageButton
+                        android:layout_marginLeft="8dp"
+                        android:id="@+id/single_add_cart"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/ic_cart"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
