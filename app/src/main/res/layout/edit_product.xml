@@ -15,76 +15,19 @@
         android:layout_height="match_parent" >
 
 
-        <LinearLayout
+        //BACK TOOLBAR NA VRHU
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/back_toolbar"
+            android:gravity="top"
+            app:contentInsetStartWithNavigation="0dp"
+            app:title="Edit Product"
+            app:titleMarginTop="13dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="start">
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar" >
 
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_back"
-                android:background="@null"
-                android:paddingTop="15dp"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:paddingBottom="15dp"
-                />
-
-            <android.support.v7.widget.Toolbar
-
-                android:id="@+id/toolbar"
-                android:gravity="top"
-                app:contentInsetStartWithNavigation="0dp"
-                app:title="Edit product"
-                app:titleMarginTop="13dp"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                android:theme="@style/ThemeOverlay.AppCompat.ActionBar" >
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_gravity="end"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_inbox"
-                        android:background="@null"
-                        android:paddingTop="15dp"
-                        android:paddingLeft="15dp"
-                        android:paddingRight="15dp"
-                        android:paddingBottom="15dp"
-                        />
-
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_options"
-                        android:background="@null"
-                        android:paddingTop="15dp"
-                        android:paddingLeft="15dp"
-                        android:paddingRight="15dp"
-                        android:paddingBottom="15dp"
-                        />
-
-                </LinearLayout>
-
-
-            </android.support.v7.widget.Toolbar>
-        </LinearLayout>
-        <android.support.design.widget.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-
-        </android.support.design.widget.AppBarLayout>
+        </android.support.v7.widget.Toolbar>
 
         <EditText
             android:layout_width="match_parent"
@@ -164,7 +107,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:text="EDIT"/>
+                android:text="SAVE"/>
 
         </android.support.v7.widget.FitWindowsLinearLayout>
     </LinearLayout>

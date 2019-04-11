@@ -11,6 +11,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.pma.mastercart.AddProductActivity;
+import com.pma.mastercart.EditProductActivity;
+import com.pma.mastercart.EditShopActivity;
 import com.pma.mastercart.MapsActivity;
 import com.pma.mastercart.R;
 import com.pma.mastercart.ViewShopActivity;
@@ -23,6 +26,8 @@ public class ShopAdapter  extends BaseAdapter {
     private final Shop[] shops;
     private ImageButton shop_details;
     private ImageButton shop_location;
+    private ImageButton add_product;
+    private ImageButton edit_shop;
 
     public ShopAdapter(Context mContext, Shop[] shops) {
         this.mContext = mContext;
@@ -86,6 +91,31 @@ public class ShopAdapter  extends BaseAdapter {
             }
 
         });
+
+        add_product = (ImageButton)convertView.findViewById(R.id.add_product);
+        add_product.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                //open new activity to view this product
+                Intent intent = new Intent(mContext, AddProductActivity.class);
+                mContext.startActivity(intent);
+            }
+
+        });
+
+        edit_shop = (ImageButton)convertView.findViewById(R.id.edit_shop);
+        edit_shop.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                //open new activity to view this product
+                Intent intent = new Intent(mContext, EditShopActivity.class);
+                mContext.startActivity(intent);
+            }
+
+        });
+
 
 
         return convertView;

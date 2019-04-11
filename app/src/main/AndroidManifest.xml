@@ -48,20 +48,38 @@
             android:parentActivityName=".MainActivity"></activity>
         <activity
             android:name=".ViewShopActivity">
-
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:label="Login to your Account">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:label="Login to your Account"
+            android:parentActivityName=".MainActivity">
         </activity> <!-- Entry for RegisterActivity.class -->
         <activity
             android:name=".RegistrationActivity"
-            android:label="Register New Account" />
+            android:label="Register New Account"
+            android:parentActivityName=".LoginActivity"/>
+        <activity
+            android:name=".AddShopActivity"
+            android:label="Add Shop"
+            android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".AddCategoryActivity"
+            android:label="Add Category"
+            android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".EditCategoryActivity"
+            android:label="Edit Category"
+            android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".EditProductActivity"
+            android:label="Edit Product"
+            android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".AddProductActivity"
+            android:label="Add Product"/>
+        <activity
+            android:name=".EditShopActivity"
+            android:label="Edit Shop"/>
     </application>
 
 </manifest>

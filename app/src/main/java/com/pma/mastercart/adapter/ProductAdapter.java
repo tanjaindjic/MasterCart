@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.pma.mastercart.EditProductActivity;
 import com.pma.mastercart.MainActivity;
 import com.pma.mastercart.R;
 import com.pma.mastercart.ViewProductActivity;
@@ -29,6 +30,7 @@ public class ProductAdapter extends BaseAdapter {
     private ImageButton product_details;
     private ImageButton add_favorite;
     private ImageButton add_cart;
+    private ImageButton edit_product;
 
     // 1
     public ProductAdapter(Context context, Product[] products) {
@@ -80,6 +82,22 @@ public class ProductAdapter extends BaseAdapter {
             public void onClick(View view) {
                 //open new activity to view this product
                 Intent intent = new Intent(mContext, ViewProductActivity.class);
+                intent.putExtra("PRODUCT_ID", product.getId()); //int
+                intent.putExtra("PRODUCT_NAME", view.getResources().getString(product.getName())); //string
+                intent.putExtra("PRODUCT_PRICE", product.getPrice());//int
+                intent.putExtra("PRODUCT_PIC", product.getImageResource());//int
+                mContext.startActivity(intent);
+            }
+
+        });
+
+        edit_product = (ImageButton)convertView.findViewById(R.id.edit_product);
+        edit_product.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                //open new activity to view this product
+                Intent intent = new Intent(mContext, EditProductActivity.class);
                 intent.putExtra("PRODUCT_ID", product.getId()); //int
                 intent.putExtra("PRODUCT_NAME", view.getResources().getString(product.getName())); //string
                 intent.putExtra("PRODUCT_PRICE", product.getPrice());//int

@@ -25,7 +25,7 @@
         android:id="@+id/product_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12dp"
+        android:textSize="16dp"
         android:textColor="@android:color/black"
         android:textStyle="bold"
         android:gravity="center_horizontal"/>
@@ -33,7 +33,7 @@
         android:id="@+id/product_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12dp"
+        android:textSize="16dp"
         android:textColor="@android:color/black"
         android:gravity="center_horizontal"/>
     <RatingBar
@@ -75,10 +75,20 @@
 
             <ImageButton
                 android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
                 android:id="@+id/add_cart"
                 android:background="@android:color/transparent"
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/ic_cart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageButton
+                android:layout_marginLeft="8dp"
+                android:id="@+id/edit_product"
+                android:background="@android:color/transparent"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/ic_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 

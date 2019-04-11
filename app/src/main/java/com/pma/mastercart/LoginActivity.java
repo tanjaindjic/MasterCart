@@ -3,16 +3,24 @@ package com.pma.mastercart;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // setting default screen to login.xml
         setContentView(R.layout.login);
+
+
+        Toolbar back_toolbar = (Toolbar) findViewById(R.id.back_toolbar);
+        setSupportActionBar(back_toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         TextView registerScreen = (TextView) findViewById(R.id.link_to_register);
 

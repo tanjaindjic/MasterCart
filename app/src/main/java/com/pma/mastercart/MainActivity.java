@@ -68,6 +68,21 @@ public class MainActivity extends AppCompatActivity {
                                 Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                                 startActivity(i);
                                 break;
+                            case R.id.nav_add_shop:
+
+                                i = new Intent(getApplicationContext(), AddShopActivity.class);
+                                startActivity(i);
+                                break;
+                            case R.id.nav_add_category:
+
+                                i = new Intent(getApplicationContext(), AddCategoryActivity.class);
+                                startActivity(i);
+                                break;
+                            case R.id.nav_edit_category:
+
+                                i = new Intent(getApplicationContext(), EditCategoryActivity.class);
+                                startActivity(i);
+                                break;
                         }
                         menuItem.setChecked(true);
                         // close drawer when item is tapped

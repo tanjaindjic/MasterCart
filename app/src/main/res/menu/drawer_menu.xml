@@ -7,6 +7,21 @@
             android:title="@string/home" />
 
         <item
+            android:id="@+id/nav_add_category"
+            android:icon="@drawable/ic_add"
+            android:title="@string/add_category" />
+
+        <item
+            android:id="@+id/nav_edit_category"
+            android:icon="@drawable/ic_edit"
+            android:title="@string/edit_category" />
+
+        <item
+            android:id="@+id/nav_add_shop"
+            android:icon="@drawable/ic_add"
+            android:title="@string/add_shop" />
+
+        <item
             android:id="@+id/nav_cart"
             android:icon="@drawable/ic_cart"
             android:title="@string/cart" />
