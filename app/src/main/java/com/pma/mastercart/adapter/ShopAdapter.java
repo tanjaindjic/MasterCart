@@ -1,6 +1,5 @@
 package com.pma.mastercart.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -8,16 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pma.mastercart.AddProductActivity;
-import com.pma.mastercart.EditProductActivity;
 import com.pma.mastercart.EditShopActivity;
 import com.pma.mastercart.MapsActivity;
 import com.pma.mastercart.R;
 import com.pma.mastercart.ViewShopActivity;
-import com.pma.mastercart.model.Product;
 import com.pma.mastercart.model.Shop;
 
 public class ShopAdapter  extends BaseAdapter {
@@ -54,7 +50,7 @@ public class ShopAdapter  extends BaseAdapter {
         final Shop shop = shops[position];
         if (convertView == null) {
             final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-            convertView = layoutInflater.inflate(R.layout.shop_linearlayout, null);
+            convertView = layoutInflater.inflate(R.layout.shop_layout, null);
         }
 
         final TextView nameTextView = (TextView)convertView.findViewById(R.id.shop_name);

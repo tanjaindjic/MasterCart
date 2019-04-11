@@ -82,6 +82,10 @@
             android:label="Favorites"
             android:parentActivityName=".MainActivity" />
         <activity
+            android:name=".CartActivity"
+            android:label="Cart"
+            android:parentActivityName=".MainActivity" />
+        <activity
             android:name=".AddProductActivity"
             android:label="Add Product" />
         <activity

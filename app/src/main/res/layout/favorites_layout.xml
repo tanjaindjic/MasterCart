@@ -12,7 +12,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/product_thumbnail"
+            android:id="@+id/favorite_product_thumbnail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"/>
@@ -22,7 +22,7 @@
 
     //PRODUCT DETAILS
     <TextView
-        android:id="@+id/product_name"
+        android:id="@+id/favorite_product_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16dp"
@@ -30,7 +30,7 @@
         android:textStyle="bold"
         android:gravity="center_horizontal"/>
     <TextView
-        android:id="@+id/product_price"
+        android:id="@+id/favorite_product_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16dp"
@@ -38,7 +38,7 @@
         android:gravity="center_horizontal"/>
     <RatingBar
         style="@android:style/Widget.Material.RatingBar.Small"
-        android:id="@+id/product_rating"
+        android:id="@+id/favorite_product_rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:numStars="5"
@@ -56,7 +56,7 @@
         <ImageButton
             android:layout_marginRight="8dp"
             android:layout_marginLeft="8dp"
-            android:id="@+id/product_details"
+            android:id="@+id/favorite_product_details"
             android:background="@android:color/transparent"
             android:layout_gravity="center_horizontal"
             android:src="@drawable/ic_info"
@@ -76,7 +76,7 @@
         <ImageButton
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:id="@+id/add_cart"
+            android:id="@+id/favorite_add_cart"
             android:background="@android:color/transparent"
             android:layout_gravity="center_horizontal"
             android:src="@drawable/ic_cart"

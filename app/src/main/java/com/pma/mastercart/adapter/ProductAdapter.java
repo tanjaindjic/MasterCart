@@ -2,7 +2,6 @@ package com.pma.mastercart.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,14 +12,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pma.mastercart.EditProductActivity;
-import com.pma.mastercart.MainActivity;
 import com.pma.mastercart.R;
 import com.pma.mastercart.ViewProductActivity;
 import com.pma.mastercart.model.Product;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
 
 
 public class ProductAdapter extends BaseAdapter {
@@ -62,7 +56,7 @@ public class ProductAdapter extends BaseAdapter {
         final Product product = products[position];
         if (convertView == null) {
           final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-          convertView = layoutInflater.inflate(R.layout.product_linearlayout, null);
+          convertView = layoutInflater.inflate(R.layout.product_layout, null);
         }
 
         final ImageView imageView = (ImageView)convertView.findViewById(R.id.product_thumbnail);

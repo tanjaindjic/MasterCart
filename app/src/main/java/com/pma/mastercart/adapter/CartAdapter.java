@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,16 +16,20 @@ import com.pma.mastercart.R;
 import com.pma.mastercart.ViewProductActivity;
 import com.pma.mastercart.model.Product;
 
-public class FavoritesAdapter  extends BaseAdapter {
+public class CartAdapter extends BaseAdapter {
 
     private final Context mContext;
     private final Product[] products;
+    private TextView cart_product_name;
+    private TextView cart_product_price;
+    private Button buy;
+    private ImageButton quantity_down;
+    private ImageButton quantity_up;
+    private ImageButton cart_remove_product;
     private ImageButton product_details;
-    private ImageButton delete_favorite;
-    private ImageButton add_cart;
 
     // 1
-    public FavoritesAdapter(Context context, Product[] products) {
+    public CartAdapter(Context context, Product[] products) {
         this.mContext = context;
         this.products = products;
     }
@@ -53,18 +58,28 @@ public class FavoritesAdapter  extends BaseAdapter {
         final Product product = products[position];
         if (convertView == null) {
             final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-            convertView = layoutInflater.inflate(R.layout.favorites_layout, null);
+            convertView = layoutInflater.inflate(R.layout.cart_layout, null);
         }
 
-        final ImageView imageView = (ImageView)convertView.findViewById(R.id.favorite_product_thumbnail);
-        final TextView nameTextView = (TextView)convertView.findViewById(R.id.favorite_product_name);
-        final TextView priceTextView = (TextView)convertView.findViewById(R.id.favorite_product_price);
+        final ImageView imageView = (ImageView)convertView.findViewById(R.id.cart_product_thumbnail);
+        final TextView nameTextView = (TextView)convertView.findViewById(R.id.cart_product_name);
+        final TextView priceTextView = (TextView)convertView.findViewById(R.id.cart_product_price);
 
         imageView.setImageResource(product.getImageResource());
         nameTextView.setText(mContext.getString(product.getName()));
         priceTextView.setText(mContext.getString(product.getPrice()) + "$");
 
-        product_details = (ImageButton)convertView.findViewById(R.id.favorite_product_details);
+
+        cart_remove_product = (ImageButton)convertView.findViewById(R.id.cart_remove_product);
+        cart_remove_product.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(mContext, "Item removed from cart.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        product_details = (ImageButton)convertView.findViewById(R.id.cart_product_details);
         product_details.setTag(Integer.valueOf(product.getId()));
 
         product_details.setOnClickListener(new View.OnClickListener() {
@@ -80,25 +95,6 @@ public class FavoritesAdapter  extends BaseAdapter {
                 mContext.startActivity(intent);
             }
 
-        });
-
-
-        delete_favorite = (ImageButton)convertView.findViewById(R.id.delete_favorite);
-        delete_favorite.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(mContext, "Item deleted from favorites.", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        add_cart = (ImageButton)convertView.findViewById(R.id.favorite_add_cart);
-        add_cart.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(mContext, "Item added to cart.", Toast.LENGTH_SHORT).show();
-            }
         });
 
         return convertView;
