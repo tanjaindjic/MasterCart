@@ -79,10 +79,10 @@
                     android:gravity="start"/>
 
                 <TextView
+                    android:id="@+id/profile_name"
                     android:layout_toRightOf="@id/profile_name_label"
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="8dp"
-                    android:id="@+id/profile_name"
                     android:textSize="16dp"
                     android:text="John"
                     android:layout_width="wrap_content"
@@ -92,11 +92,32 @@
                     android:gravity="start"/>
 
                 <ImageButton
+                    android:id="@+id/edit_profile_name_button"
                     android:layout_alignParentRight="true"
                     android:background="@android:color/transparent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_edit"/>
+
+                <LinearLayout
+                    android:id="@+id/edit_profile_name_layout"
+                    android:layout_below="@id/profile_name_label"
+                    android:layout_marginTop="8dp"
+                    android:visibility="gone"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/new_profile_name"
+                            android:layout_width="0dp"
+                            android:layout_weight="8"
+                            android:layout_height="wrap_content" />
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="SAVE"/>
+                </LinearLayout>
             </RelativeLayout>
 
 
@@ -118,10 +139,10 @@
                     android:gravity="start"/>
 
                 <TextView
+                    android:id="@+id/profile_lastname"
                     android:layout_toRightOf="@id/profile_lastname_label"
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="8dp"
-                    android:id="@+id/profile_lastname"
                     android:text="Doe"
                     android:textSize="16dp"
                     android:textColor="@android:color/black"
@@ -131,12 +152,32 @@
                     android:gravity="start"/>
 
                 <ImageButton
+                    android:id="@+id/edit_profile_lastname_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:background="@android:color/transparent"
                     android:src="@drawable/ic_edit"/>
 
+                <LinearLayout
+                    android:id="@+id/edit_profile_lastname_layout"
+                    android:layout_below="@id/profile_lastname_label"
+                    android:layout_marginTop="8dp"
+                    android:visibility="gone"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/new_profile_lastname"
+                        android:layout_width="0dp"
+                        android:layout_weight="8"
+                        android:layout_height="wrap_content" />
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SAVE"/>
+                </LinearLayout>
             </RelativeLayout>
 
             <RelativeLayout
@@ -157,10 +198,10 @@
                     android:gravity="start"/>
 
                 <TextView
+                    android:id="@+id/profile_address"
                     android:layout_toRightOf="@id/profile_address_label"
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="8dp"
-                    android:id="@+id/profile_address"
                     android:textSize="16dp"
                     android:textColor="@android:color/black"
                     android:layout_width="wrap_content"
@@ -170,11 +211,32 @@
                     android:gravity="start"/>
 
                 <ImageButton
+                    android:id="@+id/edit_profile_address_button"
                     android:layout_width="wrap_content"
                     android:layout_alignParentRight="true"
                     android:background="@android:color/transparent"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_edit"/>
+
+                <LinearLayout
+                    android:id="@+id/edit_profile_address_layout"
+                    android:layout_below="@id/profile_address_label"
+                    android:layout_marginTop="8dp"
+                    android:visibility="gone"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/new_profile_address"
+                        android:layout_width="0dp"
+                        android:layout_weight="8"
+                        android:layout_height="wrap_content" />
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SAVE"/>
+                </LinearLayout>
 
             </RelativeLayout>
 
@@ -196,10 +258,10 @@
                     android:gravity="start"/>
 
                 <TextView
+                    android:id="@+id/profile_email"
                     android:layout_toRightOf="@id/profile_email_label"
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="8dp"
-                    android:id="@+id/profile_email"
                     android:textSize="16dp"
                     android:textColor="@android:color/black"
                     android:layout_width="wrap_content"
@@ -210,11 +272,32 @@
 
 
                 <ImageButton
+                    android:id="@+id/edit_profile_email_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:background="@android:color/transparent"
                     android:src="@drawable/ic_edit"/>
+
+                <LinearLayout
+                    android:id="@+id/edit_profile_email_layout"
+                    android:layout_below="@id/profile_email_label"
+                    android:layout_marginTop="8dp"
+                    android:visibility="gone"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/new_profile_email"
+                        android:layout_width="0dp"
+                        android:layout_weight="8"
+                        android:layout_height="wrap_content" />
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SAVE"/>
+                </LinearLayout>
             </RelativeLayout>
 
             <RelativeLayout
@@ -235,10 +318,10 @@
                     android:gravity="start"/>
 
                 <TextView
+                    android:id="@+id/profile_password"
                     android:layout_toRightOf="@id/profile_password_label"
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="8dp"
-                    android:id="@+id/profile_password"
                     android:textSize="16dp"
                     android:textColor="@android:color/black"
                     android:layout_width="wrap_content"
@@ -249,11 +332,33 @@
 
 
                 <ImageButton
+                    android:id="@+id/edit_profile_password_button"
                     android:layout_alignParentRight="true"
                     android:background="@android:color/transparent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_edit"/>
+
+                <LinearLayout
+                    android:id="@+id/edit_profile_password_layout"
+                    android:layout_below="@id/profile_password_label"
+                    android:layout_marginTop="8dp"
+                    android:visibility="gone"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/new_profile_password"
+                        android:layout_width="0dp"
+                        android:layout_weight="8"
+                        android:inputType="textPassword"
+                        android:layout_height="wrap_content" />
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SAVE"/>
+                </LinearLayout>
 
             </RelativeLayout>
 
