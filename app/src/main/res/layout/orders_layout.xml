@@ -4,12 +4,13 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="20dp"
+    android:paddingBottom="16dp"
     android:paddingTop="20dp"
     >
 
     <FrameLayout
-        android:layout_marginLeft="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -24,6 +25,7 @@
     </FrameLayout>
 
     <RelativeLayout
+        android:layout_marginLeft="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
@@ -41,6 +43,7 @@
             android:layout_toRightOf="@id/order_product_name"
             android:background="@android:color/transparent"
             android:src="@drawable/ic_share"
+            android:paddingTop="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -49,6 +52,7 @@
             android:background="@android:color/transparent"
             android:layout_toRightOf="@id/share_order"
             android:layout_marginLeft="16dp"
+            android:paddingTop="8dp"
             android:src="@drawable/ic_cart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
