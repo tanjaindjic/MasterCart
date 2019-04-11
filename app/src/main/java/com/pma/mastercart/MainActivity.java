@@ -87,6 +87,10 @@ public class MainActivity extends AppCompatActivity {
                                 i = new Intent(getApplicationContext(), ProfileActivity.class);
                                 startActivity(i);
                                 break;
+                            case R.id.nav_favorite:
+                                i = new Intent(getApplicationContext(), FavoritesActivity.class);
+                                startActivity(i);
+                                break;
                         }
                         menuItem.setChecked(true);
                         // close drawer when item is tapped
@@ -132,6 +136,10 @@ public class MainActivity extends AppCompatActivity {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
                 return true;
+            case R.id.settings:
+                Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(i);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

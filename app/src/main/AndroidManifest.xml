@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.pma.mastercart">
-
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -15,7 +14,10 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
+        <activity
+            android:name=".SettingsActivity"
+            android:parentActivityName=".MainActivity"
+            android:label="@string/title_activity_settings"></activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -45,45 +47,46 @@
         </activity>
         <activity
             android:name=".ViewProductActivity"
-            android:parentActivityName=".MainActivity"></activity>
-        <activity
-            android:name=".ViewShopActivity">
-        </activity>
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".ViewShopActivity"></activity>
         <activity
             android:name=".LoginActivity"
             android:label="Login to your Account"
-            android:parentActivityName=".MainActivity">
-        </activity> <!-- Entry for RegisterActivity.class -->
+            android:parentActivityName=".MainActivity"></activity> <!-- Entry for RegisterActivity.class -->
         <activity
             android:name=".RegistrationActivity"
             android:label="Register New Account"
-            android:parentActivityName=".LoginActivity"/>
+            android:parentActivityName=".LoginActivity" />
         <activity
             android:name=".AddShopActivity"
             android:label="Add Shop"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".AddCategoryActivity"
             android:label="Add Category"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".EditCategoryActivity"
             android:label="Edit Category"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".EditProductActivity"
             android:label="Edit Product"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".ProfileActivity"
             android:label="Profile"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".FavoritesActivity"
+            android:label="Favorites"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".AddProductActivity"
-            android:label="Add Product"/>
+            android:label="Add Product" />
         <activity
             android:name=".EditShopActivity"
-            android:label="Edit Shop"/>
+            android:label="Edit Shop" />
     </application>
 
 </manifest>
