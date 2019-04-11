@@ -75,6 +75,10 @@
             android:label="Edit Product"
             android:parentActivityName=".MainActivity"/>
         <activity
+            android:name=".ProfileActivity"
+            android:label="Profile"
+            android:parentActivityName=".MainActivity"/>
+        <activity
             android:name=".AddProductActivity"
             android:label="Add Product"/>
         <activity

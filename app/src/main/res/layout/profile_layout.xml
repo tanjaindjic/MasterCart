@@ -1,0 +1,269 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:id="@+id/content_frame"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    //BACK TOOLBAR NA VRHU
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/back_toolbar"
+        android:gravity="top"
+        app:contentInsetStartWithNavigation="0dp"
+        app:title="Profile"
+        app:titleMarginTop="13dp"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar" >
+
+    </android.support.v7.widget.Toolbar>
+
+    //DETALJI
+    <LinearLayout
+        android:id="@+id/profile_layout"
+        android:layout_below="@id/back_toolbar"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="24dp">
+
+        //SLIKA PROIZVODA
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/profile_thumbnail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_launcher_round"
+                android:layout_centerInParent="true"/>
+
+            <ImageButton
+                android:layout_toRightOf="@id/profile_thumbnail"
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_edit"/>
+
+
+        </RelativeLayout>
+
+        //DETALJI
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_gravity="start"
+            android:gravity="start"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <TextView
+                    android:id="@+id/profile_name_label"
+                    android:layout_marginTop="8dp"
+                    android:textSize="16dp"
+                    android:text="First Name:"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
+                    android:layout_gravity="start"
+                    android:gravity="start"/>
+
+                <TextView
+                    android:layout_toRightOf="@id/profile_name_label"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/profile_name"
+                    android:textSize="16dp"
+                    android:text="John"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
+                    android:layout_gravity="start"
+                    android:gravity="start"/>
+
+                <ImageButton
+                    android:layout_alignParentRight="true"
+                    android:background="@android:color/transparent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_edit"/>
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_marginTop="8dp"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <TextView
+                    android:id="@+id/profile_lastname_label"
+                    android:layout_marginTop="8dp"
+                    android:textSize="16dp"
+                    android:text="Last Name:"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
+                    android:layout_gravity="start"
+                    android:gravity="start"/>
+
+                <TextView
+                    android:layout_toRightOf="@id/profile_lastname_label"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/profile_lastname"
+                    android:text="Doe"
+                    android:textSize="16dp"
+                    android:textColor="@android:color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:gravity="start"/>
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_edit"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_marginTop="8dp"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <TextView
+                    android:id="@+id/profile_address_label"
+                    android:layout_marginTop="8dp"
+                    android:textSize="16dp"
+                    android:text="Address:"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
+                    android:layout_gravity="start"
+                    android:gravity="start"/>
+
+                <TextView
+                    android:layout_toRightOf="@id/profile_address_label"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/profile_address"
+                    android:textSize="16dp"
+                    android:textColor="@android:color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Laze Kostica 16, Novi Sad"
+                    android:layout_gravity="start"
+                    android:gravity="start"/>
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:background="@android:color/transparent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_edit"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_marginTop="8dp"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <TextView
+                    android:id="@+id/profile_email_label"
+                    android:layout_marginTop="8dp"
+                    android:textSize="16dp"
+                    android:text="Email:"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
+                    android:layout_gravity="start"
+                    android:gravity="start"/>
+
+                <TextView
+                    android:layout_toRightOf="@id/profile_email_label"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/profile_email"
+                    android:textSize="16dp"
+                    android:textColor="@android:color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="dummy@gmail.com"
+                    android:layout_gravity="start"
+                    android:gravity="start"/>
+
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_edit"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_marginTop="8dp"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <TextView
+                    android:id="@+id/profile_password_label"
+                    android:layout_marginTop="8dp"
+                    android:textSize="16dp"
+                    android:text="Password:"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
+                    android:layout_gravity="start"
+                    android:gravity="start"/>
+
+                <TextView
+                    android:layout_toRightOf="@id/profile_password_label"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/profile_password"
+                    android:textSize="16dp"
+                    android:textColor="@android:color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="************"
+                    android:layout_gravity="start"
+                    android:gravity="start"/>
+
+
+                <ImageButton
+                    android:layout_alignParentRight="true"
+                    android:background="@android:color/transparent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_edit"/>
+
+            </RelativeLayout>
+
+
+
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

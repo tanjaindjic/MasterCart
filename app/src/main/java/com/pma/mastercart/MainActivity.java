@@ -83,6 +83,10 @@ public class MainActivity extends AppCompatActivity {
                                 i = new Intent(getApplicationContext(), EditCategoryActivity.class);
                                 startActivity(i);
                                 break;
+                            case R.id.nav_profile:
+                                i = new Intent(getApplicationContext(), ProfileActivity.class);
+                                startActivity(i);
+                                break;
                         }
                         menuItem.setChecked(true);
                         // close drawer when item is tapped
