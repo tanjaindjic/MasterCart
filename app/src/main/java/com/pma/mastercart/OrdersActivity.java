@@ -7,11 +7,11 @@ import android.support.v7.widget.Toolbar;
 import android.widget.GridView;
 import android.widget.ListView;
 
-import com.pma.mastercart.adapter.CartAdapter;
 import com.pma.mastercart.adapter.FavoritesAdapter;
+import com.pma.mastercart.adapter.OrdersAdapter;
 import com.pma.mastercart.model.Product;
 
-public class CartActivity extends AppCompatActivity {
+public class OrdersActivity extends AppCompatActivity {
 
     private Product[] products = {
             new Product(1, R.string.dummy1, R.drawable.ic_phone, R.string.dummyPrice),
@@ -24,20 +24,20 @@ public class CartActivity extends AppCompatActivity {
             new Product(8, R.string.dummy3, R.drawable.ic_phone, R.string.dummyPrice),
 
     };
-    private CartAdapter cartAdapter;
+    private OrdersAdapter ordersAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.cart_fragment);
+        setContentView(R.layout.orders_fragment);
 
         Toolbar back_toolbar = (Toolbar) findViewById(R.id.back_toolbar);
         setSupportActionBar(back_toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        ListView listView = (ListView) findViewById(R.id.cart_list_view);
-        cartAdapter = new CartAdapter(this, products);
-        listView.setAdapter(cartAdapter);
+        ListView listView = (ListView) findViewById(R.id.orders_list_view);
+        ordersAdapter = new OrdersAdapter(this, products);
+        listView.setAdapter(ordersAdapter);
     }
 }

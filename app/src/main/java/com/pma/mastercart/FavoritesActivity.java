@@ -13,13 +13,14 @@ import com.pma.mastercart.model.Product;
 public class FavoritesActivity extends AppCompatActivity {
 
     private Product[] products = {
-            new Product(1, R.string.dummy1, R.drawable.ic_dummy, R.string.dummyPrice),
-            new Product(2, R.string.dummy2, R.drawable.ic_dummy, R.string.dummyPrice),
-            new Product(3, R.string.dummy3, R.drawable.ic_dummy, R.string.dummyPrice),
-            new Product(4, R.string.dummy3, R.drawable.ic_dummy, R.string.dummyPrice),
-            new Product(5, R.string.dummy3, R.drawable.ic_dummy, R.string.dummyPrice),
-            new Product(6, R.string.dummy3, R.drawable.ic_dummy, R.string.dummyPrice),
-
+            new Product(1, R.string.dummy1, R.drawable.ic_phone, R.string.dummyPrice),
+            new Product(2, R.string.dummy2, R.drawable.ic_earphones, R.string.dummyPrice),
+            new Product(3, R.string.dummy3, R.drawable.ic_microsd, R.string.dummyPrice),
+            new Product(4, R.string.dummy3, R.drawable.ic_charger, R.string.dummyPrice),
+            new Product(5, R.string.dummy3, R.drawable.ic_charger, R.string.dummyPrice),
+            new Product(6, R.string.dummy3, R.drawable.ic_earphones, R.string.dummyPrice),
+            new Product(7, R.string.dummy3, R.drawable.ic_phone, R.string.dummyPrice),
+            new Product(8, R.string.dummy3, R.drawable.ic_phone, R.string.dummyPrice),
     };
     private FavoritesAdapter favsAdapter;
 
