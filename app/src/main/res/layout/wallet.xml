@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    //BACK TOOLBAR NA VRHU
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/back_toolbar"
+        android:gravity="top"
+        app:contentInsetStartWithNavigation="0dp"
+        app:title="Wallet"
+        app:titleMarginTop="13dp"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar" >
+
+
+    </android.support.v7.widget.Toolbar>
+
+
+    <TextView
+        android:id="@+id/wallet_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="50dp"
+        android:layout_gravity="center"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:layout_marginLeft="8dp"/>
+
+
+    <TextView
+        android:id="@+id/payments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Payment's history"
+        android:paddingTop="20dp"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:layout_marginLeft="8dp"/>
+
+
+    <ListView
+        android:id="@+id/payments_list_view1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </ListView>
+
+</LinearLayout>

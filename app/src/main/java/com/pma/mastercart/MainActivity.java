@@ -106,6 +106,10 @@ public class MainActivity extends AppCompatActivity {
                                 i = new Intent(getApplicationContext(), OrdersActivity.class);
                                 startActivity(i);
                                 break;
+                            case R.id.nav_wallet:
+                                i = new Intent(getApplicationContext(), WalletActivity.class);
+                                startActivity(i);
+                                break;
                         }
                         menuItem.setChecked(true);
                         // close drawer when item is tapped

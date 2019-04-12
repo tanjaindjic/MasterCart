@@ -95,6 +95,9 @@
         <activity
             android:name=".EditShopActivity"
             android:label="Edit Shop" />
+        <activity
+            android:name=".WalletActivity"
+            android:label="Wallet" />
     </application>
 
 </manifest>
