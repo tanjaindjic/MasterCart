@@ -3,6 +3,7 @@ package com.pma.mastercart;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -24,6 +25,10 @@ public class WalletActivity extends AppCompatActivity {
         setContentView(R.layout.wallet);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
+        Toolbar back_toolbar = (Toolbar) findViewById(R.id.back_toolbar);
+        setSupportActionBar(back_toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         Payment payment1 = new Payment(1,10, new Date());
         Payment payment2 = new Payment(2,20, new Date());

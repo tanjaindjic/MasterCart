@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.pma.mastercart.adapter.HomePageTabsAdapter;
 
@@ -166,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case R.id.inbox_toolbar_button:
+                Toast.makeText(this, "Selected Inbox Toolbar button: ", Toast.LENGTH_SHORT).show();
                 i = new Intent(getApplicationContext(), InboxActivity.class);
                 startActivity(i);
                 break;
