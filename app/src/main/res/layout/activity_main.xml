@@ -48,14 +48,14 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_cart"
                     android:background="@null"
-                    android:paddingTop="14dp"
-                    />
+                    android:paddingTop="14dp"/>
+
                 <ImageButton
                     android:id="@+id/inbox_toolbar_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_inbox"
-                    android:background="@null"
+                    android:background="@android:color/transparent"
                     android:paddingLeft="15dp"
                     android:paddingTop="14dp"
                     />

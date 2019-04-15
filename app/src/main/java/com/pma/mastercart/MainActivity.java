@@ -62,6 +62,16 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        ImageButton inbox_toolbar_button = (ImageButton) findViewById(R.id.inbox_toolbar_button);
+        inbox_toolbar_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(getApplicationContext(), InboxActivity.class);
+                startActivity(i);
+            }
+        });
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -166,11 +176,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
                 break;
 
-            case R.id.inbox_toolbar_button:
-                Toast.makeText(this, "Selected Inbox Toolbar button: ", Toast.LENGTH_SHORT).show();
-                i = new Intent(getApplicationContext(), InboxActivity.class);
-                startActivity(i);
-                break;
         }
         return super.onOptionsItemSelected(item);
     }

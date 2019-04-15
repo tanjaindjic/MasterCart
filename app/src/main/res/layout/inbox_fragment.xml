@@ -12,7 +12,7 @@
         android:id="@+id/back_toolbar"
         android:gravity="top"
         app:contentInsetStartWithNavigation="0dp"
-        app:title="Orders"
+        app:title="Messages"
         app:titleMarginTop="13dp"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
