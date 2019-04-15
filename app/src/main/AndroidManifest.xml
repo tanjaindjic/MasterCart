@@ -86,6 +86,14 @@
             android:label="Cart"
             android:parentActivityName=".MainActivity" />
         <activity
+            android:name=".InboxActivity"
+            android:label="Inbox"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".ConversationActivity"
+            android:label="Conversation"
+            android:parentActivityName=".InboxActivity" />
+        <activity
             android:name=".OrdersActivity"
             android:label="Orders"
             android:parentActivityName=".MainActivity" />

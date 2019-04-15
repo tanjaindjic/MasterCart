@@ -110,6 +110,10 @@ public class MainActivity extends AppCompatActivity {
                                 i = new Intent(getApplicationContext(), WalletActivity.class);
                                 startActivity(i);
                                 break;
+                            case R.id.nav_inbox:
+                                i = new Intent(getApplicationContext(), InboxActivity.class);
+                                startActivity(i);
+                                break;
                         }
                         menuItem.setChecked(true);
                         // close drawer when item is tapped
@@ -123,27 +127,27 @@ public class MainActivity extends AppCompatActivity {
                 });
 
         drawerLayout.addDrawerListener(
-            new DrawerLayout.DrawerListener() {
-                @Override
-                public void onDrawerSlide(View drawerView, float slideOffset) {
-                    // Respond when the drawer's position changes
-                }
+                new DrawerLayout.DrawerListener() {
+                    @Override
+                    public void onDrawerSlide(View drawerView, float slideOffset) {
+                        // Respond when the drawer's position changes
+                    }
 
-                @Override
-                public void onDrawerOpened(View drawerView) {
-                    // Respond when the drawer is opened
-                }
+                    @Override
+                    public void onDrawerOpened(View drawerView) {
+                        // Respond when the drawer is opened
+                    }
 
-                @Override
-                public void onDrawerClosed(View drawerView) {
-                    // Respond when the drawer is closed
-                }
+                    @Override
+                    public void onDrawerClosed(View drawerView) {
+                        // Respond when the drawer is closed
+                    }
 
-                @Override
-                public void onDrawerStateChanged(int newState) {
-                    // Respond when the drawer motion state changes
+                    @Override
+                    public void onDrawerStateChanged(int newState) {
+                        // Respond when the drawer motion state changes
+                    }
                 }
-            }
         );
     }
 
@@ -155,8 +159,14 @@ public class MainActivity extends AppCompatActivity {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
                 return true;
+
             case R.id.settings:
                 Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(i);
+                break;
+
+            case R.id.inbox_toolbar_button:
+                i = new Intent(getApplicationContext(), InboxActivity.class);
                 startActivity(i);
                 break;
         }
