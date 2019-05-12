@@ -1,6 +1,5 @@
 package com.pma.mastercart;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -11,13 +10,15 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.SearchView;
-import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.pma.mastercart.adapter.HomePageTabsAdapter;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private SearchView searchView;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-
+    private FirebaseAuth firebaseAuth;
 
 
     @Override
@@ -37,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
 
         setContentView(R.layout.activity_main);
 
@@ -74,7 +77,9 @@ public class MainActivity extends AppCompatActivity {
         });
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        setupNavBar();
+
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -82,22 +87,18 @@ public class MainActivity extends AppCompatActivity {
                         // set item as selected to persist highlight
                         switch(menuItem.getItemId()) {
                             case R.id.nav_login:
-
                                 Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                                 startActivity(i);
                                 break;
                             case R.id.nav_add_shop:
-
                                 i = new Intent(getApplicationContext(), AddShopActivity.class);
                                 startActivity(i);
                                 break;
                             case R.id.nav_add_category:
-
                                 i = new Intent(getApplicationContext(), AddCategoryActivity.class);
                                 startActivity(i);
                                 break;
                             case R.id.nav_edit_category:
-
                                 i = new Intent(getApplicationContext(), EditCategoryActivity.class);
                                 startActivity(i);
                                 break;
@@ -124,6 +125,10 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.nav_inbox:
                                 i = new Intent(getApplicationContext(), InboxActivity.class);
                                 startActivity(i);
+                                break;
+                            case R.id.nav_logout:
+                                firebaseAuth.signOut();
+                                setupNavBar();
                                 break;
                         }
                         menuItem.setChecked(true);
@@ -160,6 +165,43 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        setupNavBar();
+    }
+
+    private void setupNavBar() {
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        if(currentUser!=null) {
+            navigationView.getMenu().findItem(R.id.nav_login).setVisible(false);
+            navigationView.getMenu().findItem(R.id.nav_add_category).setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_edit_category).setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_add_shop).setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_cart).setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_orders).setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_favorite).setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_inbox).setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_profile).setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_wallet).setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_logout).setVisible(true);
+        }else {
+            navigationView.getMenu().findItem(R.id.nav_login).setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_add_category).setVisible(false);
+            navigationView.getMenu().findItem(R.id.nav_edit_category).setVisible(false);
+            navigationView.getMenu().findItem(R.id.nav_add_shop).setVisible(false);
+            navigationView.getMenu().findItem(R.id.nav_cart).setVisible(false);
+            navigationView.getMenu().findItem(R.id.nav_orders).setVisible(false);
+            navigationView.getMenu().findItem(R.id.nav_favorite).setVisible(false);
+            navigationView.getMenu().findItem(R.id.nav_inbox).setVisible(false);
+            navigationView.getMenu().findItem(R.id.nav_profile).setVisible(false);
+            navigationView.getMenu().findItem(R.id.nav_wallet).setVisible(false);
+            navigationView.getMenu().findItem(R.id.nav_logout).setVisible(false);
+
+        }
     }
 
 
