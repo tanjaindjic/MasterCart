@@ -1,21 +1,23 @@
 package com.pma.mastercart.model;
 
+import com.pma.mastercart.model.enums.Role;
+
 public class User {
+    private String username;
     private String firstName;
     private String lastName;
     private String email;
     private String password;
     private String address;
+    private String phone;
+    private Role role;
     private int imageResource;
+    private Favourites favourites;
+    private Wallet wallet;
+    private ShopingCart shopingCart;
 
-    public User(String firstName, String lastName, String email, String password, String address, int imageResource) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.address = address;
-        this.imageResource = imageResource;
-    }
+
+
 
     public String getFirstName() {
         return firstName;
