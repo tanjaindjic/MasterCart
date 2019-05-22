@@ -1,6 +1,8 @@
 package com.pma.mastercart;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,11 +12,19 @@ import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.pma.mastercart.adapter.ProductAdapter;
 import com.pma.mastercart.adapter.ShopAdapter;
 import com.pma.mastercart.model.Product;
 import com.pma.mastercart.model.Shop;
+
+import java.util.ArrayList;
 
 public class TabFragment extends Fragment {
 
@@ -26,34 +36,20 @@ public class TabFragment extends Fragment {
     private Spinner sort_spinner;
     private Spinner sort_spinner2;
     private ProductAdapter productsAdapter;
+    private ArrayList<Product> products = new ArrayList<>();
+    private ArrayList<Shop> shops = new ArrayList<>();
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference myRef = database.getReferenceFromUrl("https://mastercart-4c01a.firebaseio.com/");
+    private DatabaseReference prodavnice = myRef.child("prodavnice");
+    private DatabaseReference proizvodi = myRef.child("proizvodi");
+    private ShopAdapter shopAdapter;
+    private ProgressDialog progress;
+    private GridView gridView;
+    private ListView listView;
 
-    //za sad dok ne krenemo sa SQLite
-
-    private Product[] products = {
-            new Product(1, R.string.dummy1, R.drawable.ic_phone, R.string.dummyPrice),
-            new Product(2, R.string.dummy2, R.drawable.ic_earphones, R.string.dummyPrice),
-            new Product(3, R.string.dummy3, R.drawable.ic_microsd, R.string.dummyPrice),
-            new Product(4, R.string.dummy3, R.drawable.ic_charger, R.string.dummyPrice),
-            new Product(5, R.string.dummy3, R.drawable.ic_charger, R.string.dummyPrice),
-            new Product(6, R.string.dummy3, R.drawable.ic_earphones, R.string.dummyPrice),
-            new Product(7, R.string.dummy3, R.drawable.ic_phone, R.string.dummyPrice),
-            new Product(8, R.string.dummy3, R.drawable.ic_phone, R.string.dummyPrice),
-
-    };
-
-    private Shop[] shops = {
-            new Shop(1, R.string.dummy1, R.drawable.ic_dummy, R.string.dummyLocation),
-            new Shop(2, R.string.dummy2, R.drawable.ic_dummy, R.string.dummyLocation),
-            new Shop(3, R.string.dummy3, R.drawable.ic_dummy, R.string.dummyLocation),
-            new Shop(4, R.string.dummy3, R.drawable.ic_dummy, R.string.dummyLocation),
-            new Shop(5, R.string.dummy3, R.drawable.ic_dummy, R.string.dummyLocation),
-            new Shop(6, R.string.dummy3, R.drawable.ic_dummy, R.string.dummyLocation),
-            new Shop(7, R.string.dummy3, R.drawable.ic_dummy, R.string.dummyLocation),
-            new Shop(8, R.string.dummy3, R.drawable.ic_dummy, R.string.dummyLocation),
-
-    };
 
     public static Fragment getInstance(int position) {
+
         Bundle bundle = new Bundle();
         bundle.putInt("pos", position);
         TabFragment tabFragment = new TabFragment();
@@ -63,10 +59,55 @@ public class TabFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         position = getArguments().getInt("pos");
+    }
+
+    private void loadFirebaseData() {
+
+        proizvodi.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                products.clear();
+
+                for(DataSnapshot child : dataSnapshot.getChildren())
+                    products.add(child.getValue(Product.class));
+
+                //productsAdapter.notifyDataSetChanged();
+                productsAdapter = new ProductAdapter(getContext(), products.toArray(new Product[products.size()]));
+                gridView.setAdapter(productsAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        prodavnice.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                shops.clear();
+
+                for(DataSnapshot child : dataSnapshot.getChildren())
+                    shops.add(child.getValue(Shop.class));
+
+                //shopAdapter.notifyDataSetChanged();
+                shopAdapter = new ShopAdapter(getContext(), shops.toArray(new Shop[shops.size()]));
+                listView.setAdapter(shopAdapter);
+                progress.dismiss();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -78,6 +119,19 @@ public class TabFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        gridView = (GridView)view.findViewById(R.id.products_grid_view);
+        listView = (ListView) view.findViewById(R.id.shop_list_view);
+        productsAdapter = new ProductAdapter(getContext(), products.toArray(new Product[products.size()]));
+        gridView.setAdapter(productsAdapter);
+        shopAdapter = new ShopAdapter(view.getContext(), shops.toArray(new Shop[shops.size()]));
+        listView.setAdapter(shopAdapter);
+
+        loadFirebaseData();
+        progress = new ProgressDialog(getActivity());
+        progress.setTitle("Loading");
+        progress.setMessage("Syncing with Database");
+        progress.setCancelable(false);
+        progress.show();
 
         category = (TextView) view.findViewById(R.id.category);
         sort = (TextView) view.findViewById(R.id.sort);
@@ -88,28 +142,7 @@ public class TabFragment extends Fragment {
 
 
         if(position==0){
-
-            GridView gridView = (GridView)view.findViewById(R.id.products_grid_view);
-            productsAdapter = new ProductAdapter(view.getContext(), products);
-            gridView.setAdapter(productsAdapter);
-
-
-            //OVO NE RADI AKO U GRID VIEW IMA NEKI DRUGI CLICKABLE VIEW
-           /* gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Product product = products[position];
-                    //open new activity to view this product
-                    Intent intent = new Intent(view.getContext(), ViewProductActivity.class);
-                    intent.putExtra("PRODUCT_ID", String.valueOf(product.getId()));
-                    intent.putExtra("PRODUCT_NAME", getResources().getString(product.getName()));
-                    intent.putExtra("PRODUCT_PRICE", String.valueOf(product.getPrice()));
-                    intent.putExtra("PRODUCT_PIC", String.valueOf(product.getImageResource()));
-                    startActivity(intent);
-                }
-            });
-*/
-
+            listView.setVisibility(View.GONE);
             category.setVisibility(View.VISIBLE);
             sort.setVisibility(View.VISIBLE);
             sort2.setVisibility(View.GONE);
@@ -117,10 +150,7 @@ public class TabFragment extends Fragment {
             sort_spinner.setVisibility(View.VISIBLE);
             sort_spinner2.setVisibility(View.GONE);
         }else{
-
-            ListView listView = (ListView) view.findViewById(R.id.shop_list_view);
-            ShopAdapter shopAdapter = new ShopAdapter(view.getContext(), shops);
-            listView.setAdapter(shopAdapter);
+            gridView.setVisibility(View.GONE);
             category.setVisibility(View.GONE);
             sort.setVisibility(View.GONE);
             category_spinner.setVisibility(View.GONE);

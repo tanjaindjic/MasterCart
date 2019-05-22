@@ -124,10 +124,11 @@ public class MessageListAdapter extends RecyclerView.Adapter {
                 nameText.setText(((Shop) message.getSender()).getName());
             else nameText.setText("");
 
-            // Insert the profile image from the URL into the ImageView.
-            if(message.getSender() instanceof Shop)
+            // TODO ucitati sliku, ImageResource je path do slike na Firebase storage
+
+           /* if(message.getSender() instanceof Shop)
                 profileImage.setImageResource( ((Shop) message.getSender()).getImageResource());
-            else profileImage.setImageResource( ((User) message.getSender()).getImageResource());
+            else profileImage.setImageResource( ((User) message.getSender()).getImageResource());*/
         }
     }
 }

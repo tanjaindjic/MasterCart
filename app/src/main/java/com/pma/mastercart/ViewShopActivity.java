@@ -19,13 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ViewShopActivity extends AppCompatActivity {
-    private Comment[] comments = {
+    private Comment[] comments;/* = {//TODO povuci sa firebase komentare za prodavnicu
             new Comment(1,1,"John Doe", "Awesome store!"),
             new Comment(2,1,"Amy Doe", "Very good service."),
             new Comment(3,2,"Mary Doe", "Bad quality products, disappointed."),
             new Comment(4,1,"Sam Doe", "My phone looks amazing now!"),
 
-    };
+    };*/
     private ImageButton shop_location;
 
     @Override
@@ -49,15 +49,15 @@ public class ViewShopActivity extends AppCompatActivity {
         ImageView pic = (ImageView) findViewById(R.id.single_shop_thumbnail);
         pic.setImageResource(R.drawable.ic_shop);
 
-        Comment[] singleShopCommentsArray = {};
+        /*Comment[] singleShopCommentsArray = {};
         List<Comment> singleShopCommentsList = new ArrayList<>();
         for(Comment c : comments)
             if(c.getItemId()==singleShopId)
                 singleShopCommentsList.add(c);
 
-        singleShopCommentsArray = singleShopCommentsList.toArray(new Comment[singleShopCommentsList.size()]);
+        singleShopCommentsArray = singleShopCommentsList.toArray(new Comment[singleShopCommentsList.size()]);*/
         ListView listView = (ListView) findViewById(R.id.shop_comments_list);
-        CommentAdapter commentAdapter = new CommentAdapter(this, singleShopCommentsArray);
+        CommentAdapter commentAdapter = new CommentAdapter(this, comments);
         listView.setAdapter(commentAdapter);
 
         shop_location = (ImageButton) findViewById(R.id.single_shop_location);

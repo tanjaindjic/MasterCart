@@ -19,8 +19,8 @@ import com.pma.mastercart.model.Product;
 
 public class ProductAdapter extends BaseAdapter {
 
-    private final Context mContext;
-    private final Product[] products;
+    private Context mContext;
+    private Product[] products;
     private ImageButton product_details;
     private ImageButton add_favorite;
     private ImageButton add_cart;
@@ -63,12 +63,12 @@ public class ProductAdapter extends BaseAdapter {
         final TextView nameTextView = (TextView)convertView.findViewById(R.id.product_name);
         final TextView priceTextView = (TextView)convertView.findViewById(R.id.product_price);
 
-        imageView.setImageResource(product.getImageResource());
-        nameTextView.setText(mContext.getString(product.getName()));
-        priceTextView.setText(mContext.getString(product.getPrice()) + "$");
+        //imageView.setImageResource(product.getImageResource()); TODO ucitati sliku, ImageResource je path do slike na Firebase storage
+        nameTextView.setText(product.getName());
+        priceTextView.setText(Double.toString(product.getPrice()) + "$");
 
         product_details = (ImageButton)convertView.findViewById(R.id.product_details);
-        product_details.setTag(Integer.valueOf(product.getId()));
+        product_details.setTag(product.getId());
 
         product_details.setOnClickListener(new View.OnClickListener() {
 
@@ -77,7 +77,7 @@ public class ProductAdapter extends BaseAdapter {
                 //open new activity to view this product
                 Intent intent = new Intent(mContext, ViewProductActivity.class);
                 intent.putExtra("PRODUCT_ID", product.getId()); //int
-                intent.putExtra("PRODUCT_NAME", view.getResources().getString(product.getName())); //string
+                intent.putExtra("PRODUCT_NAME", product.getName()); //string
                 intent.putExtra("PRODUCT_PRICE", product.getPrice());//int
                 intent.putExtra("PRODUCT_PIC", product.getImageResource());//int
                 mContext.startActivity(intent);
@@ -93,7 +93,7 @@ public class ProductAdapter extends BaseAdapter {
                 //open new activity to view this product
                 Intent intent = new Intent(mContext, EditProductActivity.class);
                 intent.putExtra("PRODUCT_ID", product.getId()); //int
-                intent.putExtra("PRODUCT_NAME", view.getResources().getString(product.getName())); //string
+                intent.putExtra("PRODUCT_NAME", product.getName()); //string
                 intent.putExtra("PRODUCT_PRICE", product.getPrice());//int
                 intent.putExtra("PRODUCT_PIC", product.getImageResource());//int
                 mContext.startActivity(intent);

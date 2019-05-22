@@ -59,9 +59,9 @@ public class OrdersAdapter extends BaseAdapter {
         final TextView nameTextView = (TextView)convertView.findViewById(R.id.order_product_name);
         final TextView priceTextView = (TextView)convertView.findViewById(R.id.order_product_price);
 
-        imageView.setImageResource(product.getImageResource());
-        nameTextView.setText(mContext.getString(product.getName()));
-        priceTextView.setText(mContext.getString(product.getPrice()) + "$");
+        //imageView.setImageResource(product.getImageResource());TODO ucitati sliku, ImageResource je path do slike na Firebase storage
+        nameTextView.setText(product.getName());
+        priceTextView.setText(Double.toString(product.getPrice()) + "$");
 
         add_cart = (ImageButton)convertView.findViewById(R.id.order_product_again);
         add_cart.setOnClickListener(new View.OnClickListener() {

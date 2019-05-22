@@ -18,6 +18,7 @@ import java.util.Date;
 public class WalletActivity extends AppCompatActivity {
 
     private PaymentAdapter paymentAdapter;
+    private Payment[] payments;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,14 +31,8 @@ public class WalletActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        Payment payment1 = new Payment(1,10, new Date());
-        Payment payment2 = new Payment(2,20, new Date());
-        Payment payment3 = new Payment(3,30, new Date());
         ArrayList<Payment> payments = new ArrayList<Payment>();
-        payments.add(payment1);
-        payments.add(payment2);
-        payments.add(payment3);
-        Wallet wallet1 = new Wallet(1,10000.00,payments);
+        Wallet wallet1 = new Wallet(); //TODO naci wallet od CurrentUser-a
         paymentAdapter = new PaymentAdapter(this, wallet1.getHistory());
         TextView tvName = (TextView) this.findViewById(R.id.wallet_value);
         tvName.setText(String.valueOf(wallet1.getBalance()) + "$");

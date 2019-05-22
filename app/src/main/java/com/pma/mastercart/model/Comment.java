@@ -1,33 +1,30 @@
 package com.pma.mastercart.model;
 
+import java.util.UUID;
+
 public class Comment {
-    private int id;
-    private int itemId; //da bi se koristilo i za shop i product, samo za prvu kontrolnu tacku dok nemamo prave podatke
+    private String id;
+    private String itemId; //id radnje ili proizvoda
     private String user;
     private String comment;
+    private double rating;
 
-    public Comment(int id, int itemId, String user, String comment) {
-        this.id = id;
-        this.itemId = itemId;
+    public Comment(String user, String itemId, String comment, double rating) {
+        this.id = UUID.randomUUID().toString();
         this.user = user;
+        this.itemId = itemId;
         this.comment = comment;
+        this.rating = rating;
     }
 
-    public int getId() {
+    public Comment() {
+        this.id = UUID.randomUUID().toString();
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getItemId() {
-        return itemId;
-    }
-
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
-    }
 
     public String getUser() {
         return user;
@@ -43,5 +40,21 @@ public class Comment {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    public String getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
     }
 }

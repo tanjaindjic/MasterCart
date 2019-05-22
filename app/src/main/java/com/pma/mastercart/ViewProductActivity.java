@@ -18,13 +18,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ViewProductActivity  extends AppCompatActivity {
-    private Comment[] comments = {
+    private Comment[] comments;/* = { //TODO povuci sa firebase komentare za proizvod
             new Comment(1,1,"John Doe", "Super cool product!"),
             new Comment(2,1,"Amy Doe", "Looks nice."),
             new Comment(3,2,"Mary Doe", "Not a good product, disappointed."),
             new Comment(4,1,"Sam Doe", "My phone looks amazing now!"),
 
-    };
+    };*/
     private ImageButton add_favorite;
     private ImageButton add_cart;
 
@@ -40,7 +40,7 @@ public class ViewProductActivity  extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         Intent intent = getIntent();
-        int singleProductId = intent.getIntExtra("PRODUCT_ID", -1);
+        String singleProductId = intent.getStringExtra("PRODUCT_ID");
         back_toolbar.setTitle(intent.getStringExtra("PRODUCT_NAME"));
         TextView name = (TextView) findViewById(R.id.single_product_name);
         name.setText(intent.getStringExtra("PRODUCT_NAME"));
@@ -49,15 +49,15 @@ public class ViewProductActivity  extends AppCompatActivity {
         ImageView pic = (ImageView) findViewById(R.id.single_product_thumbnail);
         pic.setImageResource(intent.getIntExtra("PRODUCT_PIC",-1));
 
-        Comment[] singleProductCommentsArray = {};
+       /* Comment[] singleProductCommentsArray = {};
         List<Comment> singleProductCommentsList = new ArrayList<>();
         for(Comment c : comments)
             if(c.getItemId()==singleProductId)
                 singleProductCommentsList.add(c);
 
-        singleProductCommentsArray = singleProductCommentsList.toArray(new Comment[singleProductCommentsList.size()]);
+        singleProductCommentsArray = singleProductCommentsList.toArray(new Comment[singleProductCommentsList.size()]);*/
         ListView listView = (ListView) findViewById(R.id.comments_list);
-        CommentAdapter commentAdapter = new CommentAdapter(this, singleProductCommentsArray);
+        CommentAdapter commentAdapter = new CommentAdapter(this, comments);
         listView.setAdapter(commentAdapter);
 
         add_favorite = (ImageButton) findViewById(R.id.single_add_favorite);

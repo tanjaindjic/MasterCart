@@ -1,26 +1,27 @@
 package com.pma.mastercart.model;
 
 import java.util.Date;
+import java.util.UUID;
 
 public class Message {
-    private int id;
+    private String id;
     private Object sender;
     private String message;
     private Date time;
 
-    public Message(int id, Object sender, String message, Date time) {
-        this.id = id;
+    public Message(Object sender, String message, Date time) {
+        this.id = UUID.randomUUID().toString();
         this.sender = sender;
         this.message = message;
         this.time = time;
     }
 
-    public int getId() {
-        return id;
+    public Message() {
+        this.id = UUID.randomUUID().toString();
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public String getId() {
+        return id;
     }
 
     public Object getSender() {

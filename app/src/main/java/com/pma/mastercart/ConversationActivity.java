@@ -22,7 +22,7 @@ public class ConversationActivity extends AppCompatActivity {
     private RecyclerView mMessageRecycler;
     private MessageListAdapter mMessageAdapter;
 
-    User currentUser = new User("John", "Doe", "jd@gmail.com", "johndoe", "Vase Stajica 6", R.drawable.ic_dummy);
+ /*   User currentUser = new User("John", "Doe", "jd@gmail.com", "johndoe", "Vase Stajica 6", R.drawable.ic_dummy);
     Shop shop1 = new Shop(1, R.string.dummy1, R.drawable.ic_shop, R.string.dummyLocation);
     Shop shop2 = new Shop(2, R.string.dummy2, R.drawable.ic_shop, R.string.dummyLocation);
     Shop shop3 = new Shop(3, R.string.dummy3, R.drawable.ic_shop, R.string.dummyLocation);
@@ -37,7 +37,8 @@ public class ConversationActivity extends AppCompatActivity {
             new Conversation(1, shop1 ,currentUser, messageList1),
             new Conversation(2, shop2, currentUser, messageList2),
             new Conversation(3, shop3, currentUser, messageList3),
-    };
+    };*/
+    private Conversation[] conversations; //TODO povuci sa firebase konverzacije za CurrentUser-a
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

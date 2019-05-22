@@ -13,7 +13,7 @@ import com.pma.mastercart.model.Product;
 
 public class OrdersActivity extends AppCompatActivity {
 
-    private Product[] products = {
+    private Product[] products;/* = {  //TODO povuci sa firebase narudzbine za CurrentUser-a
             new Product(1, R.string.dummy1, R.drawable.ic_phone, R.string.dummyPrice),
             new Product(2, R.string.dummy2, R.drawable.ic_earphones, R.string.dummyPrice),
             new Product(3, R.string.dummy3, R.drawable.ic_microsd, R.string.dummyPrice),
@@ -23,7 +23,7 @@ public class OrdersActivity extends AppCompatActivity {
             new Product(7, R.string.dummy3, R.drawable.ic_phone, R.string.dummyPrice),
             new Product(8, R.string.dummy3, R.drawable.ic_phone, R.string.dummyPrice),
 
-    };
+    };*/
     private OrdersAdapter ordersAdapter;
 
     @Override

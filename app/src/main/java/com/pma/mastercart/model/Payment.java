@@ -1,25 +1,26 @@
 package com.pma.mastercart.model;
 
 import java.util.Date;
+import java.util.UUID;
 
 public class Payment {
 
-    private int id;
+    private String id;
     private double amount;
     private Date date;
 
-    public Payment(int id, double amount, Date date) {
-        this.id = id;
+    public Payment(double amount, Date date) {
+        this.id = UUID.randomUUID().toString();
         this.amount = amount;
         this.date = date;
     }
 
-    public int getId() {
-        return id;
+    public Payment() {
+        this.id = UUID.randomUUID().toString();
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public String getId() {
+        return id;
     }
 
     public double getAmount() {
@@ -37,5 +38,4 @@ public class Payment {
     public void setDate(Date date) {
         this.date = date;
     }
-
 }

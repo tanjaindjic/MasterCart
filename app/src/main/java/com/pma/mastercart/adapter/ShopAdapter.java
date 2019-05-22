@@ -56,8 +56,8 @@ public class ShopAdapter  extends BaseAdapter {
         final TextView nameTextView = (TextView)convertView.findViewById(R.id.shop_name);
         final TextView locationTextView = (TextView)convertView.findViewById(R.id.shop_address);
 
-        nameTextView.setText(mContext.getString(shop.getName()));
-        locationTextView.setText(mContext.getString(shop.getLocation()));
+        nameTextView.setText(shop.getName());
+        locationTextView.setText(shop.getLocation());
 
         shop_details = (ImageButton)convertView.findViewById(R.id.shop_details);
         shop_details.setOnClickListener(new View.OnClickListener() {
@@ -68,8 +68,8 @@ public class ShopAdapter  extends BaseAdapter {
                 //open new activity to view this product
                 Intent intent = new Intent(mContext, ViewShopActivity.class);
                 intent.putExtra("SHOP_ID", shop.getId());
-                intent.putExtra("SHOP_NAME", view.getResources().getString(shop.getName()));
-                intent.putExtra("SHOP_ADDRESS", view.getResources().getString(shop.getLocation()));
+                intent.putExtra("SHOP_NAME", shop.getName());
+                intent.putExtra("SHOP_ADDRESS", shop.getLocation());
                 mContext.startActivity(intent);
             }
 

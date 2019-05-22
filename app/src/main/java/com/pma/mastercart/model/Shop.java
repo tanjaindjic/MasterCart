@@ -1,41 +1,39 @@
 package com.pma.mastercart.model;
 
+import android.location.Location;
+
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Shop {
 
-    private int id;
-    private int name;
-    private int imageResource;
+    private String id;
+    private String name;
+    private String imageResource;
     private String location;
-    private String city;
-    private String state;
-    private short postcode;
+    private Location latlon; //za GoogleMaps
     private String phone;
     private String email;
-    private boolean isBaseStore;
-    private boolean activ;
+    private boolean active;
     private double rating;
-    private short numberOfRatings;
+    private int numberOfRatings;
     private ArrayList<Product> products;
     private ArrayList<User> seller;
     private ArrayList<Comment> comments;
 
     public Shop() {
+        this.id = UUID.randomUUID().toString();
     }
 
-    public Shop(int id, int name, int imageResource, String location, String city, String state, short postcode, String phone, String email, boolean isBaseStore, boolean activ, double rating, short numberOfRatings, ArrayList<Product> products, ArrayList<User> seller, ArrayList<Comment> comments) {
-        this.id = id;
+    public Shop(String name, String imageResource, String location, Location latlon, String phone, String email, boolean active, double rating, int numberOfRatings, ArrayList<Product> products, ArrayList<User> seller, ArrayList<Comment> comments) {
+        this.id = UUID.randomUUID().toString();
         this.name = name;
         this.imageResource = imageResource;
         this.location = location;
-        this.city = city;
-        this.state = state;
-        this.postcode = postcode;
+        this.latlon = latlon;
         this.phone = phone;
         this.email = email;
-        this.isBaseStore = isBaseStore;
-        this.activ = activ;
+        this.active = active;
         this.rating = rating;
         this.numberOfRatings = numberOfRatings;
         this.products = products;
@@ -43,27 +41,24 @@ public class Shop {
         this.comments = comments;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
-    public int getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(int name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public int getImageResource() {
+    public String getImageResource() {
         return imageResource;
     }
 
-    public void setImageResource(int imageResource) {
+    public void setImageResource(String imageResource) {
         this.imageResource = imageResource;
     }
 
@@ -75,28 +70,12 @@ public class Shop {
         this.location = location;
     }
 
-    public String getCity() {
-        return city;
+    public Location getLatlon() {
+        return latlon;
     }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public short getPostcode() {
-        return postcode;
-    }
-
-    public void setPostcode(short postcode) {
-        this.postcode = postcode;
+    public void setLatlon(Location latlon) {
+        this.latlon = latlon;
     }
 
     public String getPhone() {
@@ -115,20 +94,12 @@ public class Shop {
         this.email = email;
     }
 
-    public boolean isBaseStore() {
-        return isBaseStore;
+    public boolean isActive() {
+        return active;
     }
 
-    public void setBaseStore(boolean baseStore) {
-        isBaseStore = baseStore;
-    }
-
-    public boolean isActiv() {
-        return activ;
-    }
-
-    public void setActiv(boolean activ) {
-        this.activ = activ;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public double getRating() {
@@ -139,11 +110,11 @@ public class Shop {
         this.rating = rating;
     }
 
-    public short getNumberOfRatings() {
+    public int getNumberOfRatings() {
         return numberOfRatings;
     }
 
-    public void setNumberOfRatings(short numberOfRatings) {
+    public void setNumberOfRatings(int numberOfRatings) {
         this.numberOfRatings = numberOfRatings;
     }
 

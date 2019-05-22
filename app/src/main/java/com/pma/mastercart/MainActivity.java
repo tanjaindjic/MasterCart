@@ -19,7 +19,15 @@ import android.widget.SearchView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.pma.mastercart.adapter.HomePageTabsAdapter;
+import com.pma.mastercart.model.Comment;
+import com.pma.mastercart.model.Product;
+import com.pma.mastercart.model.Shop;
+import com.pma.mastercart.model.User;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
@@ -37,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //setupFirebaseData();
         super.onCreate(savedInstanceState);
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
@@ -165,6 +174,23 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
+    }
+
+    private void setupFirebaseData() {
+        Shop s = new Shop("Test Shop", "", "Laze Kostica, Novi Sad ", null, "+38165662258", "test@gmail.com", true, 3.5, 4, new ArrayList<Product>(), new ArrayList<User>(), new ArrayList<Comment>());
+        Product p = new Product("Test Product", "", 100.0, "Super product", 150, "20x50", 0, true, 4.5, 5, new ArrayList<Comment>());
+        Comment c1 = new Comment("John Doe", p.getId(), "Super product!", 4.5);
+        Comment c2 = new Comment("John Doe", s.getId(), "Great shop!", 3);
+        s.getComments().add(c2);
+        p.getComments().add(c1);
+        // Write a message to the database
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReferenceFromUrl("https://mastercart-4c01a.firebaseio.com/");
+        DatabaseReference prodavnice = myRef.child("prodavnice");
+        prodavnice.child(s.getId()).setValue(s);
+        DatabaseReference proizvodi = myRef.child("proizvodi");
+        proizvodi.child(p.getId()).setValue(p);
+
     }
 
     @Override

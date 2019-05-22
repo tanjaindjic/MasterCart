@@ -65,9 +65,9 @@ public class CartAdapter extends BaseAdapter {
         final TextView nameTextView = (TextView)convertView.findViewById(R.id.cart_product_name);
         final TextView priceTextView = (TextView)convertView.findViewById(R.id.cart_product_price);
 
-        imageView.setImageResource(product.getImageResource());
-        nameTextView.setText(mContext.getString(product.getName()));
-        priceTextView.setText(mContext.getString(product.getPrice()) + "$");
+        //imageView.setImageResource(product.getImageResource()); TODO ucitati sliku, ImageResource je path do slike
+        nameTextView.setText(product.getName());
+        priceTextView.setText(Double.toString(product.getPrice()) + "$");
 
 
         cart_remove_product = (ImageButton)convertView.findViewById(R.id.cart_remove_product);
@@ -89,7 +89,7 @@ public class CartAdapter extends BaseAdapter {
                 //open new activity to view this product
                 Intent intent = new Intent(mContext, ViewProductActivity.class);
                 intent.putExtra("PRODUCT_ID", product.getId()); //int
-                intent.putExtra("PRODUCT_NAME", view.getResources().getString(product.getName())); //string
+                intent.putExtra("PRODUCT_NAME", product.getName()); //string
                 intent.putExtra("PRODUCT_PRICE", product.getPrice());//int
                 intent.putExtra("PRODUCT_PIC", product.getImageResource());//int
                 mContext.startActivity(intent);

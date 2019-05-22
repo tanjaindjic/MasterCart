@@ -1,21 +1,25 @@
 package com.pma.mastercart.model;
 
+import java.util.ArrayList;
+import java.util.UUID;
+
 public class Product {
 
-    private int id;
-    private int name;
-    private int imageResource;
+    private String id;
+    private String name;
+    private String imageResource; //mozda path u storage?
     private double price;
     private String description;
-    private short onStock;
+    private int onStock;
     private String size;
     private int discount;
-    private boolean activ;
+    private boolean active;
     private double rating;
-    private short numberOfRatings;
+    private int numberOfRatings;
+    private ArrayList<Comment> comments;
 
-    public Product(int id, int name, int imageResource, double price, String description, short onStock, String size, int discount, boolean activ, double rating, short numberOfRatings) {
-        this.id = id;
+    public Product(String name, String imageResource, double price, String description, int onStock, String size, int discount, boolean active, double rating, int numberOfRatings, ArrayList<Comment> comments) {
+        this.id = UUID.randomUUID().toString();
         this.name = name;
         this.imageResource = imageResource;
         this.price = price;
@@ -23,35 +27,33 @@ public class Product {
         this.onStock = onStock;
         this.size = size;
         this.discount = discount;
-        this.activ = activ;
+        this.active = active;
         this.rating = rating;
         this.numberOfRatings = numberOfRatings;
+        this.comments = comments;
     }
 
     public Product() {
+        this.id = UUID.randomUUID().toString();
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(int name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public int getImageResource() {
+    public String getImageResource() {
         return imageResource;
     }
 
-    public void setImageResource(int imageResource) {
+    public void setImageResource(String imageResource) {
         this.imageResource = imageResource;
     }
 
@@ -71,11 +73,11 @@ public class Product {
         this.description = description;
     }
 
-    public short getOnStock() {
+    public int getOnStock() {
         return onStock;
     }
 
-    public void setOnStock(short onStock) {
+    public void setOnStock(int onStock) {
         this.onStock = onStock;
     }
 
@@ -95,12 +97,12 @@ public class Product {
         this.discount = discount;
     }
 
-    public boolean isActiv() {
-        return activ;
+    public boolean isActive() {
+        return active;
     }
 
-    public void setActiv(boolean activ) {
-        this.activ = activ;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public double getRating() {
@@ -111,11 +113,19 @@ public class Product {
         this.rating = rating;
     }
 
-    public short getNumberOfRatings() {
+    public int getNumberOfRatings() {
         return numberOfRatings;
     }
 
-    public void setNumberOfRatings(short numberOfRatings) {
+    public void setNumberOfRatings(int numberOfRatings) {
         this.numberOfRatings = numberOfRatings;
+    }
+
+    public ArrayList<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(ArrayList<Comment> comments) {
+        this.comments = comments;
     }
 }

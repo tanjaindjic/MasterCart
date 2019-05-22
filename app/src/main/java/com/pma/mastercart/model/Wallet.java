@@ -1,25 +1,26 @@
 package com.pma.mastercart.model;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Wallet {
 
-    private int id;
+    private String id;
     private double balance;
     private ArrayList<Payment> history;
 
-    public Wallet(int id, double balance, ArrayList<Payment> history) {
-        this.id = id;
+    public Wallet(double balance, ArrayList<Payment> history) {
+        this.id = UUID.randomUUID().toString();
         this.balance = balance;
         this.history = history;
     }
 
-    public int getId() {
-        return id;
+    public Wallet() {
+        this.id = UUID.randomUUID().toString();
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public String getId() {
+        return id;
     }
 
     public double getBalance() {

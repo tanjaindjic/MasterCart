@@ -2,6 +2,7 @@ package com.pma.mastercart.model;
 
 import java.util.ArrayList;
 
+@Deprecated
 public class Favourites {
     private int id;
     private ArrayList<Product> prati;
