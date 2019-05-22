@@ -53,6 +53,7 @@ public class ProductAdapter extends BaseAdapter {
     // 5
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
         final Product product = products[position];
         if (convertView == null) {
           final LayoutInflater layoutInflater = LayoutInflater.from(mContext);

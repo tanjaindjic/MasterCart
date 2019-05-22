@@ -1,5 +1,5 @@
 package com.pma.mastercart;
-
+/////Set your content view before you call findviewbyId methods.//////
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
