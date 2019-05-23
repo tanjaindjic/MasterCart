@@ -2,9 +2,10 @@ package com.pma.mastercart.model;
 
 import com.google.maps.model.LatLng;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Shop {
+public class Shop  implements Serializable {
 
     private Long id;
     private String name;

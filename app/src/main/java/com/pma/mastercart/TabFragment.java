@@ -3,7 +3,6 @@ package com.pma.mastercart;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,28 +12,17 @@ import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.pma.mastercart.adapter.ProductAdapter;
-import com.pma.mastercart.adapter.RetrieveProductsTask;
-import com.pma.mastercart.adapter.RetrieveShopsTask;
+import com.pma.mastercart.asyncTasks.RetrieveProductsTask;
+import com.pma.mastercart.asyncTasks.RetrieveShopsTask;
 import com.pma.mastercart.adapter.ShopAdapter;
-import com.pma.mastercart.model.DTO.ProductListDTO;
-import com.pma.mastercart.model.DTO.ShopListDTO;
 import com.pma.mastercart.model.Product;
 import com.pma.mastercart.model.Shop;
 
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
-
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class TabFragment extends Fragment {

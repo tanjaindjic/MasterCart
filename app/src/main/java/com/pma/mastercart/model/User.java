@@ -2,10 +2,11 @@ package com.pma.mastercart.model;
 
 import com.pma.mastercart.model.enums.Role;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class User {
+public class User  implements Serializable {
     private Long id;
     private String email;
     private String firstName;

@@ -1,8 +1,9 @@
 package com.pma.mastercart.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Category {
+public class Category implements Serializable {
     private Long id;
     private String name;
 

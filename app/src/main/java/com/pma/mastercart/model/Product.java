@@ -1,9 +1,10 @@
 package com.pma.mastercart.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Product {
+public class Product  implements Serializable {
 
     private Long id;
     private String name;

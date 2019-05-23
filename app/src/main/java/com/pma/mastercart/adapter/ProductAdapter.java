@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +26,11 @@ public class ProductAdapter extends BaseAdapter {
     private ImageButton add_favorite;
     private ImageButton add_cart;
     private ImageButton edit_product;
+    private ImageView imageView;
+    private TextView nameTextView;
+    private TextView priceTextView;
+    private Product product;
+    private RatingBar ratingBar;
 
     // 1
     public ProductAdapter(Context context, Product[] products) {
@@ -54,33 +60,28 @@ public class ProductAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        final Product product = products[position];
+        product = products[position];
         if (convertView == null) {
           final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
           convertView = layoutInflater.inflate(R.layout.product_layout, null);
         }
 
-        final ImageView imageView = (ImageView)convertView.findViewById(R.id.product_thumbnail);
-        final TextView nameTextView = (TextView)convertView.findViewById(R.id.product_name);
-        final TextView priceTextView = (TextView)convertView.findViewById(R.id.product_price);
-
-        ImageView pic = (ImageView) convertView.findViewById(R.id.product_thumbnail); //TODO ucitati sliku
-        pic.setImageResource(R.drawable.ic_dummy);
-
-        priceTextView.setText(Double.toString(product.getPrice()) + "$");
-
+        imageView = (ImageView)convertView.findViewById(R.id.product_thumbnail);
+        imageView.setImageResource(R.drawable.ic_dummy);
+        nameTextView = (TextView)convertView.findViewById(R.id.product_name);
+        nameTextView.setText(product.getName());
+        priceTextView = (TextView)convertView.findViewById(R.id.product_price);
+        priceTextView.setText(Double.toString(product.getPrice())+'$');
+        ratingBar = (RatingBar) convertView.findViewById(R.id.product_rating);
+        ratingBar.setRating((float) product.getRating());
         product_details = (ImageButton)convertView.findViewById(R.id.product_details);
-        product_details.setTag(product.getId());
-
-
         product_details.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
                 //open new activity to view this product
                 Intent intent = new Intent(mContext, ViewProductActivity.class);
-                intent.putExtra("PRODUCT_ID", Long.toString(product.getId())); //string
-                intent.putExtra("PRODUCT_NAME", product.getName()); //string
+                intent.putExtra("product", product);
                 mContext.startActivity(intent);
             }
 

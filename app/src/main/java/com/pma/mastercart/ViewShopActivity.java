@@ -45,14 +45,18 @@ public class ViewShopActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.single_shop_view);
         Intent intent = getIntent();
-        String singleShopId = intent.getStringExtra("SHOP_ID");
+        shop = (Shop) intent.getSerializableExtra("shop");
+        setTitle(shop.getName());
         name = (TextView) findViewById(R.id.single_shop_name);
+        name.setText(shop.getName());
         address = (TextView) findViewById(R.id.single_shop_address);
-        listView = (ListView) findViewById(R.id.shop_comments_list);
+        address.setText(shop.getLocation());
         rating = (RatingBar) findViewById(R.id.single_shop_rating);
+        rating.setRating((float) shop.getRating());
+        //TODO ovo se ne prenosi
+        listView = (ListView) findViewById(R.id.shop_comments_list);
         commentAdapter = new CommentAdapter(this, comments);
         listView.setAdapter(commentAdapter);
-        //getFirebaseShop(singleShopId); TODO pozvati server
 
         Toolbar back_toolbar = (Toolbar) findViewById(R.id.back_toolbar);
         setSupportActionBar(back_toolbar);

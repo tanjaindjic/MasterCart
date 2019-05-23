@@ -1,4 +1,4 @@
-package com.pma.mastercart.adapter;
+package com.pma.mastercart.asyncTasks;
 
 import android.os.AsyncTask;
 

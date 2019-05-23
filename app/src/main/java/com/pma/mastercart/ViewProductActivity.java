@@ -25,6 +25,7 @@ import com.pma.mastercart.model.Product;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class ViewProductActivity  extends AppCompatActivity {
     private Comment[] comments = new Comment[0];
@@ -48,17 +49,21 @@ public class ViewProductActivity  extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.single_product_view);
         Intent intent = getIntent();
-        String singleProductId = intent.getStringExtra("PRODUCT_ID");
-
+        product  = (Product) intent.getSerializableExtra("product");
+        setTitle(product.getName());
+        //TODO ovo se ne prenosi
+        comments = product.getComments().toArray(new Comment[product.getComments().size()]);
         listView = (ListView) findViewById(R.id.comments_list);
         commentAdapter = new CommentAdapter(this, comments);
         listView.setAdapter(commentAdapter);
         name = (TextView) findViewById(R.id.single_product_name);
+        name.setText(product.getName());
         price = (TextView) findViewById(R.id.single_product_price);
+        price.setText(Double.toString(product.getPrice())+'$');
         description = (TextView) findViewById(R.id.single_product_description);
+        description.setText(product.getDescription());
         rating = (RatingBar) findViewById(R.id.single_product_rating);
-
-        //getFirebaseProduct(singleProductId); TODO pozvati server
+        rating.setRating((float) product.getRating());
 
         Toolbar back_toolbar = (Toolbar) findViewById(R.id.back_toolbar);
         setSupportActionBar(back_toolbar);
