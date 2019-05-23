@@ -58,7 +58,7 @@ public class ViewProductActivity  extends AppCompatActivity {
         description = (TextView) findViewById(R.id.single_product_description);
         rating = (RatingBar) findViewById(R.id.single_product_rating);
 
-        getFirebaseProduct(singleProductId);
+        //getFirebaseProduct(singleProductId); TODO pozvati server
 
         Toolbar back_toolbar = (Toolbar) findViewById(R.id.back_toolbar);
         setSupportActionBar(back_toolbar);
@@ -90,35 +90,7 @@ public class ViewProductActivity  extends AppCompatActivity {
         });
     }
 
-    private void getFirebaseProduct(final String singleProductId) {
 
-        proizvodi.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot item: dataSnapshot.getChildren()) {
-                    Product p = item.getValue(Product.class);
-                    if (p.getId().equals(singleProductId)) {
-                        product = p;
-                        ArrayList<Comment> komentari = p.getComments();
-                        comments = komentari.toArray(new Comment[komentari.size()]);
-                    }
-                }
-                commentAdapter= new CommentAdapter(getApplicationContext(), comments);
-                listView.setAdapter(commentAdapter);
-                name.setText(product.getName());
-                description.setText(product.getDescription());
-                price.setText(Double.toString(product.getPrice()) + "$"); //TODO discount
-                rating.setRating((float) product.getRating());
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
 
     @Override
     public boolean onSupportNavigateUp() {

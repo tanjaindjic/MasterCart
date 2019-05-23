@@ -2,6 +2,8 @@ package com.pma.mastercart.model;
 
 import android.location.Location;
 
+import com.google.maps.model.LatLng;
+
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -11,7 +13,7 @@ public class Shop {
     private String name;
     private String imageResource;
     private String location;
-    private Location latlon; //za GoogleMaps
+    private LatLng latlon; //za GoogleMaps
     private String phone;
     private String email;
     private boolean active;
@@ -24,7 +26,7 @@ public class Shop {
     public Shop() {
     }
 
-    public Shop(int id, String name, String imageResource, String location, Location latlon, String phone, String email, boolean active, double rating, int numberOfRatings, ArrayList<Product> products, ArrayList<User> seller, ArrayList<Comment> comments) {
+    public Shop(int id, String name, String imageResource, String location, LatLng latlon, String phone, String email, boolean active, double rating, int numberOfRatings, ArrayList<Product> products, ArrayList<User> seller, ArrayList<Comment> comments) {
         this.id = id;
         this.name = name;
         this.imageResource = imageResource;
@@ -72,11 +74,11 @@ public class Shop {
         this.location = location;
     }
 
-    public Location getLatlon() {
+    public LatLng getLatlon() {
         return latlon;
     }
 
-    public void setLatlon(Location latlon) {
+    public void setLatlon(LatLng latlon) {
         this.latlon = latlon;
     }
 

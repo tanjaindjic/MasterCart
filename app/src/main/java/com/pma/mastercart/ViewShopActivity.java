@@ -52,7 +52,7 @@ public class ViewShopActivity extends AppCompatActivity {
         rating = (RatingBar) findViewById(R.id.single_shop_rating);
         commentAdapter = new CommentAdapter(this, comments);
         listView.setAdapter(commentAdapter);
-        getFirebaseShop(singleShopId);
+        //getFirebaseShop(singleShopId); TODO pozvati server
 
         Toolbar back_toolbar = (Toolbar) findViewById(R.id.back_toolbar);
         setSupportActionBar(back_toolbar);
@@ -81,33 +81,6 @@ public class ViewShopActivity extends AppCompatActivity {
 
     }
 
-    private void getFirebaseShop(final String singleShopId) {
-        prodavnice.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot item: dataSnapshot.getChildren()) {
-                    Shop p = item.getValue(Shop.class);
-                    if (p.getId().equals(singleShopId)) {
-                        shop = p;
-                        ArrayList<Comment> komentari = p.getComments();
-                        comments = komentari.toArray(new Comment[komentari.size()]);
-                    }
-                }
-                commentAdapter= new CommentAdapter(getApplicationContext(), comments);
-                listView.setAdapter(commentAdapter);
-                name.setText(shop.getName());
-                address.setText(shop.getLocation());
-                rating.setRating((float) shop.getRating());
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
 
     @Override
     public boolean onSupportNavigateUp() {

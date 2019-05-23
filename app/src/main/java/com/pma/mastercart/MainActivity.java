@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupFirebaseData() {
-        Shop s = new Shop("Test Shop", "", "Laze Kostica, Novi Sad ", null, "+38165662258", "test@gmail.com", true, 3.5, 4, new ArrayList<Product>(), new ArrayList<User>(), new ArrayList<Comment>());
+      /*  Shop s = new Shop("Test Shop", "", "Laze Kostica, Novi Sad ", null, "+38165662258", "test@gmail.com", true, 3.5, 4, new ArrayList<Product>(), new ArrayList<User>(), new ArrayList<Comment>());
         Product p = new Product("Test Product", "", 100.0, "Super product", 150, "20x50", 0, true, 4.5, 5, new ArrayList<Comment>());
         Comment c1 = new Comment("John Doe", p.getId(), "Super product!", 4.5);
         Comment c2 = new Comment("John Doe", s.getId(), "Great shop!", 3);
@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
         DatabaseReference prodavnice = myRef.child("prodavnice");
         prodavnice.child(s.getId()).setValue(s);
         DatabaseReference proizvodi = myRef.child("proizvodi");
-        proizvodi.child(p.getId()).setValue(p);
+        proizvodi.child(p.getId()).setValue(p);*/
 
     }
 

@@ -64,50 +64,6 @@ public class TabFragment extends Fragment {
         position = getArguments().getInt("pos");
     }
 
-    private void loadFirebaseData() {
-
-        proizvodi.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                products.clear();
-
-                for(DataSnapshot child : dataSnapshot.getChildren())
-                    products.add(child.getValue(Product.class));
-
-                //productsAdapter.notifyDataSetChanged();
-                productsAdapter = new ProductAdapter(getContext(), products.toArray(new Product[products.size()]));
-                gridView.setAdapter(productsAdapter);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        prodavnice.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                shops.clear();
-
-                for(DataSnapshot child : dataSnapshot.getChildren())
-                    shops.add(child.getValue(Shop.class));
-
-                //shopAdapter.notifyDataSetChanged();
-                shopAdapter = new ShopAdapter(getContext(), shops.toArray(new Shop[shops.size()]));
-                listView.setAdapter(shopAdapter);
-                progress.dismiss();
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-    }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -126,7 +82,7 @@ public class TabFragment extends Fragment {
         shopAdapter = new ShopAdapter(view.getContext(), shops.toArray(new Shop[shops.size()]));
         listView.setAdapter(shopAdapter);
 
-        loadFirebaseData();
+        //loadFirebaseData(); TODO pozvati server
         progress = new ProgressDialog(getActivity());
         progress.setTitle("Loading");
         progress.setMessage("Syncing with Database");
