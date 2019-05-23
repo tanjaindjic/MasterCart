@@ -5,28 +5,28 @@ import com.pma.mastercart.model.enums.StatusCartItem;
 import java.util.UUID;
 
 public class CartItem {
-    private String id;
+    private int id;
     private int quantity;
     private double total;
     private StatusCartItem statusCartItem;
     private Product item;
 
     public CartItem() {
-        this.id = UUID.randomUUID().toString();
+
     }
 
     public CartItem(int quantity, double total, StatusCartItem statusCartItem, Product item) {
-        this.id = UUID.randomUUID().toString();
         this.quantity = quantity;
         this.total = total;
         this.statusCartItem = statusCartItem;
         this.item = item;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
+    public void setId(int id) {   this.id = id;   }
 
     public int getQuantity() {
         return quantity;

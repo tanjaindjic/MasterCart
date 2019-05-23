@@ -4,24 +4,27 @@ import java.util.Date;
 import java.util.UUID;
 
 public class Message {
-    private String id;
+    private int id;
     private Object sender;
     private String message;
     private Date time;
 
-    public Message(Object sender, String message, Date time) {
-        this.id = UUID.randomUUID().toString();
+    public Message() {
+    }
+
+    public Message(int id, Object sender, String message, Date time) {
+        this.id = id;
         this.sender = sender;
         this.message = message;
         this.time = time;
     }
 
-    public Message() {
-        this.id = UUID.randomUUID().toString();
+    public int getId() {
+        return id;
     }
 
-    public String getId() {
-        return id;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Object getSender() {

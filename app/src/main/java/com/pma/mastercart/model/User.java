@@ -1,10 +1,12 @@
 package com.pma.mastercart.model;
 
 import com.pma.mastercart.model.enums.Role;
-
+import java.util.UUID;
 import java.util.ArrayList;
 
 public class User {
+    private int id;
+    private String email;
     private String firstName;
     private String lastName;
     private String address;
@@ -14,8 +16,14 @@ public class User {
     private ArrayList<Product> favorites;
     private Wallet wallet;
     private ArrayList<CartItem> cartItems;
+    private ArrayList<Orders> orders;
 
-    public User(String firstName, String lastName, String address, String phone, Role role, String imageResource, ArrayList<Product> favorites, Wallet wallet, ArrayList<CartItem> cartItems) {
+    public User() {
+    }
+
+    public User(int id, String email, String firstName, String lastName, String address, String phone, Role role, String imageResource, ArrayList<Product> favorites, Wallet wallet, ArrayList<CartItem> cartItems, ArrayList<Orders> orders) {
+        this.id = id;
+        this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -27,7 +35,18 @@ public class User {
         this.cartItems = cartItems;
     }
 
-    public User() {
+    public int getId() {  return id;  }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getFirstName() {
@@ -100,5 +119,13 @@ public class User {
 
     public void setCartItems(ArrayList<CartItem> cartItems) {
         this.cartItems = cartItems;
+    }
+
+    public ArrayList<Orders> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(ArrayList<Orders> orders) {
+        this.orders = orders;
     }
 }

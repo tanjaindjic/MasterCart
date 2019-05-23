@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public class Product {
 
-    private String id;
+    private int id;
     private String name;
     private String imageResource; //mozda path u storage?
     private double price;
@@ -18,8 +18,8 @@ public class Product {
     private int numberOfRatings;
     private ArrayList<Comment> comments;
 
-    public Product(String name, String imageResource, double price, String description, int onStock, String size, int discount, boolean active, double rating, int numberOfRatings, ArrayList<Comment> comments) {
-        this.id = UUID.randomUUID().toString();
+    public Product(int id, String name, String imageResource, double price, String description, int onStock, String size, int discount, boolean active, double rating, int numberOfRatings, ArrayList<Comment> comments) {
+        this.id = id;
         this.name = name;
         this.imageResource = imageResource;
         this.price = price;
@@ -33,11 +33,9 @@ public class Product {
         this.comments = comments;
     }
 
-    public Product() {
-        this.id = UUID.randomUUID().toString();
-    }
+    public Product() {  }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -81,9 +79,7 @@ public class Product {
         this.onStock = onStock;
     }
 
-    public String getSize() {
-        return size;
-    }
+    public String getSize() {  return size;  }
 
     public void setSize(String size) {
         this.size = size;

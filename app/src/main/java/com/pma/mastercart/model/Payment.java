@@ -5,21 +5,19 @@ import java.util.UUID;
 
 public class Payment {
 
-    private String id;
+    private int id;
     private double amount;
     private Date date;
 
-    public Payment(double amount, Date date) {
-        this.id = UUID.randomUUID().toString();
+    public Payment(int id, double amount, Date date) {
+        this.id = id;
         this.amount = amount;
         this.date = date;
     }
 
-    public Payment() {
-        this.id = UUID.randomUUID().toString();
-    }
+    public Payment() { }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 

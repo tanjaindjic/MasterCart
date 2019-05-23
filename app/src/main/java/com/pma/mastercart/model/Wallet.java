@@ -5,21 +5,19 @@ import java.util.UUID;
 
 public class Wallet {
 
-    private String id;
+    private int id;
     private double balance;
     private ArrayList<Payment> history;
 
-    public Wallet(double balance, ArrayList<Payment> history) {
-        this.id = UUID.randomUUID().toString();
+    public Wallet(int id, double balance, ArrayList<Payment> history) {
+        this.id = id;
         this.balance = balance;
         this.history = history;
     }
 
-    public Wallet() {
-        this.id = UUID.randomUUID().toString();
-    }
+    public Wallet() {  }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 

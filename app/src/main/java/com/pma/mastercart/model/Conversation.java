@@ -4,23 +4,21 @@ import java.util.List;
 import java.util.UUID;
 
 public class Conversation {
-    private String id;
+    private int id;
     Shop reciever;
     User sender;
     List<Message> messages;
 
-    public Conversation(Shop receiver, User sender, List<Message> messages) {
-        this.id = UUID.randomUUID().toString();
+    public Conversation(int id, Shop receiver, User sender, List<Message> messages) {
+        this.id = id;
         this.reciever = receiver;
         this.sender = sender;
         this.messages = messages;
     }
 
-    public Conversation() {
-        this.id = UUID.randomUUID().toString();
-    }
+    public Conversation() { }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 

@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public class Shop {
 
-    private String id;
+    private int id;
     private String name;
     private String imageResource;
     private String location;
@@ -22,11 +22,10 @@ public class Shop {
     private ArrayList<Comment> comments;
 
     public Shop() {
-        this.id = UUID.randomUUID().toString();
     }
 
-    public Shop(String name, String imageResource, String location, Location latlon, String phone, String email, boolean active, double rating, int numberOfRatings, ArrayList<Product> products, ArrayList<User> seller, ArrayList<Comment> comments) {
-        this.id = UUID.randomUUID().toString();
+    public Shop(int id, String name, String imageResource, String location, Location latlon, String phone, String email, boolean active, double rating, int numberOfRatings, ArrayList<Product> products, ArrayList<User> seller, ArrayList<Comment> comments) {
+        this.id = id;
         this.name = name;
         this.imageResource = imageResource;
         this.location = location;
@@ -41,10 +40,13 @@ public class Shop {
         this.comments = comments;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
