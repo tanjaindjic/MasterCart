@@ -2,6 +2,7 @@ package com.pma.mastercart;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -10,62 +11,67 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.pma.mastercart.adapter.CommentAdapter;
 import com.pma.mastercart.model.Comment;
+import com.pma.mastercart.model.Shop;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ViewShopActivity extends AppCompatActivity {
-    private Comment[] comments;/* = {//TODO povuci sa firebase komentare za prodavnicu
-            new Comment(1,1,"John Doe", "Awesome store!"),
-            new Comment(2,1,"Amy Doe", "Very good service."),
-            new Comment(3,2,"Mary Doe", "Bad quality products, disappointed."),
-            new Comment(4,1,"Sam Doe", "My phone looks amazing now!"),
-
-    };*/
+    private Comment[] comments = new Comment[0];
     private ImageButton shop_location;
+    private TextView name;
+    private TextView address;
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference myRef = database.getReferenceFromUrl("https://mastercart-4c01a.firebaseio.com/");
+    private DatabaseReference prodavnice = myRef.child("prodavnice");
+    private Shop shop;
+    private ListView listView;
+    private CommentAdapter commentAdapter;
+    private RatingBar rating;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.single_shop_view);
+        Intent intent = getIntent();
+        String singleShopId = intent.getStringExtra("SHOP_ID");
+        name = (TextView) findViewById(R.id.single_shop_name);
+        address = (TextView) findViewById(R.id.single_shop_address);
+        listView = (ListView) findViewById(R.id.shop_comments_list);
+        rating = (RatingBar) findViewById(R.id.single_shop_rating);
+        commentAdapter = new CommentAdapter(this, comments);
+        listView.setAdapter(commentAdapter);
+        getFirebaseShop(singleShopId);
 
         Toolbar back_toolbar = (Toolbar) findViewById(R.id.back_toolbar);
         setSupportActionBar(back_toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        Intent intent = getIntent();
-        int singleShopId = intent.getIntExtra("SHOP_ID", -1);
+
         back_toolbar.setTitle(intent.getStringExtra("SHOP_NAME"));
-        TextView name = (TextView) findViewById(R.id.single_shop_name);
-        name.setText(intent.getStringExtra("SHOP_NAME"));
-        TextView address = (TextView) findViewById(R.id.single_shop_address);
-        address.setText(intent.getStringExtra("SHOP_ADDRESS"));
-        ImageView pic = (ImageView) findViewById(R.id.single_shop_thumbnail);
+
+        ImageView pic = (ImageView) findViewById(R.id.single_shop_thumbnail); //TODO ucitati sliku
         pic.setImageResource(R.drawable.ic_shop);
 
-        /*Comment[] singleShopCommentsArray = {};
-        List<Comment> singleShopCommentsList = new ArrayList<>();
-        for(Comment c : comments)
-            if(c.getItemId()==singleShopId)
-                singleShopCommentsList.add(c);
-
-        singleShopCommentsArray = singleShopCommentsList.toArray(new Comment[singleShopCommentsList.size()]);*/
-        ListView listView = (ListView) findViewById(R.id.shop_comments_list);
-        CommentAdapter commentAdapter = new CommentAdapter(this, comments);
-        listView.setAdapter(commentAdapter);
 
         shop_location = (ImageButton) findViewById(R.id.single_shop_location);
         shop_location.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-
+                //TODO proslediti pravu lokaciju prodavnice
                 //open new activity to view location
                 Intent intent = new Intent(view.getContext(), MapsActivity.class);
                 startActivity(intent);
@@ -74,6 +80,35 @@ public class ViewShopActivity extends AppCompatActivity {
         });
 
     }
+
+    private void getFirebaseShop(final String singleShopId) {
+        prodavnice.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot item: dataSnapshot.getChildren()) {
+                    Shop p = item.getValue(Shop.class);
+                    if (p.getId().equals(singleShopId)) {
+                        shop = p;
+                        ArrayList<Comment> komentari = p.getComments();
+                        comments = komentari.toArray(new Comment[komentari.size()]);
+                    }
+                }
+                commentAdapter= new CommentAdapter(getApplicationContext(), comments);
+                listView.setAdapter(commentAdapter);
+                name.setText(shop.getName());
+                address.setText(shop.getLocation());
+                rating.setRating((float) shop.getRating());
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();

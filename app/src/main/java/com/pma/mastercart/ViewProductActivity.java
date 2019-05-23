@@ -45,6 +45,7 @@ public class ViewProductActivity  extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.single_product_view);
         Intent intent = getIntent();
         String singleProductId = intent.getStringExtra("PRODUCT_ID");
@@ -58,7 +59,6 @@ public class ViewProductActivity  extends AppCompatActivity {
         rating = (RatingBar) findViewById(R.id.single_product_rating);
 
         getFirebaseProduct(singleProductId);
-        super.onCreate(savedInstanceState);
 
         Toolbar back_toolbar = (Toolbar) findViewById(R.id.back_toolbar);
         setSupportActionBar(back_toolbar);
@@ -68,9 +68,9 @@ public class ViewProductActivity  extends AppCompatActivity {
         back_toolbar.setTitle(intent.getStringExtra("PRODUCT_NAME"));
 
 
-        //TODO
+        //TODO skinuti pravu sliku
         ImageView pic = (ImageView) findViewById(R.id.single_product_thumbnail);
-       // pic.setImageResource(intent.getIntExtra("PRODUCT_PIC",-1));
+        pic.setImageResource(R.drawable.ic_dummy);
 
         add_favorite = (ImageButton) findViewById(R.id.single_add_favorite);
         add_favorite.setOnClickListener(new View.OnClickListener() {

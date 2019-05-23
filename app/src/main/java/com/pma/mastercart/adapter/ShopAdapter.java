@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pma.mastercart.AddProductActivity;
@@ -59,6 +60,9 @@ public class ShopAdapter  extends BaseAdapter {
         nameTextView.setText(shop.getName());
         locationTextView.setText(shop.getLocation());
 
+        ImageView pic = (ImageView) convertView.findViewById(R.id.shop_thumbnail); //TODO ucitati sliku
+        pic.setImageResource(R.drawable.ic_shop);
+
         shop_details = (ImageButton)convertView.findViewById(R.id.shop_details);
         shop_details.setOnClickListener(new View.OnClickListener() {
 
@@ -69,7 +73,6 @@ public class ShopAdapter  extends BaseAdapter {
                 Intent intent = new Intent(mContext, ViewShopActivity.class);
                 intent.putExtra("SHOP_ID", shop.getId());
                 intent.putExtra("SHOP_NAME", shop.getName());
-                intent.putExtra("SHOP_ADDRESS", shop.getLocation());
                 mContext.startActivity(intent);
             }
 

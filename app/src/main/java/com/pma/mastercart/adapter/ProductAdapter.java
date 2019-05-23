@@ -64,12 +64,14 @@ public class ProductAdapter extends BaseAdapter {
         final TextView nameTextView = (TextView)convertView.findViewById(R.id.product_name);
         final TextView priceTextView = (TextView)convertView.findViewById(R.id.product_price);
 
-        //imageView.setImageResource(product.getImageResource()); TODO ucitati sliku, ImageResource je path do slike na Firebase storage
-        nameTextView.setText(product.getName());
+        ImageView pic = (ImageView) convertView.findViewById(R.id.product_thumbnail); //TODO ucitati sliku
+        pic.setImageResource(R.drawable.ic_dummy);
+
         priceTextView.setText(Double.toString(product.getPrice()) + "$");
 
         product_details = (ImageButton)convertView.findViewById(R.id.product_details);
         product_details.setTag(product.getId());
+
 
         product_details.setOnClickListener(new View.OnClickListener() {
 
@@ -79,8 +81,6 @@ public class ProductAdapter extends BaseAdapter {
                 Intent intent = new Intent(mContext, ViewProductActivity.class);
                 intent.putExtra("PRODUCT_ID", product.getId()); //string
                 intent.putExtra("PRODUCT_NAME", product.getName()); //string
-                intent.putExtra("PRODUCT_PRICE", product.getPrice());//int
-                intent.putExtra("PRODUCT_PIC", product.getImageResource());//int
                 mContext.startActivity(intent);
             }
 
