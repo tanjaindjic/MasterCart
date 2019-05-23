@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +36,10 @@ public class ViewProductActivity  extends AppCompatActivity {
     private Product product;
     private ListView listView;
     private CommentAdapter commentAdapter;
+    private TextView name;
+    private TextView price;
+    private TextView description;
+    private RatingBar rating;
 
 
     @Override
@@ -47,10 +52,13 @@ public class ViewProductActivity  extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.comments_list);
         commentAdapter = new CommentAdapter(this, comments);
         listView.setAdapter(commentAdapter);
+        name = (TextView) findViewById(R.id.single_product_name);
+        price = (TextView) findViewById(R.id.single_product_price);
+        description = (TextView) findViewById(R.id.single_product_description);
+        rating = (RatingBar) findViewById(R.id.single_product_rating);
 
         getFirebaseProduct(singleProductId);
         super.onCreate(savedInstanceState);
-
 
         Toolbar back_toolbar = (Toolbar) findViewById(R.id.back_toolbar);
         setSupportActionBar(back_toolbar);
@@ -58,10 +66,9 @@ public class ViewProductActivity  extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         back_toolbar.setTitle(intent.getStringExtra("PRODUCT_NAME"));
-        TextView name = (TextView) findViewById(R.id.single_product_name);
-        name.setText(intent.getStringExtra("PRODUCT_NAME"));
-        TextView price = (TextView) findViewById(R.id.single_product_price);
-        price.setText(Double.toString(intent.getDoubleExtra("PRODUCT_PRICE", -1)) + "$");
+
+
+        //TODO
         ImageView pic = (ImageView) findViewById(R.id.single_product_thumbnail);
        // pic.setImageResource(intent.getIntExtra("PRODUCT_PIC",-1));
 
@@ -84,17 +91,26 @@ public class ViewProductActivity  extends AppCompatActivity {
     }
 
     private void getFirebaseProduct(final String singleProductId) {
+
         proizvodi.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot item: dataSnapshot.getChildren())
-                    if (item.getKey()==singleProductId) {
-                        product = item.getValue(Product.class);
-                        comments = (Comment[]) product.getComments().toArray();
+                for (DataSnapshot item: dataSnapshot.getChildren()) {
+                    Product p = item.getValue(Product.class);
+                    if (p.getId().equals(singleProductId)) {
+                        product = p;
+                        ArrayList<Comment> komentari = p.getComments();
+                        comments = komentari.toArray(new Comment[komentari.size()]);
                     }
-
+                }
                 commentAdapter= new CommentAdapter(getApplicationContext(), comments);
                 listView.setAdapter(commentAdapter);
+                name.setText(product.getName());
+                description.setText(product.getDescription());
+                price.setText(Double.toString(product.getPrice()) + "$"); //TODO discount
+                rating.setRating((float) product.getRating());
+
+
             }
 
             @Override
