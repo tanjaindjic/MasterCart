@@ -1,11 +1,12 @@
 package com.pma.mastercart.model;
 
 import com.pma.mastercart.model.enums.Role;
-import java.util.UUID;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class User {
-    private int id;
+    private Long id;
     private String email;
     private String firstName;
     private String lastName;
@@ -16,12 +17,13 @@ public class User {
     private ArrayList<Product> favorites;
     private Wallet wallet;
     private ArrayList<CartItem> cartItems;
-    private ArrayList<Orders> orders;
+    private ArrayList<Order> orders;
+    private List<Conversation> conversations;
 
     public User() {
     }
 
-    public User(int id, String email, String firstName, String lastName, String address, String phone, Role role, String imageResource, ArrayList<Product> favorites, Wallet wallet, ArrayList<CartItem> cartItems, ArrayList<Orders> orders) {
+    public User(Long id, String email, String firstName, String lastName, String address, String phone, Role role, String imageResource, ArrayList<Product> favorites, Wallet wallet, ArrayList<CartItem> cartItems, ArrayList<Order> orders, List<Conversation> conversations) {
         this.id = id;
         this.email = email;
         this.firstName = firstName;
@@ -33,11 +35,12 @@ public class User {
         this.favorites = favorites;
         this.wallet = wallet;
         this.cartItems = cartItems;
+        this.conversations = conversations;
     }
 
-    public int getId() {  return id;  }
+    public Long getId() {  return id;  }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -121,11 +124,19 @@ public class User {
         this.cartItems = cartItems;
     }
 
-    public ArrayList<Orders> getOrders() {
+    public ArrayList<Order> getOrders() {
         return orders;
     }
 
-    public void setOrders(ArrayList<Orders> orders) {
+    public void setOrders(ArrayList<Order> orders) {
         this.orders = orders;
+    }
+
+    public List<Conversation> getConversations() {
+        return conversations;
+    }
+
+    public void setConversations(List<Conversation> conversations) {
+        this.conversations = conversations;
     }
 }

@@ -79,7 +79,7 @@ public class ProductAdapter extends BaseAdapter {
             public void onClick(View view) {
                 //open new activity to view this product
                 Intent intent = new Intent(mContext, ViewProductActivity.class);
-                intent.putExtra("PRODUCT_ID", product.getId()); //string
+                intent.putExtra("PRODUCT_ID", Long.toString(product.getId())); //string
                 intent.putExtra("PRODUCT_NAME", product.getName()); //string
                 mContext.startActivity(intent);
             }
@@ -93,7 +93,7 @@ public class ProductAdapter extends BaseAdapter {
             public void onClick(View view) {
                 //open new activity to view this product
                 Intent intent = new Intent(mContext, EditProductActivity.class);
-                intent.putExtra("PRODUCT_ID", product.getId()); //int
+                intent.putExtra("PRODUCT_ID", Long.toString(product.getId())); //int
                 intent.putExtra("PRODUCT_NAME", product.getName()); //string
                 intent.putExtra("PRODUCT_PRICE", product.getPrice());//int
                 intent.putExtra("PRODUCT_PIC", product.getImageResource());//int

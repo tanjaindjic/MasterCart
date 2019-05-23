@@ -65,7 +65,7 @@ public class FavoritesAdapter  extends BaseAdapter {
         priceTextView.setText(Double.toString(product.getPrice()) + "$");
 
         product_details = (ImageButton)convertView.findViewById(R.id.favorite_product_details);
-        product_details.setTag(Integer.valueOf(product.getId()));
+
 
         product_details.setOnClickListener(new View.OnClickListener() {
 

@@ -1,15 +1,14 @@
 package com.pma.mastercart.model;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 public class Wallet {
 
-    private int id;
+    private Long id;
     private double balance;
     private ArrayList<Payment> history;
 
-    public Wallet(int id, double balance, ArrayList<Payment> history) {
+    public Wallet(Long id, double balance, ArrayList<Payment> history) {
         this.id = id;
         this.balance = balance;
         this.history = history;
@@ -17,8 +16,12 @@ public class Wallet {
 
     public Wallet() {  }
 
-    public int getId() {
+    public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public double getBalance() {

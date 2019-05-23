@@ -1,19 +1,17 @@
 package com.pma.mastercart.model;
 
-import android.location.Location;
-
 import com.google.maps.model.LatLng;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 public class Shop {
 
-    private int id;
+    private Long id;
     private String name;
     private String imageResource;
     private String location;
-    private LatLng latlon; //za GoogleMaps
+    public double lat;
+    public double lng;
     private String phone;
     private String email;
     private boolean active;
@@ -26,12 +24,13 @@ public class Shop {
     public Shop() {
     }
 
-    public Shop(int id, String name, String imageResource, String location, LatLng latlon, String phone, String email, boolean active, double rating, int numberOfRatings, ArrayList<Product> products, ArrayList<User> seller, ArrayList<Comment> comments) {
+    public Shop(Long id, String name, String imageResource, String location, double lat, double lng, String phone, String email, boolean active, double rating, int numberOfRatings, ArrayList<Product> products, ArrayList<User> seller, ArrayList<Comment> comments) {
         this.id = id;
         this.name = name;
         this.imageResource = imageResource;
         this.location = location;
-        this.latlon = latlon;
+        this.lat = lat;
+        this.lng = lng;
         this.phone = phone;
         this.email = email;
         this.active = active;
@@ -42,11 +41,27 @@ public class Shop {
         this.comments = comments;
     }
 
-    public int getId() {
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -72,14 +87,6 @@ public class Shop {
 
     public void setLocation(String location) {
         this.location = location;
-    }
-
-    public LatLng getLatlon() {
-        return latlon;
-    }
-
-    public void setLatlon(LatLng latlon) {
-        this.latlon = latlon;
     }
 
     public String getPhone() {

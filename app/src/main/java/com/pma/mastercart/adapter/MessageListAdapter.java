@@ -39,7 +39,7 @@ public class MessageListAdapter extends RecyclerView.Adapter {
     public int getItemViewType(int position) {
         Message message = (Message) mMessageList.get(position);
 
-        if (message.getSender() instanceof User) {
+        if (message.getUserSender() != null) {
             // If the current user is the sender of the message
             return VIEW_TYPE_MESSAGE_SENT;
         } else {
@@ -120,8 +120,8 @@ public class MessageListAdapter extends RecyclerView.Adapter {
             String strDate = formatter.format(message.getTime());
             timeText.setText(strDate);
 
-            if(message.getSender() instanceof Shop)
-                nameText.setText(((Shop) message.getSender()).getName());
+            if(message.getShopSender()!=null)
+                nameText.setText(((Shop) message.getShopSender()).getName());
             else nameText.setText("");
 
             // TODO ucitati sliku, ImageResource je path do slike na Firebase storage

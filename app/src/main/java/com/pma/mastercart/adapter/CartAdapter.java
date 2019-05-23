@@ -80,7 +80,7 @@ public class CartAdapter extends BaseAdapter {
         });
 
         product_details = (ImageButton)convertView.findViewById(R.id.cart_product_details);
-        product_details.setTag(Integer.valueOf(product.getId()));
+
 
         product_details.setOnClickListener(new View.OnClickListener() {
 

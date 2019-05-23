@@ -1,11 +1,11 @@
 package com.pma.mastercart.model;
 
 import java.util.ArrayList;
-import java.util.UUID;
+import java.util.List;
 
 public class Product {
 
-    private int id;
+    private Long id;
     private String name;
     private String imageResource; //mozda path u storage?
     private double price;
@@ -17,8 +17,13 @@ public class Product {
     private double rating;
     private int numberOfRatings;
     private ArrayList<Comment> comments;
+    private Category category;
+    private List<Order> orders;
 
-    public Product(int id, String name, String imageResource, double price, String description, int onStock, String size, int discount, boolean active, double rating, int numberOfRatings, ArrayList<Comment> comments) {
+    public Product() {
+    }
+
+    public Product(Long id, String name, String imageResource, double price, String description, int onStock, String size, int discount, boolean active, double rating, int numberOfRatings, ArrayList<Comment> comments, Category category, List<Order> orders) {
         this.id = id;
         this.name = name;
         this.imageResource = imageResource;
@@ -31,12 +36,16 @@ public class Product {
         this.rating = rating;
         this.numberOfRatings = numberOfRatings;
         this.comments = comments;
+        this.category = category;
+        this.orders = orders;
     }
 
-    public Product() {  }
-
-    public int getId() {
+    public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -79,7 +88,9 @@ public class Product {
         this.onStock = onStock;
     }
 
-    public String getSize() {  return size;  }
+    public String getSize() {
+        return size;
+    }
 
     public void setSize(String size) {
         this.size = size;
@@ -123,5 +134,21 @@ public class Product {
 
     public void setComments(ArrayList<Comment> comments) {
         this.comments = comments;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 }

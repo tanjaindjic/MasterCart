@@ -1,15 +1,14 @@
 package com.pma.mastercart.model;
 
 import java.util.List;
-import java.util.UUID;
 
 public class Conversation {
-    private int id;
+    private Long id;
     Shop reciever;
     User sender;
     List<Message> messages;
 
-    public Conversation(int id, Shop receiver, User sender, List<Message> messages) {
+    public Conversation(Long id, Shop receiver, User sender, List<Message> messages) {
         this.id = id;
         this.reciever = receiver;
         this.sender = sender;
@@ -18,8 +17,12 @@ public class Conversation {
 
     public Conversation() { }
 
-    public int getId() {
+    public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Shop getReciever() {

@@ -1,11 +1,11 @@
 package com.pma.mastercart.model;
 
 import java.util.Date;
-import java.util.UUID;
 
 public class Comment {
-    private int id;
-    private int itemId; //id radnje ili proizvoda
+    private Long id;
+    private Shop forShop;
+    private Product forProduct;
     private String user;
     private String store;
     private String comment;
@@ -15,9 +15,10 @@ public class Comment {
     public Comment() {
     }
 
-    public Comment(int id, int itemId, String user, String store, String comment, Date time, int review) {
+    public Comment(Long id, Shop forShop, Product forProduct, String user, String store, String comment, Date time, int review) {
         this.id = id;
-        this.itemId = itemId;
+        this.forShop = forShop;
+        this.forProduct = forProduct;
         this.user = user;
         this.store = store;
         this.comment = comment;
@@ -25,20 +26,28 @@ public class Comment {
         this.review = review;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public int getItemId() {
-        return itemId;
+    public Shop getForShop() {
+        return forShop;
     }
 
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
+    public void setForShop(Shop forShop) {
+        this.forShop = forShop;
+    }
+
+    public Product getForProduct() {
+        return forProduct;
+    }
+
+    public void setForProduct(Product forProduct) {
+        this.forProduct = forProduct;
     }
 
     public String getUser() {

@@ -1,6 +1,7 @@
 package com.pma.mastercart;
 
 import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,11 +21,21 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.pma.mastercart.adapter.ProductAdapter;
+import com.pma.mastercart.adapter.RetrieveProductsTask;
+import com.pma.mastercart.adapter.RetrieveShopsTask;
 import com.pma.mastercart.adapter.ShopAdapter;
+import com.pma.mastercart.model.DTO.ProductListDTO;
+import com.pma.mastercart.model.DTO.ShopListDTO;
 import com.pma.mastercart.model.Product;
 import com.pma.mastercart.model.Shop;
 
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
+
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class TabFragment extends Fragment {
 
@@ -81,13 +92,20 @@ public class TabFragment extends Fragment {
         gridView.setAdapter(productsAdapter);
         shopAdapter = new ShopAdapter(view.getContext(), shops.toArray(new Shop[shops.size()]));
         listView.setAdapter(shopAdapter);
-
-        //loadFirebaseData(); TODO pozvati server
         progress = new ProgressDialog(getActivity());
         progress.setTitle("Loading");
         progress.setMessage("Syncing with Database");
         progress.setCancelable(false);
         progress.show();
+
+        try {
+            loadData();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
 
         category = (TextView) view.findViewById(R.id.category);
         sort = (TextView) view.findViewById(R.id.sort);
@@ -117,5 +135,19 @@ public class TabFragment extends Fragment {
         }
 
 
+    }
+
+    private void loadData() throws ExecutionException, InterruptedException {
+        AsyncTask<String, Void, ArrayList<Product>> task = new RetrieveProductsTask().execute("sta god");
+        products = task.get();
+        productsAdapter = new ProductAdapter(getContext(), products.toArray(new Product[products.size()]));
+        gridView.setAdapter(productsAdapter);
+
+        AsyncTask<String, Void, ArrayList<Shop>> task2 = new RetrieveShopsTask().execute("sta god");
+        shops = task2.get();
+        shopAdapter = new ShopAdapter(getContext(), shops.toArray(new Shop[shops.size()]));
+        listView.setAdapter(shopAdapter);
+
+        progress.dismiss();
     }
 }

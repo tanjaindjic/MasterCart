@@ -5,18 +5,22 @@ import java.util.UUID;
 
 public class Message {
     private int id;
-    private Object sender;
+    Shop shopSender;
+    User userSender;
     private String message;
     private Date time;
+    private Conversation conversation;
 
     public Message() {
     }
 
-    public Message(int id, Object sender, String message, Date time) {
+    public Message(int id, Shop shopSender, User userSender, String message, Date time, Conversation conversation) {
         this.id = id;
-        this.sender = sender;
+        this.shopSender = shopSender;
+        this.userSender = userSender;
         this.message = message;
         this.time = time;
+        this.conversation = conversation;
     }
 
     public int getId() {
@@ -27,12 +31,20 @@ public class Message {
         this.id = id;
     }
 
-    public Object getSender() {
-        return sender;
+    public Shop getShopSender() {
+        return shopSender;
     }
 
-    public void setSender(Object sender) {
-        this.sender = sender;
+    public void setShopSender(Shop shopSender) {
+        this.shopSender = shopSender;
+    }
+
+    public User getUserSender() {
+        return userSender;
+    }
+
+    public void setUserSender(User userSender) {
+        this.userSender = userSender;
     }
 
     public String getMessage() {
@@ -49,5 +61,13 @@ public class Message {
 
     public void setTime(Date time) {
         this.time = time;
+    }
+
+    public Conversation getConversation() {
+        return conversation;
+    }
+
+    public void setConversation(Conversation conversation) {
+        this.conversation = conversation;
     }
 }

@@ -3,24 +3,22 @@ package com.pma.mastercart.model;
 import java.util.ArrayList;
 
 public class Category {
-    private int id;
+    private Long id;
     private String name;
-    private ArrayList<Product> categoryItems;
 
-    public Category(int id, String name, ArrayList<Product> categoryItems) {
+    public Category(Long id, String name) {
         this.id = id;
         this.name = name;
-        this.categoryItems = categoryItems;
     }
 
     public Category() {
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -32,11 +30,4 @@ public class Category {
         this.name = name;
     }
 
-    public ArrayList<Product> getCategoryItems() {
-        return categoryItems;
-    }
-
-    public void setCategoryItems(ArrayList<Product> categoryItems) {
-        this.categoryItems = categoryItems;
-    }
 }
