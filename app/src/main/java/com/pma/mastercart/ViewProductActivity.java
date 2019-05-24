@@ -41,6 +41,8 @@ public class ViewProductActivity  extends AppCompatActivity {
     private TextView price;
     private TextView description;
     private RatingBar rating;
+    private TextView categoryTextView;
+    private TextView sizeTextView;
 
 
     @Override
@@ -61,13 +63,17 @@ public class ViewProductActivity  extends AppCompatActivity {
         name = (TextView) findViewById(R.id.single_product_name);
         name.setText(product.getName());
         price = (TextView) findViewById(R.id.single_product_price);
-        price.setText(Double.toString(product.getPrice())+'$');
+        price.setText("Price: " + Double.toString(product.getPrice())+'$');
         description = (TextView) findViewById(R.id.single_product_description);
-        description.setText(product.getDescription());
+        description.setText("Description: " + product.getDescription());
         rating = (RatingBar) findViewById(R.id.single_product_rating);
         rating.setRating((float) product.getRating());
         comments = product.getComments().toArray(new Comment[product.getComments().size()]);
-
+        categoryTextView = (TextView) findViewById(R.id.single_product_category);
+        categoryTextView.setText("Category: " + product.getCategory().getName());
+        sizeTextView = (TextView) findViewById(R.id.single_product_size);
+        sizeTextView.setText("Size: " + product.getSize());
+        
         Toolbar back_toolbar = (Toolbar) findViewById(R.id.back_toolbar);
         setSupportActionBar(back_toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -76,8 +82,8 @@ public class ViewProductActivity  extends AppCompatActivity {
 
 
         //TODO skinuti pravu sliku
-        ImageView pic = (ImageView) findViewById(R.id.single_product_thumbnail);
-        pic.setImageResource(R.drawable.ic_dummy);
+        /*ImageView pic = (ImageView) findViewById(R.id.single_product_thumbnail);
+        pic.setImageResource(R.drawable.ic_dummy);*/
 
         add_favorite = (ImageButton) findViewById(R.id.single_add_favorite);
         add_favorite.setOnClickListener(new View.OnClickListener() {
