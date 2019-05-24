@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private FirebaseAuth firebaseAuth;
+    public static String URL = "http://192.168.1.9:8096/";
 
 
     @Override

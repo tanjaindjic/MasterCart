@@ -2,6 +2,7 @@ package com.pma.mastercart.asyncTasks;
 
 import android.os.AsyncTask;
 
+import com.pma.mastercart.MainActivity;
 import com.pma.mastercart.model.DTO.ProductListDTO;
 import com.pma.mastercart.model.Product;
 import com.pma.mastercart.model.Shop;
@@ -22,7 +23,7 @@ public class RetrieveProductsTask extends AsyncTask<String, Void, ArrayList<Prod
     protected ArrayList<Product> doInBackground(String... strings) {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-        ResponseEntity<Product[]> response = restTemplate.getForEntity("http://10.0.2.2:8096/product", Product[].class);
+        ResponseEntity<Product[]> response = restTemplate.getForEntity(MainActivity.URL+"product", Product[].class);
         products = response.getBody();
         return new ArrayList<>(Arrays.asList(products));
     }

@@ -2,6 +2,7 @@ package com.pma.mastercart.asyncTasks;
 
 import android.os.AsyncTask;
 
+import com.pma.mastercart.MainActivity;
 import com.pma.mastercart.model.DTO.ShopListDTO;
 import com.pma.mastercart.model.Shop;
 
@@ -19,7 +20,7 @@ public class RetrieveShopsTask extends AsyncTask<String, Void, ArrayList<Shop>> 
     protected ArrayList<Shop> doInBackground(String... strings) {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-        ResponseEntity<Shop[]> response = restTemplate.getForEntity("http://10.0.2.2:8096/shop", Shop[].class);
+        ResponseEntity<Shop[]> response = restTemplate.getForEntity(MainActivity.URL+"shop", Shop[].class);
         shops = response.getBody();
         return new ArrayList<>(Arrays.asList(shops));
     }
