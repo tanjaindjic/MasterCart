@@ -17,6 +17,8 @@ import com.pma.mastercart.R;
 import com.pma.mastercart.ViewProductActivity;
 import com.pma.mastercart.model.Product;
 
+import java.util.ArrayList;
+
 
 public class ProductAdapter extends BaseAdapter {
 
@@ -74,14 +76,17 @@ public class ProductAdapter extends BaseAdapter {
         priceTextView.setText(Double.toString(product.getPrice())+'$');
         ratingBar = (RatingBar) convertView.findViewById(R.id.product_rating);
         ratingBar.setRating((float) product.getRating());
+
         product_details = (ImageButton)convertView.findViewById(R.id.product_details);
         product_details.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
                 //open new activity to view this product
+                ArrayList parcelableList = new ArrayList();
+                parcelableList.add(products[position]);
                 Intent intent = new Intent(mContext, ViewProductActivity.class);
-                intent.putExtra("product", product);
+                intent.putParcelableArrayListExtra("product", parcelableList);
                 mContext.startActivity(intent);
             }
 

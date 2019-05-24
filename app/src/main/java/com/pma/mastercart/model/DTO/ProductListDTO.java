@@ -5,7 +5,7 @@ import com.pma.mastercart.model.Product;
 import java.util.ArrayList;
 import java.util.List;
 
-@Deprecated
+
 public class ProductListDTO {
     private ArrayList<Product> products;
 

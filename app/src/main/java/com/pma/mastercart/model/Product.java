@@ -1,10 +1,13 @@
 package com.pma.mastercart.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Product  implements Serializable {
+public class Product  implements Parcelable {
 
     private Long id;
     private String name;
@@ -17,14 +20,14 @@ public class Product  implements Serializable {
     private boolean active;
     private double rating;
     private int numberOfRatings;
-    private ArrayList<Comment> comments;
+    private List<Comment> comments;
     private Category category;
     private List<Order> orders;
 
     public Product() {
     }
 
-    public Product(Long id, String name, String imageResource, double price, String description, int onStock, String size, int discount, boolean active, double rating, int numberOfRatings, ArrayList<Comment> comments, Category category, List<Order> orders) {
+    public Product(Long id, String name, String imageResource, double price, String description, int onStock, String size, int discount, boolean active, double rating, int numberOfRatings, List<Comment> comments, Category category, List<Order> orders) {
         this.id = id;
         this.name = name;
         this.imageResource = imageResource;
@@ -129,11 +132,11 @@ public class Product  implements Serializable {
         this.numberOfRatings = numberOfRatings;
     }
 
-    public ArrayList<Comment> getComments() {
+    public List<Comment> getComments() {
         return comments;
     }
 
-    public void setComments(ArrayList<Comment> comments) {
+    public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
 
@@ -152,4 +155,59 @@ public class Product  implements Serializable {
     public void setOrders(List<Order> orders) {
         this.orders = orders;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this.id);
+        dest.writeString(this.name);
+        dest.writeString(this.imageResource);
+        dest.writeDouble(this.price);
+        dest.writeString(this.description);
+        dest.writeInt(this.onStock);
+        dest.writeString(this.size);
+        dest.writeInt(this.discount);
+        dest.writeByte(this.active ? (byte) 1 : (byte) 0);
+        dest.writeDouble(this.rating);
+        dest.writeInt(this.numberOfRatings);
+        dest.writeList(this.comments);
+        dest.writeParcelable(this.category, flags);
+        dest.writeList(this.orders);
+    }
+
+    protected Product(Parcel in) {
+        this.id = (Long) in.readValue(Long.class.getClassLoader());
+        this.name = in.readString();
+        this.imageResource = in.readString();
+        this.price = in.readDouble();
+        this.description = in.readString();
+        this.onStock = in.readInt();
+        this.size = in.readString();
+        this.discount = in.readInt();
+        this.active = in.readByte() != 0;
+        this.rating = in.readDouble();
+        this.numberOfRatings = in.readInt();
+        this.comments = new ArrayList<Comment>();
+        in.readList(this.comments, Comment.class.getClassLoader());
+        this.category = in.readParcelable(Category.class.getClassLoader());
+        this.orders = new ArrayList<Order>();
+        in.readList(this.orders, Order.class.getClassLoader());
+    }
+
+    public static final Creator<Product> CREATOR = new Creator<Product>() {
+        @Override
+        public Product createFromParcel(Parcel source) {
+            return new Product(source);
+        }
+
+        @Override
+        public Product[] newArray(int size) {
+            return new Product[size];
+        }
+    };
 }

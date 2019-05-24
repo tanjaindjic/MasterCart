@@ -1,11 +1,15 @@
 package com.pma.mastercart.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.maps.model.LatLng;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
-public class Shop  implements Serializable {
+public class Shop  implements Parcelable {
 
     private Long id;
     private String name;
@@ -18,14 +22,14 @@ public class Shop  implements Serializable {
     private boolean active;
     private double rating;
     private int numberOfRatings;
-    private ArrayList<Product> products;
-    private ArrayList<User> seller;
-    private ArrayList<Comment> comments;
+    private List<Product> products;
+    private List<User> seller;
+    private List<Comment> comments;
 
     public Shop() {
     }
 
-    public Shop(Long id, String name, String imageResource, String location, double lat, double lng, String phone, String email, boolean active, double rating, int numberOfRatings, ArrayList<Product> products, ArrayList<User> seller, ArrayList<Comment> comments) {
+    public Shop(Long id, String name, String imageResource, String location, double lat, double lng, String phone, String email, boolean active, double rating, int numberOfRatings, List<Product> products, List<User> seller, List<Comment> comments) {
         this.id = id;
         this.name = name;
         this.imageResource = imageResource;
@@ -130,27 +134,80 @@ public class Shop  implements Serializable {
         this.numberOfRatings = numberOfRatings;
     }
 
-    public ArrayList<Product> getProducts() {
+    public List<Product> getProducts() {
         return products;
     }
 
-    public void setProducts(ArrayList<Product> products) {
+    public void setProducts(List<Product> products) {
         this.products = products;
     }
 
-    public ArrayList<User> getSeller() {
+    public List<User> getSeller() {
         return seller;
     }
 
-    public void setSeller(ArrayList<User> seller) {
+    public void setSeller(List<User> seller) {
         this.seller = seller;
     }
 
-    public ArrayList<Comment> getComments() {
+    public List<Comment> getComments() {
         return comments;
     }
 
-    public void setComments(ArrayList<Comment> comments) {
+    public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this.id);
+        dest.writeString(this.name);
+        dest.writeString(this.imageResource);
+        dest.writeString(this.location);
+        dest.writeDouble(this.lat);
+        dest.writeDouble(this.lng);
+        dest.writeString(this.phone);
+        dest.writeString(this.email);
+        dest.writeByte(this.active ? (byte) 1 : (byte) 0);
+        dest.writeDouble(this.rating);
+        dest.writeInt(this.numberOfRatings);
+        dest.writeTypedList(this.products);
+        dest.writeTypedList(this.seller);
+        dest.writeTypedList(this.comments);
+    }
+
+    protected Shop(Parcel in) {
+        this.id = (Long) in.readValue(Long.class.getClassLoader());
+        this.name = in.readString();
+        this.imageResource = in.readString();
+        this.location = in.readString();
+        this.lat = in.readDouble();
+        this.lng = in.readDouble();
+        this.phone = in.readString();
+        this.email = in.readString();
+        this.active = in.readByte() != 0;
+        this.rating = in.readDouble();
+        this.numberOfRatings = in.readInt();
+        this.products = in.createTypedArrayList(Product.CREATOR);
+        this.seller = in.createTypedArrayList(User.CREATOR);
+        this.comments = in.createTypedArrayList(Comment.CREATOR);
+    }
+
+    public static final Creator<Shop> CREATOR = new Creator<Shop>() {
+        @Override
+        public Shop createFromParcel(Parcel source) {
+            return new Shop(source);
+        }
+
+        @Override
+        public Shop[] newArray(int size) {
+            return new Shop[size];
+        }
+    };
 }
