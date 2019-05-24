@@ -1,12 +1,15 @@
 package com.pma.mastercart.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.pma.mastercart.model.enums.Role;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class User  implements Serializable {
+public class User  implements Parcelable {
     private Long id;
     private String email;
     private String firstName;
@@ -140,4 +143,59 @@ public class User  implements Serializable {
     public void setConversations(List<Conversation> conversations) {
         this.conversations = conversations;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this.id);
+        dest.writeString(this.email);
+        dest.writeString(this.firstName);
+        dest.writeString(this.lastName);
+        dest.writeString(this.address);
+        dest.writeString(this.phone);
+        dest.writeInt(this.role == null ? -1 : this.role.ordinal());
+        dest.writeString(this.imageResource);
+        dest.writeTypedList(this.favorites);
+        dest.writeParcelable(this.wallet, flags);
+        dest.writeList(this.cartItems);
+        dest.writeList(this.orders);
+        dest.writeList(this.conversations);
+    }
+
+    protected User(Parcel in) {
+        this.id = (Long) in.readValue(Long.class.getClassLoader());
+        this.email = in.readString();
+        this.firstName = in.readString();
+        this.lastName = in.readString();
+        this.address = in.readString();
+        this.phone = in.readString();
+        int tmpRole = in.readInt();
+        this.role = tmpRole == -1 ? null : Role.values()[tmpRole];
+        this.imageResource = in.readString();
+        this.favorites = in.createTypedArrayList(Product.CREATOR);
+        this.wallet = in.readParcelable(Wallet.class.getClassLoader());
+        this.cartItems = new ArrayList<CartItem>();
+        in.readList(this.cartItems, CartItem.class.getClassLoader());
+        this.orders = new ArrayList<Order>();
+        in.readList(this.orders, Order.class.getClassLoader());
+        this.conversations = new ArrayList<Conversation>();
+        in.readList(this.conversations, Conversation.class.getClassLoader());
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel source) {
+            return new User(source);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 }

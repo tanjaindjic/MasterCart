@@ -12,20 +12,24 @@ import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.pma.mastercart.adapter.OnLoadDataListener;
 import com.pma.mastercart.adapter.ProductAdapter;
 import com.pma.mastercart.asyncTasks.RetrieveProductsTask;
 import com.pma.mastercart.asyncTasks.RetrieveShopsTask;
 import com.pma.mastercart.adapter.ShopAdapter;
+import com.pma.mastercart.model.DTO.ProductListDTO;
+import com.pma.mastercart.model.DTO.ShopListDTO;
 import com.pma.mastercart.model.Product;
 import com.pma.mastercart.model.Shop;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-public class TabFragment extends Fragment {
+public class TabFragment extends Fragment implements OnLoadDataListener {
 
     int position;
     private TextView category;
@@ -35,16 +39,9 @@ public class TabFragment extends Fragment {
     private Spinner sort_spinner;
     private Spinner sort_spinner2;
     private ProductAdapter productsAdapter;
-    private ArrayList<Product> products = new ArrayList<>();
-    private ArrayList<Shop> shops = new ArrayList<>();
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference myRef = database.getReferenceFromUrl("https://mastercart-4c01a.firebaseio.com/");
-    private DatabaseReference prodavnice = myRef.child("prodavnice");
-    private DatabaseReference proizvodi = myRef.child("proizvodi");
+    public static GridView gridView;
+    public static ListView listView;
     private ShopAdapter shopAdapter;
-    private ProgressDialog progress;
-    private GridView gridView;
-    private ListView listView;
 
 
     public static Fragment getInstance(int position) {
@@ -74,26 +71,13 @@ public class TabFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        gridView = (GridView)view.findViewById(R.id.products_grid_view);
-        listView = (ListView) view.findViewById(R.id.shop_list_view);
-        productsAdapter = new ProductAdapter(getContext(), products.toArray(new Product[products.size()]));
+
+        gridView = (GridView) view.findViewById(R.id.products_grid_view);
+        productsAdapter = new ProductAdapter(view.getContext(), MainActivity.products.toArray(new Product[MainActivity.products.size()]));
         gridView.setAdapter(productsAdapter);
-        shopAdapter = new ShopAdapter(view.getContext(), shops.toArray(new Shop[shops.size()]));
+        listView = (ListView) view.findViewById(R.id.shop_list_view);
+        shopAdapter = new ShopAdapter(view.getContext(), MainActivity.shops.toArray(new Shop[MainActivity.shops.size()]));
         listView.setAdapter(shopAdapter);
-        progress = new ProgressDialog(getActivity());
-        progress.setTitle("Loading");
-        progress.setMessage("Syncing with Database");
-        progress.setCancelable(false);
-        progress.show();
-
-        try {
-            loadData();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
 
         category = (TextView) view.findViewById(R.id.category);
         sort = (TextView) view.findViewById(R.id.sort);
@@ -125,17 +109,17 @@ public class TabFragment extends Fragment {
 
     }
 
-    private void loadData() throws ExecutionException, InterruptedException {
-        AsyncTask<String, Void, ArrayList<Product>> task = new RetrieveProductsTask().execute("sta god");
-        products = task.get();
-        productsAdapter = new ProductAdapter(getContext(), products.toArray(new Product[products.size()]));
-        gridView.setAdapter(productsAdapter);
 
-        AsyncTask<String, Void, ArrayList<Shop>> task2 = new RetrieveShopsTask().execute("sta god");
-        shops = task2.get();
-        shopAdapter = new ShopAdapter(getContext(), shops.toArray(new Shop[shops.size()]));
-        listView.setAdapter(shopAdapter);
-
-        progress.dismiss();
+    @Override
+    public void onLoad(Object data) {
+        if(data instanceof ProductListDTO){
+            ArrayList<Product> prds = ((ProductListDTO) data).getProducts();
+            productsAdapter = new ProductAdapter(MainActivity.appContext, prds.toArray(new Product[prds.size()]));
+            gridView.setAdapter(productsAdapter);
+        }else if(data instanceof ShopListDTO){
+            ArrayList<Shop> sps = ((ShopListDTO) data).getShops();
+            shopAdapter = new ShopAdapter(MainActivity.appContext, sps.toArray(new Shop[sps.size()]));
+            listView.setAdapter(shopAdapter);
+        }
     }
 }

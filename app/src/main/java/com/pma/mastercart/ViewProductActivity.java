@@ -48,9 +48,11 @@ public class ViewProductActivity  extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.single_product_view);
+
         Intent intent = getIntent();
-        product  = (Product) intent.getSerializableExtra("product");
-        setTitle(product.getName());
+        ArrayList parcelableList  = intent.getParcelableArrayListExtra("product");
+        product = (Product) parcelableList.get(0);
+
         //TODO ovo se ne prenosi
         comments = product.getComments().toArray(new Comment[product.getComments().size()]);
         listView = (ListView) findViewById(R.id.comments_list);
@@ -64,13 +66,13 @@ public class ViewProductActivity  extends AppCompatActivity {
         description.setText(product.getDescription());
         rating = (RatingBar) findViewById(R.id.single_product_rating);
         rating.setRating((float) product.getRating());
+        comments = product.getComments().toArray(new Comment[product.getComments().size()]);
 
         Toolbar back_toolbar = (Toolbar) findViewById(R.id.back_toolbar);
         setSupportActionBar(back_toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        back_toolbar.setTitle(intent.getStringExtra("PRODUCT_NAME"));
+        back_toolbar.setTitle(product.getName());
 
 
         //TODO skinuti pravu sliku

@@ -69,7 +69,7 @@
         android:paddingTop="24dp"
         android:id="@+id/products_grid_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:gravity="center"
         android:layout_marginRight="16dp"
         android:columnWidth="150dp"
@@ -80,7 +80,7 @@
 
     <ListView
         android:id="@+id/shop_list_view"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_width="match_parent">
     </ListView>
 

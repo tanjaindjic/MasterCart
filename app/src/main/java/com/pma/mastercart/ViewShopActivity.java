@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -44,9 +45,14 @@ public class ViewShopActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.single_shop_view);
+
         Intent intent = getIntent();
-        shop = (Shop) intent.getSerializableExtra("shop");
-        setTitle(shop.getName());
+        ArrayList parcelableList = intent.getParcelableArrayListExtra("shop");
+        shop = (Shop) parcelableList.get(0);
+
+        comments = shop.getComments().toArray(new Comment[shop.getComments().size()]);
+        listView = (ListView) findViewById(R.id.shop_comments_list);
+        commentAdapter = new CommentAdapter(this, comments);
         name = (TextView) findViewById(R.id.single_shop_name);
         name.setText(shop.getName());
         address = (TextView) findViewById(R.id.single_shop_address);
@@ -54,17 +60,14 @@ public class ViewShopActivity extends AppCompatActivity {
         rating = (RatingBar) findViewById(R.id.single_shop_rating);
         rating.setRating((float) shop.getRating());
         //TODO ovo se ne prenosi
-        listView = (ListView) findViewById(R.id.shop_comments_list);
-        commentAdapter = new CommentAdapter(this, comments);
+
         listView.setAdapter(commentAdapter);
 
         Toolbar back_toolbar = (Toolbar) findViewById(R.id.back_toolbar);
         setSupportActionBar(back_toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-
-        back_toolbar.setTitle(intent.getStringExtra("SHOP_NAME"));
+        back_toolbar.setTitle(shop.getName());
 
         ImageView pic = (ImageView) findViewById(R.id.single_shop_thumbnail); //TODO ucitati sliku
         pic.setImageResource(R.drawable.ic_shop);

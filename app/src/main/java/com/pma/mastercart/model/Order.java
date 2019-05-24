@@ -1,11 +1,14 @@
 package com.pma.mastercart.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 
 import com.pma.mastercart.model.enums.OrderStatus;
 import com.pma.mastercart.model.enums.OrderType;
 
-public class Order {
+public class Order implements Parcelable {
     private Long id;
     private Date time;
     private OrderStatus orderStatus;
@@ -92,4 +95,48 @@ public class Order {
     public void setBuyer(User buyer) {
         this.buyer = buyer;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this.id);
+        dest.writeLong(this.time != null ? this.time.getTime() : -1);
+        dest.writeInt(this.orderStatus == null ? -1 : this.orderStatus.ordinal());
+        dest.writeInt(this.orderType == null ? -1 : this.orderType.ordinal());
+        dest.writeDouble(this.price);
+        dest.writeParcelable(this.product, flags);
+        dest.writeInt(this.quantity);
+        dest.writeParcelable(this.buyer, flags);
+    }
+
+    protected Order(Parcel in) {
+        this.id = (Long) in.readValue(Long.class.getClassLoader());
+        long tmpTime = in.readLong();
+        this.time = tmpTime == -1 ? null : new Date(tmpTime);
+        int tmpOrderStatus = in.readInt();
+        this.orderStatus = tmpOrderStatus == -1 ? null : OrderStatus.values()[tmpOrderStatus];
+        int tmpOrderType = in.readInt();
+        this.orderType = tmpOrderType == -1 ? null : OrderType.values()[tmpOrderType];
+        this.price = in.readDouble();
+        this.product = in.readParcelable(Product.class.getClassLoader());
+        this.quantity = in.readInt();
+        this.buyer = in.readParcelable(User.class.getClassLoader());
+    }
+
+    public static final Creator<Order> CREATOR = new Creator<Order>() {
+        @Override
+        public Order createFromParcel(Parcel source) {
+            return new Order(source);
+        }
+
+        @Override
+        public Order[] newArray(int size) {
+            return new Order[size];
+        }
+    };
 }

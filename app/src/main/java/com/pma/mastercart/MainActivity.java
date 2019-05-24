@@ -1,6 +1,10 @@
 package com.pma.mastercart;
 /////Set your content view before you call findviewbyId methods.//////
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
@@ -14,7 +18,9 @@ import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,20 +28,29 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.pma.mastercart.adapter.HomePageTabsAdapter;
+import com.pma.mastercart.adapter.ProductAdapter;
+import com.pma.mastercart.adapter.ShopAdapter;
+import com.pma.mastercart.asyncTasks.RetrieveProductsTask;
+import com.pma.mastercart.asyncTasks.RetrieveShopsTask;
 import com.pma.mastercart.model.Comment;
 import com.pma.mastercart.model.Product;
 import com.pma.mastercart.model.Shop;
 import com.pma.mastercart.model.User;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
-    private SearchView searchView;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private FirebaseAuth firebaseAuth;
-    public static String URL = "http://192.168.1.9:8096/";
+    public static String URL = "http://192.168.0.12:8096/";
+    public static ArrayList<Product> products = new ArrayList();
+    public static ArrayList<Shop> shops = new ArrayList();
+    private ProgressDialog progress;
+    private GridView gridView;
+    public static HomePageTabsAdapter adapter;
+    public static Context appContext ;
 
 
     @Override
@@ -44,20 +59,39 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    private void loadData() throws ExecutionException, InterruptedException {
+        AsyncTask<ProgressDialog, Void, ArrayList<Product>> task = new RetrieveProductsTask().execute(progress);
+        products = task.get();
+
+        AsyncTask<String, Void, ArrayList<Shop>> task2 = new RetrieveShopsTask().execute("sta god");
+        shops = task2.get();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-
         setContentView(R.layout.activity_main);
+        appContext = getApplicationContext();
+        progress = new ProgressDialog(this);
+        progress.setTitle("Loading");
+        progress.setMessage("Syncing with Database");
+        progress.setCancelable(false);
+        progress.show();
+
+        try {
+            loadData();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
 
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        HomePageTabsAdapter adapter = new HomePageTabsAdapter(getSupportFragmentManager());
+       viewPager = (ViewPager) findViewById(R.id.viewpager);
+       adapter = new HomePageTabsAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -137,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
                                 startActivity(i);
                                 break;
                             case R.id.nav_logout:
-                                firebaseAuth.signOut();
+                                //firebaseAuth.signOut();
                                 setupNavBar();
                                 break;
                         }
@@ -185,7 +219,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupNavBar() {
-        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        User currentUser = new User(); //TODO ispraviti kad proradi login
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if(currentUser!=null) {
             navigationView.getMenu().findItem(R.id.nav_login).setVisible(false);

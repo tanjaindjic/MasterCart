@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pma.mastercart.AddProductActivity;
 import com.pma.mastercart.EditShopActivity;
@@ -16,6 +17,8 @@ import com.pma.mastercart.MapsActivity;
 import com.pma.mastercart.R;
 import com.pma.mastercart.ViewShopActivity;
 import com.pma.mastercart.model.Shop;
+
+import java.util.ArrayList;
 
 public class ShopAdapter  extends BaseAdapter {
 
@@ -25,10 +28,15 @@ public class ShopAdapter  extends BaseAdapter {
     private ImageButton shop_location;
     private ImageButton add_product;
     private ImageButton edit_shop;
+    private Shop shop;
+    private TextView nameTextView;
+    private TextView locationTextView;
+    private ImageView pic;
 
     public ShopAdapter(Context mContext, Shop[] shops) {
         this.mContext = mContext;
         this.shops = shops;
+
     }
 
     @Override
@@ -48,19 +56,18 @@ public class ShopAdapter  extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final Shop shop = shops[position];
+
+        shop = shops[position];
         if (convertView == null) {
             final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
             convertView = layoutInflater.inflate(R.layout.shop_layout, null);
         }
 
-        final TextView nameTextView = (TextView)convertView.findViewById(R.id.shop_name);
-        final TextView locationTextView = (TextView)convertView.findViewById(R.id.shop_address);
-
+        nameTextView = (TextView)convertView.findViewById(R.id.shop_name);
         nameTextView.setText(shop.getName());
+        locationTextView = (TextView)convertView.findViewById(R.id.shop_address);
         locationTextView.setText(shop.getLocation());
-
-        ImageView pic = (ImageView) convertView.findViewById(R.id.shop_thumbnail); //TODO ucitati sliku
+        pic = (ImageView) convertView.findViewById(R.id.shop_thumbnail); //TODO ucitati sliku
         pic.setImageResource(R.drawable.ic_shop);
 
         shop_details = (ImageButton)convertView.findViewById(R.id.shop_details);
@@ -68,10 +75,12 @@ public class ShopAdapter  extends BaseAdapter {
 
             @Override
             public void onClick(View view) {
-
                 //open new activity to view this product
+
+                ArrayList parcelableList = new ArrayList();
+                parcelableList.add(shops[position]);
                 Intent intent = new Intent(mContext, ViewShopActivity.class);
-                intent.putExtra("shop", shop);
+                intent.putParcelableArrayListExtra("shop", parcelableList);
                 mContext.startActivity(intent);
             }
 
