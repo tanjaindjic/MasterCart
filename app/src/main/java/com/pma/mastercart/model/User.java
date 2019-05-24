@@ -9,6 +9,7 @@ import java.util.List;
 public class User  implements Serializable {
     private Long id;
     private String email;
+    private String password;
     private String firstName;
     private String lastName;
     private String address;
@@ -24,9 +25,10 @@ public class User  implements Serializable {
     public User() {
     }
 
-    public User(Long id, String email, String firstName, String lastName, String address, String phone, Role role, String imageResource, ArrayList<Product> favorites, Wallet wallet, ArrayList<CartItem> cartItems, ArrayList<Order> orders, List<Conversation> conversations) {
+    public User(Long id, String email, String password, String firstName, String lastName, String address, String phone, Role role, String imageResource, ArrayList<Product> favorites, Wallet wallet, ArrayList<CartItem> cartItems, ArrayList<Order> orders, List<Conversation> conversations) {
         this.id = id;
         this.email = email;
+        this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -52,6 +54,10 @@ public class User  implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public String getPassword() {  return password;  }
+
+    public void setPassword(String password) {  this.password = password;   }
 
     public String getFirstName() {
         return firstName;
