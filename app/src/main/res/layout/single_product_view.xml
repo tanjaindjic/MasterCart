@@ -49,7 +49,7 @@
                             android:layout_height="200dp"
                             android:layout_gravity="center_horizontal"
                             android:adjustViewBounds="false"
-                            android:background="@drawable/charger"
+                            android:background="@drawable/ic_charger"
                             android:cropToPadding="false"
                             android:maxWidth="200dp"
                             android:maxHeight="200dp"
@@ -152,7 +152,7 @@
                             android:textSize="16dp" />
 
                         <TextView
-                            android:id="@+id/single_product_category"
+                            android:id="@+id/single_product_category1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="start"

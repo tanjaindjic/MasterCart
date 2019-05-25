@@ -69,7 +69,7 @@ public class ViewProductActivity  extends AppCompatActivity {
         rating = (RatingBar) findViewById(R.id.single_product_rating);
         rating.setRating((float) product.getRating());
         comments = product.getComments().toArray(new Comment[product.getComments().size()]);
-        categoryTextView = (TextView) findViewById(R.id.single_product_category);
+        categoryTextView = (TextView) findViewById(R.id.single_product_category1);
         categoryTextView.setText("Category: " + product.getCategory().getName());
         sizeTextView = (TextView) findViewById(R.id.single_product_size);
         sizeTextView.setText("Size: " + product.getSize());
