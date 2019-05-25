@@ -3,6 +3,7 @@ package com.pma.mastercart;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -92,6 +93,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     Intent i = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(i);
                 }
+                else{
+                    Toast.makeText(this, "Wrong credentials", Toast.LENGTH_SHORT).show();
+                }
             } catch (ExecutionException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
@@ -101,6 +105,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private boolean login() throws ExecutionException, InterruptedException {
+        Thread.sleep(3000);
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
         if(TextUtils.isEmpty(email)){
@@ -111,21 +116,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Toast.makeText(this, "Please enter your password.", Toast.LENGTH_SHORT).show();
             return false;
         }
-        progressDialog.setMessage("Logging In");
-        progressDialog.show();
+
 
         UserDTO userDTO = new UserDTO(email,password);
-        AsyncTask<UserDTO, Void, UserDTO> task = new LoginUserTask().execute(userDTO);
+        AsyncTask<UserDTO, Void, UserDTO> task = new LoginUserTask(this).execute(userDTO);
         // The URL for making the POST request
         UserDTO user= task.get();
         if(user==null){
+            progressDialog.dismiss();
             Toast.makeText(this, "Wrong credentials, log in failed", Toast.LENGTH_SHORT).show();
             return false;
         }
-        Log.d("LOG", user.getPassword());
 
-        progressDialog.dismiss();
-        return true;
+        SharedPreferences sharedpreferences = getSharedPreferences(MainActivity.PREFS, 0);
+        if (sharedpreferences.contains("AuthToken")) {
+            return true;
+        }
+
+        return false;
 
     }
 }

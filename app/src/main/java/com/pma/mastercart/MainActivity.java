@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -30,9 +31,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.pma.mastercart.adapter.HomePageTabsAdapter;
 import com.pma.mastercart.adapter.ProductAdapter;
 import com.pma.mastercart.adapter.ShopAdapter;
+import com.pma.mastercart.asyncTasks.GetUserTask;
+import com.pma.mastercart.asyncTasks.LoginUserTask;
 import com.pma.mastercart.asyncTasks.RetrieveProductsTask;
 import com.pma.mastercart.asyncTasks.RetrieveShopsTask;
 import com.pma.mastercart.model.Comment;
+import com.pma.mastercart.model.DTO.UserDTO;
 import com.pma.mastercart.model.Product;
 import com.pma.mastercart.model.Shop;
 import com.pma.mastercart.model.User;
@@ -44,13 +48,14 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    public static String URL = "http://192.168.0.12:8096/";
+    public static String URL = "http://192.168.1.9:8096/";
     public static ArrayList<Product> products = new ArrayList();
     public static ArrayList<Shop> shops = new ArrayList();
     private ProgressDialog progress;
     private GridView gridView;
     public static HomePageTabsAdapter adapter;
-    public static Context appContext ;
+    public static Context appContext;
+    public static final String PREFS= "MasterCartPrefs";
 
 
     @Override
@@ -219,7 +224,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupNavBar() {
-        User currentUser = new User(); //TODO ispraviti kad proradi login
+        User currentUser = null; //TODO ispraviti kad proradi login
+        SharedPreferences sharedpreferences = getSharedPreferences(MainActivity.PREFS, 0);
+        if (sharedpreferences.contains("AuthToken")) {
+            AsyncTask<String, Void, User> task = new GetUserTask().execute(sharedpreferences.getString("AuthToken", null));
+            // The URL for making the POST request
+            try {
+                User user= task.get();
+                currentUser = user;
+            } catch (InterruptedException e) {
+                currentUser = null;
+            } catch (ExecutionException e) {
+                currentUser = null;
+            }
+        }
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if(currentUser!=null) {
             navigationView.getMenu().findItem(R.id.nav_login).setVisible(false);

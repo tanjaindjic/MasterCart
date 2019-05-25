@@ -1,15 +1,11 @@
 package com.pma.mastercart.asyncTasks;
 
-import android.app.Application;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.widget.EditText;
 
-import com.pma.mastercart.LoginActivity;
 import com.pma.mastercart.MainActivity;
 import com.pma.mastercart.model.DTO.UserDTO;
+import com.pma.mastercart.model.User;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -20,31 +16,19 @@ import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
-public class LoginUserTask extends AsyncTask<UserDTO, Void, UserDTO> {
-
-    private ProgressDialog pd;
-    private Context context;
-
-    public LoginUserTask(Context context){
-        this.context = context;
-        pd = new ProgressDialog(context);
-    }
-    @Override
-    protected void onPreExecute() {
-        pd.setMessage("Processing loggin...");
-        pd.show();
-    }
+public class GetUserTask extends AsyncTask<String, Void, User> {
 
     @Override
-    protected UserDTO doInBackground(UserDTO... userDTO) {
+    protected User doInBackground(String... token) {
         HttpHeaders requestHeaders = new HttpHeaders();
 
         // Sending a JSON or XML object i.e. "application/json" or "application/xml"
         requestHeaders.setContentType(MediaType.APPLICATION_JSON);
+        requestHeaders.add("Authorization", token[0]);
 
         // Populate the Message object to serialize and headers in an
         // HttpEntity object to use for the request
-        HttpEntity<UserDTO> requestEntity = new HttpEntity<UserDTO>(userDTO[0]);
+        HttpEntity<String> requestEntity = new HttpEntity<String>(requestHeaders);
 
         // Create a new RestTemplate instance
         RestTemplate restTemplate = new RestTemplate();
@@ -53,23 +37,12 @@ public class LoginUserTask extends AsyncTask<UserDTO, Void, UserDTO> {
 
 
         // Make the network request, posting the message, expecting a String in response from the server
-        ResponseEntity<UserDTO> response = restTemplate.exchange(MainActivity.URL+"login", HttpMethod.POST, requestEntity,
-                UserDTO.class);
+        ResponseEntity<User> response = restTemplate.exchange(MainActivity.URL+"loggedUser", HttpMethod.GET, requestEntity,
+                User.class);
         if(response.getBody()==null){
-            pd.dismiss();
             return null;
         }
-        UserDTO u = response.getBody();
-
-        SharedPreferences pref = context.getSharedPreferences(MainActivity.PREFS, 0); // 0 - for private mode
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putString("AuthToken", u.getPassword());
-        editor.apply();
-        editor.commit();
-        pd.dismiss();
+        User u = response.getBody();
         return u;
     }
-
-
-
 }
