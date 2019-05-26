@@ -76,8 +76,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         loginButton.setOnClickListener(this);
         editTextEmail = (EditText) findViewById(R.id.login_email);
         editTextPassword = (EditText) findViewById(R.id.login_password);
-
-        progressDialog = new ProgressDialog(this);
     }
 
     @Override
@@ -105,7 +103,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private boolean login() throws ExecutionException, InterruptedException {
-        Thread.sleep(3000);
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
         if(TextUtils.isEmpty(email)){
@@ -119,7 +116,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
         UserDTO userDTO = new UserDTO(email,password);
-        AsyncTask<UserDTO, Void, UserDTO> task = new LoginUserTask(this).execute(userDTO);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Loading");
+        progressDialog.setMessage("Syncing with Database");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        Object[] objects = new Object[]{userDTO, progressDialog};
+        AsyncTask<Object, Void, UserDTO> task = new LoginUserTask(this).execute(objects);
         // The URL for making the POST request
         UserDTO user= task.get();
         if(user==null){
