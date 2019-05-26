@@ -1,11 +1,9 @@
 package com.pma.mastercart.asyncTasks;
 
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
 import com.pma.mastercart.MainActivity;
 import com.pma.mastercart.model.Category;
-import com.pma.mastercart.model.DTO.UserDTO;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -18,23 +16,20 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-public class AddCategoryTask extends AsyncTask<String, Void, Category> {
-
-
+public class EditCategoryTask extends AsyncTask<Object, Void, Category> {
     @Override
-    protected Category doInBackground(String... strings) {
+    protected Category doInBackground(Object... objects) {
         HttpHeaders requestHeaders = new HttpHeaders();
-        String token = strings[1];
 
 
         // Sending a JSON or XML object i.e. "application/json" or "application/xml"
         requestHeaders.setContentType(MediaType.APPLICATION_JSON);
-        requestHeaders.add("Authorization", token);
+        requestHeaders.add("Authorization", objects[1].toString());
 
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
 
         //body.add("name", strings[0]);
-        HttpEntity<?> httpEntity = new HttpEntity<Object>(strings[0], requestHeaders);
+        HttpEntity<?> httpEntity = new HttpEntity<Object>(objects[0], requestHeaders);
 
         // Create a new RestTemplate instance
         RestTemplate restTemplate = new RestTemplate();
@@ -43,7 +38,7 @@ public class AddCategoryTask extends AsyncTask<String, Void, Category> {
 
 
         // Make the network request, posting the message, expecting a String in response from the server
-        ResponseEntity<Category> response = restTemplate.exchange(MainActivity.URL+"category", HttpMethod.POST, httpEntity, Category.class);
+        ResponseEntity<Category> response = restTemplate.exchange(MainActivity.URL+"category", HttpMethod.PUT, httpEntity, Category.class);
         if(response.getBody()==null){
             return null;
         }
