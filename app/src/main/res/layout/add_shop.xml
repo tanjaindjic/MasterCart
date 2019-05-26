@@ -29,8 +29,8 @@
 
         </android.support.v7.widget.Toolbar>
 
-
         <EditText
+            android:id="@+id/editTextNameShop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Name"
@@ -41,6 +41,7 @@
             android:paddingLeft="15dp"/>
 
         <EditText
+            android:id="@+id/editLocationShop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Location"
@@ -51,6 +52,7 @@
             android:paddingLeft="15dp"/>
 
         <EditText
+            android:id="@+id/editPhoneShop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Phone"
@@ -61,6 +63,7 @@
             android:paddingLeft="15dp"/>
 
         <EditText
+            android:id="@+id/editEmailShop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Email"
@@ -70,12 +73,36 @@
             android:paddingRight="15dp"
             android:paddingLeft="15dp"/>
 
+        <EditText
+            android:id="@+id/editLatitudeShop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Latitude"
+            android:textSize="20dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:paddingRight="15dp"
+            android:paddingLeft="15dp"/>
+
+        <EditText
+            android:id="@+id/editLongitudeShop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Longitude"
+            android:textSize="20dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:paddingRight="15dp"
+            android:paddingLeft="15dp"/>
+
         <ImageView
+            android:id="@+id/imageViewShop"
             android:layout_width="95dp"
             android:layout_height="95dp"
             android:src="@drawable/ic_dummy"/>
 
         <Button
+            android:id="@+id/btnAddPictureShop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Choose"/>
@@ -86,6 +113,7 @@
             android:layout_gravity="bottom">
 
             <Button
+                android:id="@+id/btnAddShop"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
