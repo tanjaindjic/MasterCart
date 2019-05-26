@@ -1,8 +1,13 @@
 package com.pma.mastercart;
 
+import com.pma.mastercart.asyncTasks.AddCategoryTask;
+import com.pma.mastercart.asyncTasks.LoginUserTask;
 import com.pma.mastercart.model.Category;
+import com.pma.mastercart.model.DTO.UserDTO;
 
 
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +25,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.concurrent.ExecutionException;
 
 
 public class AddCategoryActivity extends AppCompatActivity implements View.OnClickListener {
@@ -39,14 +46,24 @@ public class AddCategoryActivity extends AppCompatActivity implements View.OnCli
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         addCategoryButton = (Button) findViewById(R.id.btnAddCategory);
+        addCategoryButton.setOnClickListener(this);
         editTextNameCategory = (EditText) findViewById(R.id.editTextNameCategory);
     }
 
 
     @Override
     public void onClick(View view) {
+        int response = 2;
+        try {
+            response = addCategory();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         if(view==addCategoryButton){
-            switch(addCategory()){
+            switch(response){
                 case 0:
                     editTextNameCategory.setText("");
                     Toast.makeText(this, "Category successfully added.", Toast.LENGTH_SHORT).show();
@@ -64,7 +81,7 @@ public class AddCategoryActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
-    private int addCategory(){
+    private int addCategory() throws ExecutionException, InterruptedException {
 
         String nazivKategorije = editTextNameCategory.getText().toString().trim();
 
@@ -72,20 +89,12 @@ public class AddCategoryActivity extends AppCompatActivity implements View.OnCli
             editTextNameCategory.setError("can not be empty");
             return 2;
         }
+        SharedPreferences pref = this.getSharedPreferences(MainActivity.PREFS, 0); // 0 - for private mode
+        String[] strings = {nazivKategorije, pref.getString("AuthToken", "")};
 
-        RestTemplate restTemplate = new RestTemplate();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
-        MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
-        map.add("name", editTextNameCategory.getText().toString());
-
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
-
-        ResponseEntity<Category> response = restTemplate.postForEntity(MainActivity.URL+"category", request, Category.class);
-
-        if(response==null || (!response.getStatusCode().equals(HttpStatus.OK)))
+        AsyncTask<String, Void, Category> task = new AddCategoryTask().execute(strings);
+        Category response = task.get();
+        if(response==null)
             return 1;
         return 0;
     }
