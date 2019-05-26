@@ -3,6 +3,7 @@ package com.pma.mastercart.asyncTasks;
 import android.app.Application;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.widget.EditText;
@@ -22,19 +23,21 @@ import org.springframework.web.client.RestTemplate;
 
 public class LoginUserTask extends AsyncTask<UserDTO, Void, UserDTO> {
 
-    private ProgressDialog pd;
+    private ProgressDialog pDialog;
     private Context context;
 
     public LoginUserTask(Context context){
         this.context = context;
-        pd = new ProgressDialog(context);
     }
     @Override
     protected void onPreExecute() {
-        pd.setMessage("Processing loggin...");
-        pd.show();
+        super.onPreExecute();
+        pDialog = new ProgressDialog(context);
+        pDialog.setMessage("Attempting login...");
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(true);
+        pDialog.show();
     }
-
     @Override
     protected UserDTO doInBackground(UserDTO... userDTO) {
         HttpHeaders requestHeaders = new HttpHeaders();
@@ -56,7 +59,6 @@ public class LoginUserTask extends AsyncTask<UserDTO, Void, UserDTO> {
         ResponseEntity<UserDTO> response = restTemplate.exchange(MainActivity.URL+"login", HttpMethod.POST, requestEntity,
                 UserDTO.class);
         if(response.getBody()==null){
-            pd.dismiss();
             return null;
         }
         UserDTO u = response.getBody();
@@ -66,10 +68,12 @@ public class LoginUserTask extends AsyncTask<UserDTO, Void, UserDTO> {
         editor.putString("AuthToken", u.getPassword());
         editor.apply();
         editor.commit();
-        pd.dismiss();
         return u;
     }
 
-
-
+    @Override
+    protected void onPostExecute(UserDTO userDTO){
+        pDialog.dismiss();
+        pDialog.cancel();
+    }
 }

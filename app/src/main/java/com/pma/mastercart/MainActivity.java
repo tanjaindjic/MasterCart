@@ -40,6 +40,7 @@ import com.pma.mastercart.model.DTO.UserDTO;
 import com.pma.mastercart.model.Product;
 import com.pma.mastercart.model.Shop;
 import com.pma.mastercart.model.User;
+import com.pma.mastercart.model.enums.Role;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
@@ -176,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
                                 startActivity(i);
                                 break;
                             case R.id.nav_logout:
-                                //firebaseAuth.signOut();
+                                logOut();
                                 setupNavBar();
                                 break;
                         }
@@ -216,6 +217,15 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
+    private void logOut() {
+        SharedPreferences sharedpreferences = getSharedPreferences(PREFS, 0);
+        if (sharedpreferences.contains("AuthToken")) {
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+            editor.clear();
+            editor.commit();
+        }
+    }
+
 
     @Override
     public void onResume(){
@@ -240,17 +250,42 @@ public class MainActivity extends AppCompatActivity {
         }
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if(currentUser!=null) {
+
             navigationView.getMenu().findItem(R.id.nav_login).setVisible(false);
-            navigationView.getMenu().findItem(R.id.nav_add_category).setVisible(true);
-            navigationView.getMenu().findItem(R.id.nav_edit_category).setVisible(true);
-            navigationView.getMenu().findItem(R.id.nav_add_shop).setVisible(true);
-            navigationView.getMenu().findItem(R.id.nav_cart).setVisible(true);
-            navigationView.getMenu().findItem(R.id.nav_orders).setVisible(true);
-            navigationView.getMenu().findItem(R.id.nav_favorite).setVisible(true);
             navigationView.getMenu().findItem(R.id.nav_inbox).setVisible(true);
             navigationView.getMenu().findItem(R.id.nav_profile).setVisible(true);
-            navigationView.getMenu().findItem(R.id.nav_wallet).setVisible(true);
             navigationView.getMenu().findItem(R.id.nav_logout).setVisible(true);
+
+            if(currentUser.getRole().equals(Role.ADMIN)){
+                navigationView.getMenu().findItem(R.id.nav_add_category).setVisible(true);
+                navigationView.getMenu().findItem(R.id.nav_edit_category).setVisible(true);
+                navigationView.getMenu().findItem(R.id.nav_add_shop).setVisible(false);
+                navigationView.getMenu().findItem(R.id.nav_cart).setVisible(false);
+                navigationView.getMenu().findItem(R.id.nav_orders).setVisible(false);
+                navigationView.getMenu().findItem(R.id.nav_favorite).setVisible(false);
+                navigationView.getMenu().findItem(R.id.nav_wallet).setVisible(false);
+
+            }
+            else if(currentUser.getRole().equals(Role.KUPAC)){
+                navigationView.getMenu().findItem(R.id.nav_add_category).setVisible(false);
+                navigationView.getMenu().findItem(R.id.nav_edit_category).setVisible(false);
+                navigationView.getMenu().findItem(R.id.nav_add_shop).setVisible(true);
+                navigationView.getMenu().findItem(R.id.nav_cart).setVisible(true);
+                navigationView.getMenu().findItem(R.id.nav_orders).setVisible(true);
+                navigationView.getMenu().findItem(R.id.nav_favorite).setVisible(true);
+                navigationView.getMenu().findItem(R.id.nav_wallet).setVisible(true);
+
+            }
+            else if(currentUser.getRole().equals(Role.PRODAVAC)){
+                navigationView.getMenu().findItem(R.id.nav_add_category).setVisible(false);
+                navigationView.getMenu().findItem(R.id.nav_edit_category).setVisible(false);
+                navigationView.getMenu().findItem(R.id.nav_add_shop).setVisible(false);
+                navigationView.getMenu().findItem(R.id.nav_cart).setVisible(false);
+                navigationView.getMenu().findItem(R.id.nav_orders).setVisible(false);
+                navigationView.getMenu().findItem(R.id.nav_favorite).setVisible(false);
+                navigationView.getMenu().findItem(R.id.nav_wallet).setVisible(false);
+
+            }
         }else {
             navigationView.getMenu().findItem(R.id.nav_login).setVisible(true);
             navigationView.getMenu().findItem(R.id.nav_add_category).setVisible(false);
