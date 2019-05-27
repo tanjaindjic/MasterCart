@@ -5,6 +5,7 @@ import java.io.Serializable;
 
 public class ShopDTO implements Serializable {
 
+    private String id;
     private String name;
     private String imageResource;
     private String location;
@@ -16,7 +17,8 @@ public class ShopDTO implements Serializable {
     public ShopDTO() {
     }
 
-    public ShopDTO(String name, String imageResource, String location, String lat, String lng, String phone, String email) {
+    public ShopDTO(String id,String name, String imageResource, String location, String lat, String lng, String phone, String email) {
+        this.id = id;
         this.name = name;
         this.imageResource = imageResource;
         this.location = location;
@@ -25,6 +27,10 @@ public class ShopDTO implements Serializable {
         this.phone = phone;
         this.email = email;
     }
+
+    public String getId(){return id;}
+
+    public void setId(String id){this.id = id;}
 
     public String getName() {
         return name;
