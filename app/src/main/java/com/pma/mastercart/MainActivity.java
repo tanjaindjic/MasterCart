@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    public static String URL = "http://192.168.1.9:8096/";
+    public static String URL = "http://192.168.0.11:8096/";
     public static ArrayList<Product> products = new ArrayList();
     public static ArrayList<Shop> shops = new ArrayList();
     private ProgressDialog progress;
@@ -291,7 +291,7 @@ public class MainActivity extends AppCompatActivity {
             navigationView.getMenu().findItem(R.id.nav_login).setVisible(true);
             navigationView.getMenu().findItem(R.id.nav_add_category).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_edit_category).setVisible(false);
-            navigationView.getMenu().findItem(R.id.nav_add_shop).setVisible(false);
+            navigationView.getMenu().findItem(R.id.nav_add_shop).setVisible(true);
             navigationView.getMenu().findItem(R.id.nav_cart).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_orders).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_favorite).setVisible(false);
