@@ -31,7 +31,7 @@
         android:layout_marginRight="24dp"
         android:layout_marginTop="24dp">
 
-        //SLIKA PROIZVODA
+        //SLIKA KORISNIKA
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -98,26 +98,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_edit"/>
-
-                <LinearLayout
-                    android:id="@+id/edit_profile_name_layout"
-                    android:layout_below="@id/profile_name_label"
-                    android:layout_marginTop="8dp"
-                    android:visibility="gone"
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                        <EditText
-                            android:id="@+id/new_profile_name"
-                            android:layout_width="0dp"
-                            android:layout_weight="8"
-                            android:layout_height="wrap_content" />
-                        <Button
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="SAVE"/>
-                </LinearLayout>
             </RelativeLayout>
 
 
@@ -158,26 +138,6 @@
                     android:layout_alignParentRight="true"
                     android:background="@android:color/transparent"
                     android:src="@drawable/ic_edit"/>
-
-                <LinearLayout
-                    android:id="@+id/edit_profile_lastname_layout"
-                    android:layout_below="@id/profile_lastname_label"
-                    android:layout_marginTop="8dp"
-                    android:visibility="gone"
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:id="@+id/new_profile_lastname"
-                        android:layout_width="0dp"
-                        android:layout_weight="8"
-                        android:layout_height="wrap_content" />
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="SAVE"/>
-                </LinearLayout>
             </RelativeLayout>
 
             <RelativeLayout
@@ -218,25 +178,45 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_edit"/>
 
-                <LinearLayout
-                    android:id="@+id/edit_profile_address_layout"
-                    android:layout_below="@id/profile_address_label"
-                    android:layout_marginTop="8dp"
-                    android:visibility="gone"
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+            </RelativeLayout>
 
-                    <EditText
-                        android:id="@+id/new_profile_address"
-                        android:layout_width="0dp"
-                        android:layout_weight="8"
-                        android:layout_height="wrap_content" />
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="SAVE"/>
-                </LinearLayout>
+            <RelativeLayout
+                android:layout_marginTop="8dp"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <TextView
+                    android:id="@+id/profile_phone_label"
+                    android:layout_marginTop="8dp"
+                    android:textSize="16dp"
+                    android:text="Address:"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
+                    android:layout_gravity="start"
+                    android:gravity="start"/>
+
+                <TextView
+                    android:id="@+id/profile_phone"
+                    android:layout_toRightOf="@id/profile_phone_label"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:textSize="16dp"
+                    android:textColor="@android:color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="065/112-344"
+                    android:layout_gravity="start"
+                    android:gravity="start"/>
+
+                <ImageButton
+                    android:id="@+id/edit_profile_phone_button"
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:background="@android:color/transparent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_edit"/>
 
             </RelativeLayout>
 
@@ -271,33 +251,6 @@
                     android:gravity="start"/>
 
 
-                <ImageButton
-                    android:id="@+id/edit_profile_email_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:background="@android:color/transparent"
-                    android:src="@drawable/ic_edit"/>
-
-                <LinearLayout
-                    android:id="@+id/edit_profile_email_layout"
-                    android:layout_below="@id/profile_email_label"
-                    android:layout_marginTop="8dp"
-                    android:visibility="gone"
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:id="@+id/new_profile_email"
-                        android:layout_width="0dp"
-                        android:layout_weight="8"
-                        android:layout_height="wrap_content" />
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="SAVE"/>
-                </LinearLayout>
             </RelativeLayout>
 
             <RelativeLayout
@@ -323,6 +276,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="8dp"
                     android:textSize="16dp"
+                    android:inputType="textPassword"
                     android:textColor="@android:color/black"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -339,29 +293,22 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_edit"/>
 
-                <LinearLayout
-                    android:id="@+id/edit_profile_password_layout"
-                    android:layout_below="@id/profile_password_label"
-                    android:layout_marginTop="8dp"
-                    android:visibility="gone"
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_marginTop="8dp"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp"
+                android:paddingTop="30dp">
 
-                    <EditText
-                        android:id="@+id/new_profile_password"
-                        android:layout_width="0dp"
-                        android:layout_weight="8"
-                        android:inputType="textPassword"
-                        android:layout_height="wrap_content" />
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="SAVE"/>
-                </LinearLayout>
+                <Button android:id="@+id/btn_save_profile_changes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:text="SAVE CHANGES"/>
 
             </RelativeLayout>
-
 
 
 
