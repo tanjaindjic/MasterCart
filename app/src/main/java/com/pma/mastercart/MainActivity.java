@@ -14,15 +14,19 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Spinner;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,10 +35,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.pma.mastercart.adapter.HomePageTabsAdapter;
 import com.pma.mastercart.adapter.ProductAdapter;
 import com.pma.mastercart.adapter.ShopAdapter;
+import com.pma.mastercart.asyncTasks.GetCategoriesTask;
 import com.pma.mastercart.asyncTasks.GetUserTask;
 import com.pma.mastercart.asyncTasks.LoginUserTask;
 import com.pma.mastercart.asyncTasks.RetrieveProductsTask;
 import com.pma.mastercart.asyncTasks.RetrieveShopsTask;
+import com.pma.mastercart.model.Category;
 import com.pma.mastercart.model.Comment;
 import com.pma.mastercart.model.DTO.UserDTO;
 import com.pma.mastercart.model.Product;
@@ -43,6 +49,7 @@ import com.pma.mastercart.model.User;
 import com.pma.mastercart.model.enums.Role;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
@@ -57,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
     public static HomePageTabsAdapter adapter;
     public static Context appContext;
     public static final String PREFS= "MasterCartPrefs";
+    private Spinner categorySpinner;
+    private ArrayList<Category> categs;
 
 
     @Override
@@ -126,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
 
         final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         setupNavBar();
@@ -216,6 +226,7 @@ public class MainActivity extends AppCompatActivity {
                 }
         );
     }
+
 
     private void logOut() {
         SharedPreferences sharedpreferences = getSharedPreferences(PREFS, 0);
