@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
@@ -8,11 +8,7 @@
     android:focusableInTouchMode="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="fill"
-            android:orientation="vertical" >
+
 
         //BACK TOOLBAR NA VRHU
         <android.support.v7.widget.Toolbar
@@ -220,22 +216,22 @@
             android:textSize="16dp"
             android:text="Comments:"/>
 
-        <ListView
-            android:id="@+id/comments_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/comments_text"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginLeft="0dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginEnd="0dp"
-            android:animationCache="true"
-            android:choiceMode="none"
-            android:fadeScrollbars="true">
+                <ListView
+                    android:id="@+id/comments_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/comments_text"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="0dp"
+                    android:animationCache="true"
+                    android:choiceMode="none"
+                    android:fadeScrollbars="true">
 
-        </ListView>
+                </ListView>
 
                 <LinearLayout
                     android:id="@+id/layout_AddComment"
@@ -266,8 +262,4 @@
                             android:text="Send"></Button>
                 </LinearLayout>
 
-        </LinearLayout>
-
-
-
-</ScrollView >
+</RelativeLayout>

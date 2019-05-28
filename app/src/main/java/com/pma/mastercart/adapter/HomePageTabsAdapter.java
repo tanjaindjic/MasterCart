@@ -3,10 +3,11 @@ package com.pma.mastercart.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.pma.mastercart.TabFragment;
 
-public class HomePageTabsAdapter extends FragmentPagerAdapter {
+public class HomePageTabsAdapter extends FragmentStatePagerAdapter {
 
     private String title[] = {"Products", "Shops"};
 

@@ -69,25 +69,10 @@ public class ViewProductActivity  extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.single_product_view);
 
         Intent intent = getIntent();
-        if (intent.hasExtra("PRODUCT_ID")) {
-            id = (Long) intent.getLongExtra("PRODUCT_ID", 0);
-            AsyncTask<Long, Void, Product> task = new GetProductTask().execute(id);
-            // The URL for making the POST request
-            try {
-                product = task.get();
-                if(product==null){
-                    finish();
-                }
-            } catch (InterruptedException e) {
-            } catch (ExecutionException e) {
-            }
-        }
-        else{
-            finish();
-        }
-
-        //TODO ovo se ne prenosi
-        comments = product.getComments().toArray(new Comment[0]);
+        ArrayList parcelableList  = intent.getParcelableArrayListExtra("product");
+        product = (Product) parcelableList.get(0);
+        setTitle(product.getName());
+        comments = product.getComments().toArray(new Comment[product.getComments().size()]);
         listView = (ListView) findViewById(R.id.comments_list);
         commentAdapter = new CommentAdapter(this, comments);
         listView.setAdapter(commentAdapter);

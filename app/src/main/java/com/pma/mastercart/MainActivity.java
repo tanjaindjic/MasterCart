@@ -59,8 +59,8 @@ import java.util.concurrent.ExecutionException;
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private TabLayout tabLayout;
-    private ViewPager viewPager;
-    public static String URL = "http://192.168.1.9:8096/";
+    public static ViewPager viewPager;
+    public static String URL = "http://192.168.0.12:8096/";
     public static ArrayList<Product> products = new ArrayList();
     public static ArrayList<Shop> shops = new ArrayList();
     private ProgressDialog progress;
@@ -93,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         appContext = getApplicationContext();
         progress = new ProgressDialog(this);
         progress.setTitle("Loading");
@@ -111,10 +113,9 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
 
-       viewPager = (ViewPager) findViewById(R.id.viewpager);
-       adapter = new HomePageTabsAdapter(getSupportFragmentManager());
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        adapter = new HomePageTabsAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
-
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
@@ -231,6 +232,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
+
+
     }
 
 
@@ -326,7 +329,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        /*Toast.makeText(this, "Selected Item: " +item.getTitle(), Toast.LENGTH_SHORT).show();*/
         switch (item.getItemId()) {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);

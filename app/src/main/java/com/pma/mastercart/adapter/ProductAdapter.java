@@ -90,7 +90,9 @@ public class ProductAdapter extends BaseAdapter {
             public void onClick(View view) {
                 //open new activity to view this product
                 Intent intent = new Intent(mContext, ViewProductActivity.class);
-                intent.putExtra("PRODUCT_ID", products[position].getId()); //int
+                ArrayList parcelableList = new ArrayList();
+                parcelableList.add(products[position]);
+                intent.putParcelableArrayListExtra("product", parcelableList);
                 mContext.startActivity(intent);
             }
 

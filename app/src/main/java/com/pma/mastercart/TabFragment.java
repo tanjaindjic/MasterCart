@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.pma.mastercart.adapter.CategoryAdapter;
 import com.pma.mastercart.adapter.OnLoadDataListener;
 import com.pma.mastercart.adapter.ProductAdapter;
+import com.pma.mastercart.asyncTasks.CategorySortTask;
 import com.pma.mastercart.asyncTasks.GetCategoriesTask;
 import com.pma.mastercart.asyncTasks.RetrieveProductsTask;
 import com.pma.mastercart.asyncTasks.RetrieveShopsTask;
@@ -47,12 +49,14 @@ public class TabFragment extends Fragment implements OnLoadDataListener {
     private Spinner category_spinner;
     private Spinner sort_spinner;
     private Spinner sort_spinner2;
+    private ArrayList<Product> products = new ArrayList<>();
     private ProductAdapter productsAdapter;
     public static GridView gridView;
     public static ListView listView;
     private ShopAdapter shopAdapter;
-    private ArrayList<Category> categs;
+    public static ArrayList<Category> categs;
     private CategoryAdapter categoryAdapter;
+    private ArrayList<Shop> shops = new ArrayList<>();
 
 
     public static Fragment getInstance(int position) {
@@ -132,21 +136,32 @@ public class TabFragment extends Fragment implements OnLoadDataListener {
         categs = task.get();
 
         List<String> vrednosti = new ArrayList<String>();
-        vrednosti.add("ALL");
         for(Category c0 : categs){
             vrednosti.add(c0.getName());
         }
-                //(this, android.R.layout.simple_spinner_item, vrednosti);
         categoryAdapter = new CategoryAdapter(getContext(), android.R.layout.simple_spinner_item, vrednosti);
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         category_spinner.setAdapter(categoryAdapter);
 
         category_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
-            //TODO: na odabir kateogrije u spineru, prometiti prikaz proizvoda u skladu sa odabranom kategorijom
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
+                products = new ArrayList<>();
+                if(!parent.getItemAtPosition(position).toString().equals(TabFragment.categs.get(0).getName())){
+
+                    for(Product p : MainActivity.products)
+                        if(p.getCategory().getName().equals(parent.getItemAtPosition(position).toString()))
+                            products.add(p);
+
+                }else
+                    products = MainActivity.products;
+
+                Toast.makeText(view.getContext(), Integer.toString(products.size()), Toast.LENGTH_SHORT).show();
+                productsAdapter.notifyDataSetChanged();
+                productsAdapter = new ProductAdapter(MainActivity.appContext, products.toArray(new Product[products.size()]));
+                gridView.setAdapter(productsAdapter);
             }
 
             @Override
@@ -158,13 +173,15 @@ public class TabFragment extends Fragment implements OnLoadDataListener {
     @Override
     public void onLoad(Object data) {
         if(data instanceof ProductListDTO){
-            ArrayList<Product> prds = ((ProductListDTO) data).getProducts();
-            productsAdapter = new ProductAdapter(MainActivity.appContext, prds.toArray(new Product[prds.size()]));
+            products = ((ProductListDTO) data).getProducts();
+            productsAdapter = new ProductAdapter(MainActivity.appContext, products.toArray(new Product[products.size()]));
             gridView.setAdapter(productsAdapter);
+
         }else if(data instanceof ShopListDTO){
-            ArrayList<Shop> sps = ((ShopListDTO) data).getShops();
-            shopAdapter = new ShopAdapter(MainActivity.appContext, sps.toArray(new Shop[sps.size()]));
+            shops = ((ShopListDTO) data).getShops();
+            shopAdapter = new ShopAdapter(MainActivity.appContext, shops.toArray(new Shop[shops.size()]));
             listView.setAdapter(shopAdapter);
+
         }
     }
 }
