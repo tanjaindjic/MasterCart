@@ -175,7 +175,6 @@ public class ViewProductActivity  extends AppCompatActivity implements View.OnCl
                 if(done!=null) {
                     product.getComments().add(done);
                     commentAdapter.updateResults((ArrayList<Comment>) product.getComments());
-                    ProductAdapter.updateResults();
                     p.add(product);
                     getIntent().removeExtra("product");
                     getIntent().putParcelableArrayListExtra("product", p);
