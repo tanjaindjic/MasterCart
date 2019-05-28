@@ -2,29 +2,41 @@ package com.pma.mastercart.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.pma.mastercart.MainActivity;
 import com.pma.mastercart.R;
 import com.pma.mastercart.ViewProductActivity;
+import com.pma.mastercart.asyncTasks.AddToCartTask;
+import com.pma.mastercart.asyncTasks.GetUserTask;
+import com.pma.mastercart.asyncTasks.RemoveFromFavs;
 import com.pma.mastercart.model.Product;
+import com.pma.mastercart.model.User;
+
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class FavoritesAdapter  extends BaseAdapter {
 
     private final Context mContext;
-    private final Product[] products;
+    private final List<Product> products;
     private ImageButton product_details;
     private ImageButton delete_favorite;
     private ImageButton add_cart;
+    private RatingBar ratingBar;
 
     // 1
-    public FavoritesAdapter(Context context, Product[] products) {
+    public FavoritesAdapter(Context context, List<Product> products) {
         this.mContext = context;
         this.products = products;
     }
@@ -32,7 +44,7 @@ public class FavoritesAdapter  extends BaseAdapter {
     // 2
     @Override
     public int getCount() {
-        return products.length;
+        return products.size();
     }
 
     // 3
@@ -50,7 +62,7 @@ public class FavoritesAdapter  extends BaseAdapter {
     // 5
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final Product product = products[position];
+        final Product product = products.get(position);
         if (convertView == null) {
             final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
             convertView = layoutInflater.inflate(R.layout.favorites_layout, null);
@@ -59,6 +71,9 @@ public class FavoritesAdapter  extends BaseAdapter {
         final ImageView imageView = (ImageView)convertView.findViewById(R.id.favorite_product_thumbnail);
         final TextView nameTextView = (TextView)convertView.findViewById(R.id.favorite_product_name);
         final TextView priceTextView = (TextView)convertView.findViewById(R.id.favorite_product_price);
+        ratingBar = (RatingBar) convertView.findViewById(R.id.favorite_product_rating);
+        double rating = products.get(position).getRating();
+        ratingBar.setRating((float) rating);
 
         //imageView.setImageResource(product.getImageResource()); TODO ucitati sliku, ImageResource je path do slike
         nameTextView.setText(product.getName());
@@ -74,10 +89,8 @@ public class FavoritesAdapter  extends BaseAdapter {
                 //open new activity to view this product
                 Intent intent = new Intent(mContext, ViewProductActivity.class);
                 intent.putExtra("PRODUCT_ID", product.getId()); //int
-                intent.putExtra("PRODUCT_NAME", product.getName()); //string
-                intent.putExtra("PRODUCT_PRICE", product.getPrice());//int
-                intent.putExtra("PRODUCT_PIC", product.getImageResource());//int
                 mContext.startActivity(intent);
+
             }
 
         });
@@ -88,7 +101,25 @@ public class FavoritesAdapter  extends BaseAdapter {
 
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext, "Item deleted from favorites.", Toast.LENGTH_SHORT).show();
+                SharedPreferences sharedpreferences = mContext.getSharedPreferences(MainActivity.PREFS, 0);
+                if (sharedpreferences.contains("AuthToken")) {
+                    Object[] objects = {products.get(position), sharedpreferences.getString("AuthToken", null)};
+                    AsyncTask<Object, Void, String> task = new RemoveFromFavs().execute(objects);
+                    // The URL for making the POST request
+                    try {
+                        String resp = task.get();
+                        if(resp.equals("done")){
+                            products.remove(position);
+                            notifyDataSetChanged();
+                            Toast.makeText(mContext, "Item deleted from favorites.", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (InterruptedException e) {
+                    } catch (ExecutionException e) {
+                    }
+                }
+                else
+                    Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -97,7 +128,23 @@ public class FavoritesAdapter  extends BaseAdapter {
 
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext, "Item added to cart.", Toast.LENGTH_SHORT).show();
+                SharedPreferences sharedpreferences = mContext.getSharedPreferences(MainActivity.PREFS, 0);
+                if (sharedpreferences.contains("AuthToken")) {
+                    Object[] objects = {products.get(position), sharedpreferences.getString("AuthToken", null)};
+                    AsyncTask<Object, Void, String> task = new AddToCartTask().execute(objects);
+                    // The URL for making the POST request
+                    try {
+                        String resp = task.get();
+                        if(resp.equals("done")){
+                            Toast.makeText(mContext, "Item added to cart.", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (InterruptedException e) {
+                    } catch (ExecutionException e) {
+                    }
+                }
+                else
+                    Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show();
+
             }
         });
 

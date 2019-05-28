@@ -2,6 +2,8 @@ package com.pma.mastercart;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -20,11 +22,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.pma.mastercart.adapter.CommentAdapter;
+import com.pma.mastercart.asyncTasks.AddToFavsTask;
+import com.pma.mastercart.asyncTasks.RemoveFromFavs;
 import com.pma.mastercart.model.Comment;
 import com.pma.mastercart.model.Product;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
 public class ViewProductActivity  extends AppCompatActivity {
@@ -52,8 +57,11 @@ public class ViewProductActivity  extends AppCompatActivity {
         setContentView(R.layout.single_product_view);
 
         Intent intent = getIntent();
-        ArrayList parcelableList  = intent.getParcelableArrayListExtra("product");
-        product = (Product) parcelableList.get(0);
+        int id = -1;
+        if (intent.hasExtra("PRODUCT_ID")) {
+            id = (int) intent.getIntExtra("PRODUCT_ID", 0);
+
+        }
 
         //TODO ovo se ne prenosi
         comments = product.getComments().toArray(new Comment[product.getComments().size()]);
@@ -90,7 +98,24 @@ public class ViewProductActivity  extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext(), "Item added to favorites.", Toast.LENGTH_SHORT).show();
+                SharedPreferences sharedpreferences = getSharedPreferences(MainActivity.PREFS, 0);
+                if (sharedpreferences.contains("AuthToken")) {
+                    Object[] objects = {product, sharedpreferences.getString("AuthToken", null)};
+                    AsyncTask<Object, Void, String> task = new AddToFavsTask().execute(objects);
+                    // The URL for making the POST request
+                    try {
+                        String resp = task.get();
+                        if(resp.equals("done")){
+                            Toast.makeText(view.getContext(), "Item added to favorites.", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (InterruptedException e) {
+                    } catch (ExecutionException e) {
+                    }
+                }
+                else {
+                    Toast.makeText(view.getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
         add_cart = (ImageButton)findViewById(R.id.single_add_cart);

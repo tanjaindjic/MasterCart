@@ -253,31 +253,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 profile_thumbnail.setImageBitmap(bitmap);
 
                 Uri selectedImageUri  = data.getData();
-            //    String selectedPath = getPath(selectedImageUri);
-
-
-
-                Uri selectedImage = data.getData();
-                String wholeID = DocumentsContract.getDocumentId(selectedImage);
-                // Split at colon, use second item in the array
-                String id = wholeID.split(":")[1];
-                String[] column = { MediaStore.Images.Media.DATA };
-                // where id is equal to
-                String sel = MediaStore.Images.Media._ID + "=?";
-                Cursor cursor = getContentResolver().
-                        query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                                column, sel, new String[]{ id }, null);
-                String filePath = "";
-                int columnIndex = cursor.getColumnIndex(column[0]);
-                if (cursor.moveToFirst()) {
-                    filePath = cursor.getString(columnIndex);
-                }
-                cursor.close();
-              //  setImageFromIntent(filePath);
-
-
-
-                int returnCode = uploadImage(filePath);
+                String selectedPath = getPath(selectedImageUri);
+                int returnCode = uploadImage(selectedPath);
                 Toast.makeText(this, "return code "+returnCode, Toast.LENGTH_SHORT).show();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -308,6 +285,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         Cursor cursor = managedQuery(uri, projection, null, null, null);
         int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         cursor.moveToFirst();
+        //OVDE DOBIJE DA JE VREDNOST NULL I ONDA JE TO KRAJ
         String retVal = cursor.getString(column_index);
         return retVal;
     }
