@@ -27,6 +27,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -42,11 +43,14 @@ import com.pma.mastercart.asyncTasks.RetrieveProductsTask;
 import com.pma.mastercart.asyncTasks.RetrieveShopsTask;
 import com.pma.mastercart.model.Category;
 import com.pma.mastercart.model.Comment;
+import com.pma.mastercart.model.DTO.AddUserDTO;
 import com.pma.mastercart.model.DTO.UserDTO;
 import com.pma.mastercart.model.Product;
 import com.pma.mastercart.model.Shop;
 import com.pma.mastercart.model.User;
 import com.pma.mastercart.model.enums.Role;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String PREFS= "MasterCartPrefs";
     private Spinner categorySpinner;
     private ArrayList<Category> categs;
+    private TextView userNameTextView;
+    private String currentUserFirstName;
 
 
     @Override
@@ -261,11 +267,13 @@ public class MainActivity extends AppCompatActivity {
         }
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if(currentUser!=null) {
-
+            currentUserFirstName = currentUser.getFirstName();
             navigationView.getMenu().findItem(R.id.nav_login).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_inbox).setVisible(true);
             navigationView.getMenu().findItem(R.id.nav_profile).setVisible(true);
             navigationView.getMenu().findItem(R.id.nav_logout).setVisible(true);
+            ((TextView) navigationView.getHeaderView(0).findViewById(R.id.user_name_sidebar)).setText(currentUserFirstName.toUpperCase());
+
 
 
             if(currentUser.getRole().equals(Role.ADMIN)){
@@ -281,7 +289,7 @@ public class MainActivity extends AppCompatActivity {
             else if(currentUser.getRole().equals(Role.KUPAC)){
                 navigationView.getMenu().findItem(R.id.nav_add_category).setVisible(false);
                 navigationView.getMenu().findItem(R.id.nav_edit_category).setVisible(false);
-                navigationView.getMenu().findItem(R.id.nav_add_shop).setVisible(true);
+                navigationView.getMenu().findItem(R.id.nav_add_shop).setVisible(false);
                 navigationView.getMenu().findItem(R.id.nav_cart).setVisible(true);
                 navigationView.getMenu().findItem(R.id.nav_orders).setVisible(true);
                 navigationView.getMenu().findItem(R.id.nav_favorite).setVisible(true);
@@ -299,6 +307,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }else {
+            currentUserFirstName="";
             navigationView.getMenu().findItem(R.id.nav_login).setVisible(true);
             navigationView.getMenu().findItem(R.id.nav_add_category).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_edit_category).setVisible(false);
