@@ -14,24 +14,29 @@ import android.widget.Toast;
 
 import com.pma.mastercart.R;
 import com.pma.mastercart.ViewProductActivity;
+import com.pma.mastercart.model.Order;
 import com.pma.mastercart.model.Product;
+
+import org.springframework.util.StringUtils;
+
+import java.text.SimpleDateFormat;
 
 public class OrdersAdapter extends BaseAdapter {
 
     private final Context mContext;
-    private final Product[] products;
+    private final Order[] orders;
     private ImageButton add_cart;
 
     // 1
-    public OrdersAdapter(Context context, Product[] products) {
+    public OrdersAdapter(Context context, Order[] orders) {
         this.mContext = context;
-        this.products = products;
+        this.orders = orders;
     }
 
     // 2
     @Override
     public int getCount() {
-        return products.length;
+        return orders.length;
     }
 
     // 3
@@ -49,7 +54,7 @@ public class OrdersAdapter extends BaseAdapter {
     // 5
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final Product product = products[position];
+        final Order order = orders[position];
         if (convertView == null) {
             final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
             convertView = layoutInflater.inflate(R.layout.orders_layout, null);
@@ -58,10 +63,16 @@ public class OrdersAdapter extends BaseAdapter {
         final ImageView imageView = (ImageView)convertView.findViewById(R.id.order_product_thumbnail);
         final TextView nameTextView = (TextView)convertView.findViewById(R.id.order_product_name);
         final TextView priceTextView = (TextView)convertView.findViewById(R.id.order_product_price);
+        final TextView dateTextView = (TextView)convertView.findViewById(R.id.order_product_date);
+        final TextView statusTextView = (TextView)convertView.findViewById(R.id.order_product_status);
 
-        //imageView.setImageResource(product.getImageResource());TODO ucitati sliku, ImageResource je path do slike na Firebase storage
-        nameTextView.setText(product.getName());
-        priceTextView.setText(Double.toString(product.getPrice()) + "$");
+        imageView.setImageResource(R.drawable.ic_charger);
+        nameTextView.setText(order.getProduct().getName());
+        priceTextView.setText("Price: " + Double.toString(order.getPrice()) + "$");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        String strDate = sdf.format(order.getTime());
+        dateTextView.setText("Date: " + strDate);
+        statusTextView.setText("Status: " + StringUtils.capitalize(order.getOrderStatus().name().toLowerCase()));
 
         add_cart = (ImageButton)convertView.findViewById(R.id.order_product_again);
         add_cart.setOnClickListener(new View.OnClickListener() {
