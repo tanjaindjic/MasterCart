@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
@@ -8,6 +8,11 @@
     android:focusableInTouchMode="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="fill"
+            android:orientation="vertical" >
 
         //BACK TOOLBAR NA VRHU
         <android.support.v7.widget.Toolbar
@@ -54,6 +59,7 @@
                             android:maxWidth="200dp"
                             android:maxHeight="200dp"
                             android:scaleType="centerCrop" />
+
 
 
                 </FrameLayout>
@@ -227,39 +233,41 @@
             android:layout_marginEnd="0dp"
             android:animationCache="true"
             android:choiceMode="none"
-            android:fadeScrollbars="true"></ListView>
+            android:fadeScrollbars="true">
 
-        <LinearLayout
-            android:layout_alignParentBottom="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#fafafa"
-            android:orientation="horizontal" >
+        </ListView>
 
-                <EditText
-                    android:id="@+id/add_comment"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="8"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginLeft="8dp"
-                    android:inputType="textMultiLine"
-                    android:hint="Type your comment" >
-                </EditText>
+                <LinearLayout
+                    android:id="@+id/layout_AddComment"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="#fafafa"
+                    android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/button"
-                    android:layout_width="0dp"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="Send" >
-                </Button>
+                        <EditText
+                            android:id="@+id/add_comment"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_weight="8"
+                            android:hint="Type your comment"
+                            android:inputType="textMultiLine"></EditText>
+
+                        <Button
+                            android:id="@+id/button_sendComment"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="8dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_weight="2"
+                            android:text="Send"></Button>
+                </LinearLayout>
+
         </LinearLayout>
 
 
 
-
-
-</RelativeLayout>
+</ScrollView >

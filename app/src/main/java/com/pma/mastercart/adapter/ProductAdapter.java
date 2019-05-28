@@ -2,6 +2,8 @@ package com.pma.mastercart.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +15,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pma.mastercart.EditProductActivity;
+import com.pma.mastercart.MainActivity;
 import com.pma.mastercart.R;
 import com.pma.mastercart.ViewProductActivity;
+import com.pma.mastercart.asyncTasks.AddToCartTask;
+import com.pma.mastercart.asyncTasks.AddToFavsTask;
 import com.pma.mastercart.model.Product;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 
 public class ProductAdapter extends BaseAdapter {
@@ -83,10 +89,8 @@ public class ProductAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 //open new activity to view this product
-                ArrayList parcelableList = new ArrayList();
-                parcelableList.add(products[position]);
                 Intent intent = new Intent(mContext, ViewProductActivity.class);
-                intent.putParcelableArrayListExtra("product", parcelableList);
+                intent.putExtra("PRODUCT_ID", products[position].getId()); //int
                 mContext.startActivity(intent);
             }
 
@@ -99,10 +103,7 @@ public class ProductAdapter extends BaseAdapter {
             public void onClick(View view) {
                 //open new activity to view this product
                 Intent intent = new Intent(mContext, EditProductActivity.class);
-                intent.putExtra("PRODUCT_ID", Long.toString(product.getId())); //int
-                intent.putExtra("PRODUCT_NAME", product.getName()); //string
-                intent.putExtra("PRODUCT_PRICE", product.getPrice());//int
-                intent.putExtra("PRODUCT_PIC", product.getImageResource());//int
+                intent.putExtra("PRODUCT_ID", products[position].getId()); //long
                 mContext.startActivity(intent);
             }
 
@@ -114,7 +115,23 @@ public class ProductAdapter extends BaseAdapter {
 
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext, "Item added to favorites.", Toast.LENGTH_SHORT).show();
+                SharedPreferences sharedpreferences = mContext.getSharedPreferences(MainActivity.PREFS, 0);
+                if (sharedpreferences.contains("AuthToken")) {
+                    Object[] objects = {products[position], sharedpreferences.getString("AuthToken", null)};
+                    AsyncTask<Object, Void, String> task = new AddToFavsTask().execute(objects);
+                    // The URL for making the POST request
+                    try {
+                        String resp = task.get();
+                        if(resp.equals("done")){
+                            Toast.makeText(mContext, "Item added to favorites.", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (InterruptedException e) {
+                    } catch (ExecutionException e) {
+                    }
+                }
+                else
+                    Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -123,7 +140,22 @@ public class ProductAdapter extends BaseAdapter {
 
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext, "Item added to cart.", Toast.LENGTH_SHORT).show();
+                SharedPreferences sharedpreferences = mContext.getSharedPreferences(MainActivity.PREFS, 0);
+                if (sharedpreferences.contains("AuthToken")) {
+                    Object[] objects = {products[position], sharedpreferences.getString("AuthToken", null)};
+                    AsyncTask<Object, Void, String> task = new AddToCartTask().execute(objects);
+                    // The URL for making the POST request
+                    try {
+                        String resp = task.get();
+                        if(resp.equals("done")){
+                            Toast.makeText(mContext, "Item added to cart.", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (InterruptedException e) {
+                    } catch (ExecutionException e) {
+                    }
+                }
+                else
+                    Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show();
             }
         });
 
