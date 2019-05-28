@@ -30,9 +30,10 @@
         </android.support.v7.widget.Toolbar>
 
         <EditText
+            android:id="@+id/editTextNameProduct"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Name"
+            android:hint="Name"
             android:textSize="20dp"
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
@@ -40,9 +41,10 @@
             android:paddingLeft="15dp"/>
 
         <EditText
+            android:id="@+id/editTextPriceProduct"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Price"
+            android:hint="Price"
             android:textSize="20dp"
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
@@ -50,9 +52,10 @@
             android:paddingLeft="15dp"/>
 
         <EditText
+            android:id="@+id/editTextDescriptionProduct"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Description"
+            android:hint="Description"
             android:textSize="20dp"
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
@@ -60,9 +63,10 @@
             android:paddingLeft="15dp"/>
 
         <EditText
+            android:id="@+id/editTextQuantityProduct"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Quantity"
+            android:hint="Quantity"
             android:textSize="20dp"
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
@@ -70,18 +74,20 @@
             android:paddingLeft="15dp"/>
 
         <EditText
+            android:id="@+id/editTextSizeProduct"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Size"
+            android:hint="Size"
             android:textSize="20dp"
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
             android:paddingRight="15dp"
             android:paddingLeft="15dp"/>
         <EditText
+            android:id="@+id/editTextDiscountProduct"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Discount"
+            android:hint="Discount"
             android:textSize="20dp"
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
@@ -89,11 +95,13 @@
             android:paddingLeft="15dp"/>
 
         <ImageView
+            android:id="@+id/imageViewProduct"
             android:layout_width="95dp"
             android:layout_height="95dp"
             android:src="@drawable/ic_dummy"/>
 
         <Button
+            android:id="@+id/btnAddPictureProduct"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Choose"/>
@@ -104,6 +112,7 @@
             android:layout_gravity="bottom">
 
             <Button
+                android:id="@+id/addProduct"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
