@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ViewShopActivity extends AppCompatActivity {
-    private Comment[] comments = new Comment[0];
+    private ArrayList<Comment> comments;
     private ImageButton shop_location;
     private TextView name;
     private TextView address;
@@ -50,7 +50,7 @@ public class ViewShopActivity extends AppCompatActivity {
         ArrayList parcelableList = intent.getParcelableArrayListExtra("shop");
         shop = (Shop) parcelableList.get(0);
 
-        comments = shop.getComments().toArray(new Comment[shop.getComments().size()]);
+        comments = (ArrayList<Comment>) shop.getComments();
         listView = (ListView) findViewById(R.id.shop_comments_list);
         commentAdapter = new CommentAdapter(this, comments);
         name = (TextView) findViewById(R.id.single_shop_name);

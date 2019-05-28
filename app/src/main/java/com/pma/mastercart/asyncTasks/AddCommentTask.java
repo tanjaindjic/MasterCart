@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 
 import com.pma.mastercart.MainActivity;
 import com.pma.mastercart.model.Category;
+import com.pma.mastercart.model.Comment;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -16,9 +17,9 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-public class AddCommentTask extends AsyncTask<Object, Void, Boolean> {
+public class AddCommentTask extends AsyncTask<Object, Void, Comment> {
     @Override
-    protected Boolean doInBackground(Object... objects) {
+    protected Comment doInBackground(Object... objects) {
         HttpHeaders requestHeaders = new HttpHeaders();
         String token = objects[1].toString();
 
@@ -37,10 +38,7 @@ public class AddCommentTask extends AsyncTask<Object, Void, Boolean> {
 
 
         // Make the network request, posting the message, expecting a String in response from the server
-        ResponseEntity<String> response = restTemplate.exchange(MainActivity.URL+"comment", HttpMethod.POST, httpEntity, String.class);
-        if(response.getBody()==""){
-            return false;
-        }
-        return true;
+        ResponseEntity<Comment> response = restTemplate.exchange(MainActivity.URL+"comment", HttpMethod.POST, httpEntity, Comment.class);
+        return response.getBody();
     }
 }

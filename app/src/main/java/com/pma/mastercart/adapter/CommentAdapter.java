@@ -11,24 +11,26 @@ import android.widget.TextView;
 import com.pma.mastercart.R;
 import com.pma.mastercart.model.Comment;
 
+import java.util.ArrayList;
+
 public class CommentAdapter   extends BaseAdapter {
 
     private final Context mContext;
-    private final Comment[] comments;
+    private ArrayList<Comment> comments;
 
-    public CommentAdapter(Context mContext, Comment[] comments) {
+    public CommentAdapter(Context mContext, ArrayList<Comment> comments) {
         this.mContext = mContext;
         this.comments = comments;
     }
 
     @Override
     public int getCount() {
-        return comments.length;
+        return comments.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return comments[position];
+        return comments.get(position);
     }
 
     @Override
@@ -38,7 +40,7 @@ public class CommentAdapter   extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final Comment comment = comments[position];
+        final Comment comment = comments.get(position);
         if (convertView == null) {
             final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
             convertView = layoutInflater.inflate(R.layout.comment_linearlayout, null);
@@ -53,8 +55,9 @@ public class CommentAdapter   extends BaseAdapter {
         return convertView;
     }
 
-    @Override
-    public void notifyDataSetChanged() {
-        super.notifyDataSetChanged();
+
+    public void updateResults(ArrayList<Comment> commenti) {
+        comments = commenti;
+        notifyDataSetChanged();
     }
 }

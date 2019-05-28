@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Layout;
 import android.view.View;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RatingBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +28,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.pma.mastercart.adapter.CommentAdapter;
+import com.pma.mastercart.adapter.ProductAdapter;
 import com.pma.mastercart.asyncTasks.AddCommentTask;
 import com.pma.mastercart.asyncTasks.AddToFavsTask;
 import com.pma.mastercart.asyncTasks.GetProductTask;
@@ -44,7 +47,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
 public class ViewProductActivity  extends AppCompatActivity implements View.OnClickListener{
-    private Comment[] comments;
+    private ArrayList<Comment> comments;
     private ImageButton add_favorite;
     private ImageButton add_cart;
     private Product product;
@@ -67,12 +70,11 @@ public class ViewProductActivity  extends AppCompatActivity implements View.OnCl
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.single_product_view);
-
         Intent intent = getIntent();
         ArrayList parcelableList  = intent.getParcelableArrayListExtra("product");
         product = (Product) parcelableList.get(0);
         setTitle(product.getName());
-        comments = product.getComments().toArray(new Comment[product.getComments().size()]);
+        comments = (ArrayList<Comment>) product.getComments();
         listView = (ListView) findViewById(R.id.comments_list);
         commentAdapter = new CommentAdapter(this, comments);
         listView.setAdapter(commentAdapter);
@@ -104,7 +106,7 @@ public class ViewProductActivity  extends AppCompatActivity implements View.OnCl
             layout_AddComment.setVisibility(View.INVISIBLE);
         editText_add_comment = (EditText) findViewById(R.id.add_comment);
 
-        button_sendComment = (Button) findViewById(R.id.button_sendComment);
+        button_sendComment = (Button) findViewById(R.id.btn_send_comment);
         button_sendComment.setOnClickListener(this);
 
 
@@ -164,13 +166,20 @@ public class ViewProductActivity  extends AppCompatActivity implements View.OnCl
             if(commentText.isEmpty() || !sharedpreferences.contains("AuthToken")){
                 return;
             }
-            CommentDTO comment = new CommentDTO((long) 0, null, id, commentText, 0, "");
+            CommentDTO comment = new CommentDTO((long) 0, null, product.getId(), commentText, 0, "");
             Object[] objects={comment, sharedpreferences.getString("AuthToken", null)};
-            AsyncTask<Object, Void, Boolean> task = new AddCommentTask().execute(objects);
+            AsyncTask<Object, Void, Comment> task = new AddCommentTask().execute(objects);
             try {
-                boolean done = task.get();
-                if(done)
-                    commentAdapter.notifyDataSetChanged();
+                Comment done = task.get();
+                ArrayList<Product> p = new ArrayList<>();
+                if(done!=null) {
+                    product.getComments().add(done);
+                    commentAdapter.updateResults((ArrayList<Comment>) product.getComments());
+                    ProductAdapter.updateResults();
+                    p.add(product);
+                    getIntent().removeExtra("product");
+                    getIntent().putParcelableArrayListExtra("product", p);
+                }
                 editText_add_comment.setText("");
             } catch (InterruptedException e) {
                 finish();
