@@ -80,8 +80,10 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if(v==cart_buy_button){
-            if(items.size()==0)
+            if(items.size()==0){
+                Toast.makeText(this, "There is nothing to buy.", Toast.LENGTH_SHORT).show();
                 return;
+            }
             SharedPreferences sharedpreferences = getSharedPreferences(MainActivity.PREFS, 0);
             if (sharedpreferences.contains("AuthToken")) {
                 boolean success = true;
