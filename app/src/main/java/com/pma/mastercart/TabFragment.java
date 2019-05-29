@@ -158,7 +158,6 @@ public class TabFragment extends Fragment implements OnLoadDataListener {
                 }else
                     products = MainActivity.products;
 
-                Toast.makeText(view.getContext(), Integer.toString(products.size()), Toast.LENGTH_SHORT).show();
                 productsAdapter.notifyDataSetChanged();
                 productsAdapter = new ProductAdapter(MainActivity.appContext, products.toArray(new Product[products.size()]));
                 gridView.setAdapter(productsAdapter);

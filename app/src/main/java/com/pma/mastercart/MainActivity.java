@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
     public static String URL = "http://192.168.1.9:8096/";
     public static ArrayList<Product> products = new ArrayList();
     public static ArrayList<Shop> shops = new ArrayList();
-    private ProgressDialog progress;
+    public static ProgressDialog progress;
     private GridView gridView;
     public static HomePageTabsAdapter adapter;
     public static Context appContext;
@@ -80,12 +81,33 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    private void loadData() throws ExecutionException, InterruptedException {
+    public static void loadData() throws ExecutionException, InterruptedException {
         AsyncTask<ProgressDialog, Void, ArrayList<Product>> task = new RetrieveProductsTask().execute(progress);
         products = task.get();
 
         AsyncTask<String, Void, ArrayList<Shop>> task2 = new RetrieveShopsTask().execute("sta god");
         shops = task2.get();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        progress.show();
+        //setupNavBar();
+
+        try {
+            loadData();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        adapter = new HomePageTabsAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(adapter);
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
     @Override
@@ -250,11 +272,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
-        setupNavBar();
+        progress.show();
+        //setupNavBar();
+
+        try {
+            loadData();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setupNavBar() {
-        User currentUser = null; //TODO ispraviti kad proradi login
+        User currentUser = null;
         SharedPreferences sharedpreferences = getSharedPreferences(MainActivity.PREFS, 0);
         if (sharedpreferences.contains("AuthToken")) {
             AsyncTask<String, Void, User> task = new GetUserTask().execute(sharedpreferences.getString("AuthToken", null));
@@ -282,7 +313,7 @@ public class MainActivity extends AppCompatActivity {
             if(currentUser.getRole().equals(Role.ADMIN)){
                 navigationView.getMenu().findItem(R.id.nav_add_category).setVisible(true);
                 navigationView.getMenu().findItem(R.id.nav_edit_category).setVisible(true);
-                navigationView.getMenu().findItem(R.id.nav_add_shop).setVisible(false);
+                navigationView.getMenu().findItem(R.id.nav_add_shop).setVisible(true);
                 navigationView.getMenu().findItem(R.id.nav_cart).setVisible(false);
                 navigationView.getMenu().findItem(R.id.nav_orders).setVisible(false);
                 navigationView.getMenu().findItem(R.id.nav_favorite).setVisible(false);
@@ -314,7 +345,7 @@ public class MainActivity extends AppCompatActivity {
             navigationView.getMenu().findItem(R.id.nav_login).setVisible(true);
             navigationView.getMenu().findItem(R.id.nav_add_category).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_edit_category).setVisible(false);
-            navigationView.getMenu().findItem(R.id.nav_add_shop).setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_add_shop).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_cart).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_orders).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_favorite).setVisible(false);

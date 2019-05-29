@@ -2,6 +2,8 @@ package com.pma.mastercart.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +15,17 @@ import android.widget.Toast;
 
 import com.pma.mastercart.AddProductActivity;
 import com.pma.mastercart.EditShopActivity;
+import com.pma.mastercart.MainActivity;
 import com.pma.mastercart.MapsActivity;
 import com.pma.mastercart.R;
 import com.pma.mastercart.ViewShopActivity;
+import com.pma.mastercart.asyncTasks.GetUserTask;
 import com.pma.mastercart.model.Shop;
+import com.pma.mastercart.model.User;
+import com.pma.mastercart.model.enums.Role;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 public class ShopAdapter  extends BaseAdapter {
 
@@ -125,7 +132,36 @@ public class ShopAdapter  extends BaseAdapter {
 
         });
 
-
+        User currentUser = null;
+        SharedPreferences sharedpreferences = mContext.getSharedPreferences(MainActivity.PREFS, 0);
+        if (sharedpreferences.contains("AuthToken")) {
+            AsyncTask<String, Void, User> task = new GetUserTask().execute(sharedpreferences.getString("AuthToken", null));
+            // The URL for making the POST request
+            try {
+                User user= task.get();
+                currentUser = user;
+            } catch (InterruptedException e) {
+                currentUser = null;
+            } catch (ExecutionException e) {
+                currentUser = null;
+            }
+        }
+        if(currentUser==null){
+            edit_shop.setVisibility(View.GONE);
+            add_product.setVisibility(View.GONE);
+        }
+        else if(currentUser.getRole().equals(Role.PRODAVAC)){
+            edit_shop.setVisibility(View.GONE);
+            add_product.setVisibility(View.GONE);
+            for(User u : shop.getSeller())
+                if(u.getId()==currentUser.getId()){
+                    edit_shop.setVisibility(View.VISIBLE);
+                    add_product.setVisibility(View.VISIBLE);
+                }
+        }else{
+            edit_shop.setVisibility(View.GONE);
+            add_product.setVisibility(View.GONE);
+        }
 
         return convertView;
     }

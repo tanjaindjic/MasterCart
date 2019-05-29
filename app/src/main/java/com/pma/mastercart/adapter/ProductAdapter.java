@@ -20,7 +20,11 @@ import com.pma.mastercart.R;
 import com.pma.mastercart.ViewProductActivity;
 import com.pma.mastercart.asyncTasks.AddToCartTask;
 import com.pma.mastercart.asyncTasks.AddToFavsTask;
+import com.pma.mastercart.asyncTasks.GetUserTask;
 import com.pma.mastercart.model.Product;
+import com.pma.mastercart.model.Shop;
+import com.pma.mastercart.model.User;
+import com.pma.mastercart.model.enums.Role;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
@@ -39,6 +43,7 @@ public class ProductAdapter extends BaseAdapter {
     private TextView priceTextView;
     private Product product;
     private RatingBar ratingBar;
+    private Shop shop;
 
     // 1
     public ProductAdapter(Context context, Product[] products) {
@@ -62,7 +67,7 @@ public class ProductAdapter extends BaseAdapter {
     // 4
     @Override
     public Object getItem(int position) {
-        return null;
+        return products[position];
     }
 
     // 5
@@ -98,6 +103,7 @@ public class ProductAdapter extends BaseAdapter {
             }
 
         });
+
 
         edit_product = (ImageButton)convertView.findViewById(R.id.edit_product);
         edit_product.setOnClickListener(new View.OnClickListener() {
@@ -162,8 +168,39 @@ public class ProductAdapter extends BaseAdapter {
             }
         });
 
+        User currentUser = null;
+        SharedPreferences sharedpreferences = mContext.getSharedPreferences(MainActivity.PREFS, 0);
+        if (sharedpreferences.contains("AuthToken")) {
+            AsyncTask<String, Void, User> task = new GetUserTask().execute(sharedpreferences.getString("AuthToken", null));
+            // The URL for making the POST request
+            try {
+                User user= task.get();
+                currentUser = user;
+            } catch (InterruptedException e) {
+                currentUser = null;
+            } catch (ExecutionException e) {
+                currentUser = null;
+            }
+        }
+        if(currentUser==null){
+            edit_product.setVisibility(View.GONE);
+            add_cart.setVisibility(View.GONE);
+            add_favorite.setVisibility(View.GONE);
+        }
+        else if(currentUser.getRole().equals(Role.PRODAVAC)){
+            //TODO postaviti uslov za prodavca samo radnje z koje je proizvod
+                edit_product.setVisibility(View.VISIBLE);
+
+            add_cart.setVisibility(View.GONE);
+            add_favorite.setVisibility(View.GONE);
+        }else if(currentUser.getRole().equals(Role.KUPAC)){
+            edit_product.setVisibility(View.GONE);
+            add_favorite.setVisibility(View.VISIBLE);
+            add_cart.setVisibility(View.VISIBLE);
+        }
         return convertView;
     }
+
 
 
 }
