@@ -168,16 +168,18 @@
             android:layout_below="@id/shop_comments_text"
             android:id="@+id/shop_comments_list"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent">
+            android:layout_width="match_parent"
+            android:fadeScrollbars="true"
+            android:layout_above="@+id/comment_layout">
         </ListView>
 
         //NOVI KOMENTAR
-        <LinearLayout
+        <LinearLayout android:id="@+id/comment_layout"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#fafafa"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
                 <EditText
                     android:id="@+id/add_comment_shop"

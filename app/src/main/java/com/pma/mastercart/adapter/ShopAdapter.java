@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,6 +41,8 @@ public class ShopAdapter  extends BaseAdapter {
     private TextView nameTextView;
     private TextView locationTextView;
     private ImageView pic;
+
+
 
     public ShopAdapter(Context mContext, Shop[] shops) {
         this.mContext = mContext;
@@ -131,6 +135,8 @@ public class ShopAdapter  extends BaseAdapter {
             }
 
         });
+
+
 
         User currentUser = null;
         SharedPreferences sharedpreferences = mContext.getSharedPreferences(MainActivity.PREFS, 0);
