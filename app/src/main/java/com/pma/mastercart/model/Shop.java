@@ -3,17 +3,13 @@ package com.pma.mastercart.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.maps.model.LatLng;
-
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Shop  implements Parcelable {
 
     private Long id;
     private String name;
-    private String imageResource;
+    private byte[] imageResource;
     private String location;
     public double lat;
     public double lng;
@@ -29,7 +25,7 @@ public class Shop  implements Parcelable {
     public Shop() {
     }
 
-    public Shop(Long id, String name, String imageResource, String location, double lat, double lng, String phone, String email, boolean active, double rating, int numberOfRatings, List<Product> products, List<User> seller, List<Comment> comments) {
+    public Shop(Long id, String name, byte[] imageResource, String location, double lat, double lng, String phone, String email, boolean active, double rating, int numberOfRatings, List<Product> products, List<User> seller, List<Comment> comments) {
         this.id = id;
         this.name = name;
         this.imageResource = imageResource;
@@ -78,11 +74,11 @@ public class Shop  implements Parcelable {
         this.name = name;
     }
 
-    public String getImageResource() {
+    public byte[] getImageResource() {
         return imageResource;
     }
 
-    public void setImageResource(String imageResource) {
+    public void setImageResource(byte[] imageResource) {
         this.imageResource = imageResource;
     }
 
@@ -168,7 +164,7 @@ public class Shop  implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeValue(this.id);
         dest.writeString(this.name);
-        dest.writeString(this.imageResource);
+        dest.writeByteArray(this.imageResource);
         dest.writeString(this.location);
         dest.writeDouble(this.lat);
         dest.writeDouble(this.lng);
@@ -185,7 +181,7 @@ public class Shop  implements Parcelable {
     protected Shop(Parcel in) {
         this.id = (Long) in.readValue(Long.class.getClassLoader());
         this.name = in.readString();
-        this.imageResource = in.readString();
+        this.imageResource = in.createByteArray();
         this.location = in.readString();
         this.lat = in.readDouble();
         this.lng = in.readDouble();

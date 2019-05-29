@@ -9,6 +9,7 @@
     android:gravity="bottom">
 
     <ImageView
+        android:id="@+id/user_pic_sidebar"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="22dp"
@@ -22,7 +23,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:paddingTop="8dp"
-        android:text="TextView" />
+        android:text="Welcome!" />
 
     <!--<TextView
         android:layout_width="match_parent"

@@ -3,6 +3,8 @@ package com.pma.mastercart.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -78,8 +80,9 @@ public class ShopAdapter  extends BaseAdapter {
         nameTextView.setText(shop.getName());
         locationTextView = (TextView)convertView.findViewById(R.id.shop_address);
         locationTextView.setText(shop.getLocation());
-        pic = (ImageView) convertView.findViewById(R.id.shop_thumbnail); //TODO ucitati sliku
-        pic.setImageResource(R.drawable.ic_shop);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(shop.getImageResource(), 0, shop.getImageResource().length);
+        pic = (ImageView)convertView.findViewById(R.id.shop_thumbnail);
+        pic.setImageBitmap(bitmap);
 
         shop_details = (ImageButton)convertView.findViewById(R.id.shop_details);
         shop_details.setOnClickListener(new View.OnClickListener() {

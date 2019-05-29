@@ -3,6 +3,8 @@ package com.pma.mastercart;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
@@ -82,7 +84,8 @@ public class ViewShopActivity extends AppCompatActivity implements View.OnClickL
         back_toolbar.setTitle(shop.getName());
 
         ImageView pic = (ImageView) findViewById(R.id.single_shop_thumbnail); //TODO ucitati sliku
-        pic.setImageResource(R.drawable.ic_shop);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(shop.getImageResource(), 0, shop.getImageResource().length);
+        pic.setImageBitmap(bitmap);
 
 
         shop_location = (ImageButton) findViewById(R.id.single_shop_location);
