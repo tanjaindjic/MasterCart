@@ -34,14 +34,6 @@ public class ShopDTO implements Serializable {
 
     public void setId(String id){this.id = id;}
 
-    public String getSellerEmail() {
-        return sellerEmail;
-    }
-
-    public void setSellerEmail(String sellerEmail) {
-        this.sellerEmail = sellerEmail;
-    }
-
     public String getName() {
         return name;
     }
@@ -52,6 +44,14 @@ public class ShopDTO implements Serializable {
 
     public String getImageResource() {
         return imageResource;
+    }
+
+    public String getSellerEmail() {
+        return sellerEmail;
+    }
+
+    public void setSellerEmail(String sellerEmail) {
+        this.sellerEmail = sellerEmail;
     }
 
     public void setImageResource(String imageResource) {

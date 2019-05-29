@@ -90,7 +90,7 @@ public class EditShopActivity  extends AppCompatActivity implements View.OnClick
         shopDTO.setEmail(editEditEmailShop.getText().toString().trim());
         shopDTO.setLat(editEditLongitudeShop.getText().toString().trim());
         shopDTO.setLng(editEditLatitudeShop.getText().toString().trim());
-        shopDTO.setImageResource(selectedImage.toString().trim());
+       // shopDTO.setImageResource(selectedImage.toString().trim());
 
         AsyncTask<ShopDTO, Void, ShopDTO> task = new EditShopTask().execute(shopDTO);
         AsyncTask<String, Void, ArrayList<Shop>> task2 = new RetrieveShopsTask().execute("sta god");
