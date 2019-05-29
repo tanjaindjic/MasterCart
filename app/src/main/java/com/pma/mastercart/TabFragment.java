@@ -160,7 +160,7 @@ public class TabFragment extends Fragment implements OnLoadDataListener {
                 }else
                     products = MainActivity.products;
 
-
+                //debug na meta meta meta level
                 ViewPager viewPager = (ViewPager)parent.getParent().getParent().getParent();
                 LinearLayout v = (LinearLayout) viewPager.getChildAt(0);
                 GridView gw = (GridView) v.getChildAt(1);

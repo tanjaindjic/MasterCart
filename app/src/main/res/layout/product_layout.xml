@@ -13,22 +13,24 @@
 
         <ImageView
             android:id="@+id/product_thumbnail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:scaleType="centerCrop"/>
 
 
         </FrameLayout>
 
     //PRODUCT DETAILS
+
     <TextView
         android:id="@+id/product_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16dp"
+        android:gravity="center_horizontal"
+        android:minLines="2"
         android:textColor="@android:color/black"
-        android:textStyle="bold"
-        android:gravity="center_horizontal"/>
+        android:textSize="16dp"
+        android:textStyle="bold" />
     <TextView
         android:id="@+id/product_price"
         android:layout_width="wrap_content"
