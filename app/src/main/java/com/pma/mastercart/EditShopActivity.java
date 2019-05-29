@@ -14,8 +14,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.pma.mastercart.asyncTasks.EditShopTask;
+import com.pma.mastercart.asyncTasks.RetrieveShopsTask;
 import com.pma.mastercart.model.DTO.ShopDTO;
+import com.pma.mastercart.model.Shop;
 
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 public class EditShopActivity  extends AppCompatActivity implements View.OnClickListener {
@@ -90,6 +93,7 @@ public class EditShopActivity  extends AppCompatActivity implements View.OnClick
         shopDTO.setImageResource(selectedImage.toString().trim());
 
         AsyncTask<ShopDTO, Void, ShopDTO> task = new EditShopTask().execute(shopDTO);
+        AsyncTask<String, Void, ArrayList<Shop>> task2 = new RetrieveShopsTask().execute("sta god");
         // The URL for making the POST request
         ShopDTO user= task.get();
         if(user==null){
