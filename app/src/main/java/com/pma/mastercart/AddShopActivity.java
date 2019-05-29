@@ -21,7 +21,8 @@ import java.util.concurrent.ExecutionException;
 public class AddShopActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button addShopButton,btnAddPictureShop;
-    private EditText editTextNameShop,editLocationShop,editPhoneShop,editEmailShop,editLongitudeShop,editLatitudeShop;
+    private EditText editTextNameShop,editLocationShop,
+            editPhoneShop,editEmailShop,editLongitudeShop,editLatitudeShop, editAddSellerShop;
     private static int PICK_IMAGE = 100;
     private static Uri selectedImage;
 
@@ -44,6 +45,7 @@ public class AddShopActivity extends AppCompatActivity implements View.OnClickLi
         editEmailShop = (EditText) findViewById(R.id.editEmailShop);
         editLongitudeShop = (EditText) findViewById(R.id.editLongitudeShop);
         editLatitudeShop = (EditText) findViewById(R.id.editLatitudeShop);
+        editAddSellerShop = (EditText) findViewById(R.id.editAddSellerShop);
     }
 
     @Override
@@ -75,7 +77,8 @@ public class AddShopActivity extends AppCompatActivity implements View.OnClickLi
         shopDTO.setEmail(editEmailShop.getText().toString().trim());
         shopDTO.setLat(editLatitudeShop.getText().toString().trim());
         shopDTO.setLng(editLongitudeShop.getText().toString().trim());
-        shopDTO.setImageResource(selectedImage.toString().trim());
+        //shopDTO.setImageResource(selectedImage.toString().trim());
+        shopDTO.setSellerEmail(editAddSellerShop.getText().toString().trim());
 
         AsyncTask<ShopDTO, Void, ShopDTO> task = new AddShopTask().execute(shopDTO);
         // The URL for making the POST request

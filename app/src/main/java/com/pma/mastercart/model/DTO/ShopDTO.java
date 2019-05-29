@@ -13,11 +13,12 @@ public class ShopDTO implements Serializable {
     private String lng;
     private String phone;
     private String email;
+    private String sellerEmail;
 
     public ShopDTO() {
     }
 
-    public ShopDTO(String id,String name, String imageResource, String location, String lat, String lng, String phone, String email) {
+    public ShopDTO(String id,String name, String imageResource, String location, String lat, String lng, String phone, String email,String sellerEmail) {
         this.id = id;
         this.name = name;
         this.imageResource = imageResource;
@@ -26,11 +27,20 @@ public class ShopDTO implements Serializable {
         this.lng = lng;
         this.phone = phone;
         this.email = email;
+        this.sellerEmail = sellerEmail;
     }
 
     public String getId(){return id;}
 
     public void setId(String id){this.id = id;}
+
+    public String getSellerEmail() {
+        return sellerEmail;
+    }
+
+    public void setSellerEmail(String sellerEmail) {
+        this.sellerEmail = sellerEmail;
+    }
 
     public String getName() {
         return name;
