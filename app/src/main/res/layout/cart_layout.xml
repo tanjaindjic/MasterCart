@@ -23,10 +23,10 @@
 
     </FrameLayout>
 
-<RelativeLayout
-    android:layout_marginLeft="16dp"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_marginLeft="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
         <TextView
             android:id="@+id/cart_product_name"
             android:layout_width="wrap_content"
@@ -98,7 +98,36 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/quantity_layout1"
+            android:layout_marginTop="8dp"
+            android:layout_toRightOf="@+id/quantity_layout"
+            android:layout_below="@id/cart_product_price"
+            android:layout_marginLeft="50dp"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
+
+            <TextView
+                android:id="@+id/total_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:text="1"
+                android:textColor="@android:color/black"/>
+
+            <Button
+                android:id="@+id/btn_buy_now"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="buy now"
+                android:textSize="12dp"
+                android:layout_marginLeft="30dp"
+                />
+
+
+        </LinearLayout>
 
 
     </RelativeLayout>

@@ -1,12 +1,10 @@
 package com.pma.mastercart.asyncTasks;
 
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 
 import com.pma.mastercart.MainActivity;
-import com.pma.mastercart.model.Category;
-import com.pma.mastercart.model.Comment;
-import com.pma.mastercart.model.Product;
+import com.pma.mastercart.model.CartItem;
+import com.pma.mastercart.model.DTO.CartItemDTO;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -19,13 +17,12 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-
-public class AddCommentTask extends AsyncTask<Object, Void, Comment> {
+public class UpdateItemCartTask extends AsyncTask<Object, Void, String> {
     @Override
-    protected Comment doInBackground(Object... objects) {
-        HttpHeaders requestHeaders = new HttpHeaders();
+    protected String doInBackground(Object... objects) {
         String token = objects[1].toString();
+        CartItemDTO cartItem = (CartItemDTO) objects[0];
+        HttpHeaders requestHeaders = new HttpHeaders();
 
         // Sending a JSON or XML object i.e. "application/json" or "application/xml"
         requestHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -33,7 +30,7 @@ public class AddCommentTask extends AsyncTask<Object, Void, Comment> {
 
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
 
-        HttpEntity<?> httpEntity = new HttpEntity<Object>(objects[0], requestHeaders);
+        HttpEntity<?> httpEntity = new HttpEntity<Object>(cartItem, requestHeaders);
 
         // Create a new RestTemplate instance
         RestTemplate restTemplate = new RestTemplate();
@@ -42,8 +39,11 @@ public class AddCommentTask extends AsyncTask<Object, Void, Comment> {
 
 
         // Make the network request, posting the message, expecting a String in response from the server
-        ResponseEntity<Comment> response = restTemplate.exchange(MainActivity.URL+"comment", HttpMethod.POST, httpEntity, Comment.class);
-        return response.getBody();
+        ResponseEntity<CartItem> response = restTemplate.exchange(MainActivity.URL+"user/cart", HttpMethod.PUT, httpEntity, CartItem.class);
+        if(response.getBody()==null){
+            return "";
+        }
+        CartItem cccitem = response.getBody();
+        return "done";
     }
-
 }

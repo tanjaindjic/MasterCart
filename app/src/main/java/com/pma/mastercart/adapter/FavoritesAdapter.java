@@ -23,6 +23,7 @@ import com.pma.mastercart.asyncTasks.RemoveFromFavs;
 import com.pma.mastercart.model.Product;
 import com.pma.mastercart.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -88,7 +89,9 @@ public class FavoritesAdapter  extends BaseAdapter {
             public void onClick(View view) {
                 //open new activity to view this product
                 Intent intent = new Intent(mContext, ViewProductActivity.class);
-                intent.putExtra("PRODUCT_ID", product.getId()); //int
+                ArrayList parcelableList = new ArrayList();
+                parcelableList.add(products.get(position));
+                intent.putParcelableArrayListExtra("product", parcelableList);
                 mContext.startActivity(intent);
 
             }

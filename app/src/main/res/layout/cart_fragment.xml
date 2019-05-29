@@ -39,7 +39,7 @@
         <Button
             android:id="@+id/cart_buy_button"
             android:layout_centerInParent="true"
-            android:text="BUY"
+            android:text="BUY ALL"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </RelativeLayout>

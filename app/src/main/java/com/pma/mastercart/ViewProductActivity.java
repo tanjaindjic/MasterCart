@@ -100,10 +100,9 @@ public class ViewProductActivity  extends AppCompatActivity implements View.OnCl
 
         layout_AddComment = (LinearLayout) findViewById(R.id.layout_AddComment);
         SharedPreferences sharedpreferences = getSharedPreferences(MainActivity.PREFS, 0);
+        layout_AddComment.setVisibility(View.INVISIBLE);
         if (sharedpreferences.contains("AuthToken"))
             layout_AddComment.setVisibility(View.VISIBLE);
-        else
-            layout_AddComment.setVisibility(View.INVISIBLE);
         editText_add_comment = (EditText) findViewById(R.id.add_comment);
 
         button_sendComment = (Button) findViewById(R.id.btn_send_comment);
