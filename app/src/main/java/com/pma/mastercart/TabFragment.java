@@ -6,12 +6,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -158,9 +160,14 @@ public class TabFragment extends Fragment implements OnLoadDataListener {
                 }else
                     products = MainActivity.products;
 
-                productsAdapter.notifyDataSetChanged();
+                //debug na meta meta meta level
+                ViewPager viewPager = (ViewPager)parent.getParent().getParent().getParent();
+                LinearLayout v = (LinearLayout) viewPager.getChildAt(0);
+                GridView gw = (GridView) v.getChildAt(1);
                 productsAdapter = new ProductAdapter(MainActivity.appContext, products.toArray(new Product[products.size()]));
-                gridView.setAdapter(productsAdapter);
+                gw.setAdapter(productsAdapter);
+
+
             }
 
             @Override
@@ -169,6 +176,8 @@ public class TabFragment extends Fragment implements OnLoadDataListener {
             }
         });
     }
+
+
     @Override
     public void onLoad(Object data) {
         if(data instanceof ProductListDTO){

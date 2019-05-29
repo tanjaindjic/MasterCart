@@ -1,12 +1,10 @@
 package com.pma.mastercart;
 /////Set your content view before you call findviewbyId methods.//////
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
@@ -15,53 +13,32 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
-import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.pma.mastercart.adapter.HomePageTabsAdapter;
-import com.pma.mastercart.adapter.ProductAdapter;
-import com.pma.mastercart.adapter.ShopAdapter;
-import com.pma.mastercart.asyncTasks.GetCategoriesTask;
 import com.pma.mastercart.asyncTasks.GetUserTask;
-import com.pma.mastercart.asyncTasks.LoginUserTask;
 import com.pma.mastercart.asyncTasks.RetrieveProductsTask;
 import com.pma.mastercart.asyncTasks.RetrieveShopsTask;
 import com.pma.mastercart.model.Category;
-import com.pma.mastercart.model.Comment;
-import com.pma.mastercart.model.DTO.AddUserDTO;
-import com.pma.mastercart.model.DTO.UserDTO;
 import com.pma.mastercart.model.Product;
 import com.pma.mastercart.model.Shop;
 import com.pma.mastercart.model.User;
 import com.pma.mastercart.model.enums.Role;
-
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private TabLayout tabLayout;
     public static ViewPager viewPager;
-    public static String URL = "http://192.168.1.9:8096/";
+    public static String URL = "http://192.168.0.12:8096/";
     public static ArrayList<Product> products = new ArrayList();
     public static ArrayList<Shop> shops = new ArrayList();
     public static ProgressDialog progress;
@@ -265,6 +242,7 @@ public class MainActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.clear();
             editor.commit();
+            onRestart();
         }
     }
 

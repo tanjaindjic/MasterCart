@@ -3,7 +3,6 @@ package com.pma.mastercart.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +10,7 @@ public class Product  implements Parcelable {
 
     private Long id;
     private String name;
-    private String imageResource; //mozda path u storage?
+    private byte[] imageResource; //mozda path u storage?
     private double price;
     private String description;
     private int onStock;
@@ -27,7 +26,7 @@ public class Product  implements Parcelable {
     public Product() {
     }
 
-    public Product(Long id, String name, String imageResource, double price, String description, int onStock, String size, int discount, boolean active, double rating, int numberOfRatings, List<Comment> comments, Category category, List<Order> orders) {
+    public Product(Long id, String name, byte[] imageResource, double price, String description, int onStock, String size, int discount, boolean active, double rating, int numberOfRatings, List<Comment> comments, Category category, List<Order> orders) {
         this.id = id;
         this.name = name;
         this.imageResource = imageResource;
@@ -60,11 +59,11 @@ public class Product  implements Parcelable {
         this.name = name;
     }
 
-    public String getImageResource() {
+    public byte[] getImageResource() {
         return imageResource;
     }
 
-    public void setImageResource(String imageResource) {
+    public void setImageResource(byte[] imageResource) {
         this.imageResource = imageResource;
     }
 
@@ -166,7 +165,7 @@ public class Product  implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeValue(this.id);
         dest.writeString(this.name);
-        dest.writeString(this.imageResource);
+        dest.writeByteArray(this.imageResource);
         dest.writeDouble(this.price);
         dest.writeString(this.description);
         dest.writeInt(this.onStock);
@@ -175,15 +174,15 @@ public class Product  implements Parcelable {
         dest.writeByte(this.active ? (byte) 1 : (byte) 0);
         dest.writeDouble(this.rating);
         dest.writeInt(this.numberOfRatings);
-        dest.writeList(this.comments);
+        dest.writeTypedList(this.comments);
         dest.writeParcelable(this.category, flags);
-        dest.writeList(this.orders);
+        dest.writeTypedList(this.orders);
     }
 
     protected Product(Parcel in) {
         this.id = (Long) in.readValue(Long.class.getClassLoader());
         this.name = in.readString();
-        this.imageResource = in.readString();
+        this.imageResource = in.createByteArray();
         this.price = in.readDouble();
         this.description = in.readString();
         this.onStock = in.readInt();
@@ -192,11 +191,9 @@ public class Product  implements Parcelable {
         this.active = in.readByte() != 0;
         this.rating = in.readDouble();
         this.numberOfRatings = in.readInt();
-        this.comments = new ArrayList<Comment>();
-        in.readList(this.comments, Comment.class.getClassLoader());
+        this.comments = in.createTypedArrayList(Comment.CREATOR);
         this.category = in.readParcelable(Category.class.getClassLoader());
-        this.orders = new ArrayList<Order>();
-        in.readList(this.orders, Order.class.getClassLoader());
+        this.orders = in.createTypedArrayList(Order.CREATOR);
     }
 
     public static final Creator<Product> CREATOR = new Creator<Product>() {

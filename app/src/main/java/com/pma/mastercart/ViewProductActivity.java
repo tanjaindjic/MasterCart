@@ -3,6 +3,8 @@ package com.pma.mastercart;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -110,9 +112,10 @@ public class ViewProductActivity  extends AppCompatActivity implements View.OnCl
 
 
 
-        //TODO skinuti pravu sliku
-        /*ImageView pic = (ImageView) findViewById(R.id.single_product_thumbnail);
-        pic.setImageResource(R.drawable.ic_dummy);*/
+        Bitmap bitmap = BitmapFactory.decodeByteArray(product.getImageResource(), 0, product.getImageResource().length);
+        ImageView pic = (ImageView)findViewById(R.id.single_product_thumbnail);
+        pic.setImageBitmap(bitmap);
+
 
         add_favorite = (ImageButton) findViewById(R.id.single_add_favorite);
         add_favorite.setOnClickListener(new View.OnClickListener() {

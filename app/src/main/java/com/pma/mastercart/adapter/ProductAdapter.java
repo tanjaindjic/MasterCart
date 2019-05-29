@@ -3,6 +3,8 @@ package com.pma.mastercart.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,9 +81,9 @@ public class ProductAdapter extends BaseAdapter {
           final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
           convertView = layoutInflater.inflate(R.layout.product_layout, null);
         }
-
+        Bitmap bitmap = BitmapFactory.decodeByteArray(product.getImageResource(), 0, product.getImageResource().length);
         imageView = (ImageView)convertView.findViewById(R.id.product_thumbnail);
-        imageView.setImageResource(R.drawable.ic_dummy);
+        imageView.setImageBitmap(bitmap);
         nameTextView = (TextView)convertView.findViewById(R.id.product_name);
         nameTextView.setText(product.getName());
         priceTextView = (TextView)convertView.findViewById(R.id.product_price);
