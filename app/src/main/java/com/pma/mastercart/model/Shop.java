@@ -206,4 +206,5 @@ public class Shop  implements Parcelable {
             return new Shop[size];
         }
     };
+
 }

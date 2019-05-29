@@ -11,11 +11,12 @@ public class ProductDTO {
     private String size;
     private String discount;
     private String idShop;
+    private String idCategory;
 
     public ProductDTO() {}
 
     public ProductDTO(String id, String name, String imageResource, String price, String description,
-                      String onStock, String size, String discount, String idShop) {
+                      String onStock, String size, String discount, String idShop,String idCategory) {
         super();
         this.id = id;
         this.name = name;
@@ -26,6 +27,7 @@ public class ProductDTO {
         this.size = size;
         this.discount = discount;
         this.idShop = idShop;
+        this.idCategory = idCategory;
     }
 
     public String getId() {
@@ -34,6 +36,14 @@ public class ProductDTO {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getIdCategory() {
+        return idCategory;
+    }
+
+    public void setIdCategory(String idCategory) {
+        this.idCategory = idCategory;
     }
 
     public String getName() {
