@@ -33,6 +33,7 @@ public class EditShopActivity  extends AppCompatActivity implements View.OnClick
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_shop);
+        getIntent().removeExtra("shopUpdate");
         Toolbar back_toolbar = (Toolbar) findViewById(R.id.back_toolbar);
         setSupportActionBar(back_toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -100,6 +101,11 @@ public class EditShopActivity  extends AppCompatActivity implements View.OnClick
             Toast.makeText(this, "Wrong inputs, log in failed", Toast.LENGTH_SHORT).show();
             return false;
         }
+        ArrayList<Long> ids = new ArrayList<>();
+        ids.add(idShop);
+        Intent intent = getIntent();
+        intent.removeExtra("shopUpdate");
+        intent.putExtra("shopUpdate", ids);
         return true;
     }
 

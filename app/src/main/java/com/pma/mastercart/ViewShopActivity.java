@@ -57,6 +57,7 @@ public class ViewShopActivity extends AppCompatActivity implements View.OnClickL
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.single_shop_view);
+        getIntent().removeExtra("shopUpdate");
 
         Intent intent = getIntent();
         ArrayList parcelableList = intent.getParcelableArrayListExtra("shop");
@@ -136,6 +137,11 @@ public class ViewShopActivity extends AppCompatActivity implements View.OnClickL
                     getIntent().putParcelableArrayListExtra("shop", s);
                 }
                 add_comment_shop.setText("");
+                ArrayList<Long> ids = new ArrayList<>();
+                ids.add(shop.getId());
+                Intent intent = getIntent();
+                intent.removeExtra("shopUpdate");
+                intent.putExtra("shopUpdate", ids);
             } catch (InterruptedException e) {
                 finish();
             } catch (ExecutionException e) {

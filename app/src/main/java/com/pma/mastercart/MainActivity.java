@@ -14,6 +14,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,7 +26,9 @@ import android.widget.TextView;
 
 import com.pma.mastercart.adapter.HomePageTabsAdapter;
 import com.pma.mastercart.asyncTasks.GetUserTask;
+import com.pma.mastercart.asyncTasks.RetrieveProductListTask;
 import com.pma.mastercart.asyncTasks.RetrieveProductsTask;
+import com.pma.mastercart.asyncTasks.RetrieveShopListTask;
 import com.pma.mastercart.asyncTasks.RetrieveShopsTask;
 import com.pma.mastercart.model.Category;
 import com.pma.mastercart.model.Product;
@@ -39,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private TabLayout tabLayout;
     public static ViewPager viewPager;
-    public static String URL = "http://192.168.0.21:8096/";
+    public static String URL = "http://192.168.1.8:8096/";
     public static ArrayList<Product> products = new ArrayList();
     public static ArrayList<Shop> shops = new ArrayList();
     public static ProgressDialog progress;
@@ -67,20 +70,61 @@ public class MainActivity extends AppCompatActivity {
         shops = task2.get();
     }
 
+    private static void updateData(Long productUpdates, Long shopUpdates) throws ExecutionException, InterruptedException {
+        if(productUpdates!=null){
+            AsyncTask<Long, Void, Product> task = new RetrieveProductListTask().execute(productUpdates);
+            Product productU = task.get();
+            int index = getIndexProduct(productU.getId());
+            if(index!=-1)
+                products.set(index, productU);
+        }
+        if(shopUpdates!=null){
+            AsyncTask<Long, Void, Shop> task = new RetrieveShopListTask().execute(shopUpdates);
+            Shop shopU = task.get();
+            int index = getIndexShops(shopU.getId());
+            if(index!=-1)
+                shops.set(index, shopU);
+        }
+    }
+    private static int getIndexShops(Long id) {
+        for(Shop p : shops){
+            if(p.getId()==id)
+                return shops.indexOf(p);
+        }
+        return -1;
+    }
+
+    private static int getIndexProduct(Long id) {
+        for(Product p : products){
+            if(p.getId()==id)
+                return products.indexOf(p);
+        }
+        return -1;
+    }
+
     @Override
     protected void onRestart() {
         super.onRestart();
-        progress.show();
+        Log.d("ONTEST", "restart");
+        //progress.show();
         //setupNavBar();
-
+        long productUpdates = this.getIntent().getLongExtra("productUpdate", -1);
+        long shopUpdates = this.getIntent().getLongExtra("shopUpdate", -1);
+        Long pU = null;
+        Long sU = null;
+        if(productUpdates!=-1)
+            pU = Long.valueOf(productUpdates);
+        if(shopUpdates!=-1)
+            sU = Long.valueOf(shopUpdates);
         try {
-            loadData();
+            updateData(pU, sU);
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
+        this.getIntent().removeExtra("productUpdate");
+        this.getIntent().removeExtra("shopUpdate");
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         adapter = new HomePageTabsAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
@@ -101,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
         progress.setMessage("Syncing with Database");
         progress.setCancelable(false);
         progress.show();
+        Log.d("ONTEST", "create");
 
         try {
             loadData();
@@ -248,8 +293,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @Override
+ /*   @Override
     public void onResume(){
+        Log.d("ONTEST", "on resume");
         super.onResume();
         progress.show();
         //setupNavBar();
@@ -261,7 +307,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     private void setupNavBar() {
         User currentUser = null;

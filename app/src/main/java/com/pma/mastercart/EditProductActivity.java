@@ -1,5 +1,6 @@
 package com.pma.mastercart;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import com.pma.mastercart.asyncTasks.EditProductTask;
 import com.pma.mastercart.asyncTasks.GetCategoriesTask;
 import com.pma.mastercart.model.Category;
 import com.pma.mastercart.model.DTO.ProductDTO;
+import com.pma.mastercart.model.Product;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
@@ -30,11 +32,14 @@ public class EditProductActivity extends AppCompatActivity implements View.OnCli
     private Long idProduct;
     private Spinner editSpinnerCategoryProduct;
     private Category cat;
+    private Context ctx;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_product);
+        ctx = this;
+        getIntent().removeExtra("productUpdate");
         Toolbar back_toolbar = (Toolbar) findViewById(R.id.back_toolbar);
         setSupportActionBar(back_toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -106,7 +111,11 @@ public class EditProductActivity extends AppCompatActivity implements View.OnCli
         productDTO.setId(idProduct.toString());
         productDTO.setIdCategory(cat.getId().toString());
         AsyncTask<ProductDTO, Void, ProductDTO> task = new EditProductTask().execute(productDTO);
-
+        ArrayList<Long> p = new ArrayList<>();
+        p.add(idProduct);
+        Intent intent = this.getParentActivityIntent();
+        intent.removeExtra("productUpdate");
+        intent.putExtra("productUpdate", p);
         return true;
     }
 }

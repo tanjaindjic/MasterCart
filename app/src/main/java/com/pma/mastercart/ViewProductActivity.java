@@ -72,6 +72,7 @@ public class ViewProductActivity  extends AppCompatActivity implements View.OnCl
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.single_product_view);
+        getIntent().removeExtra("productUpdate");
         Intent intent = getIntent();
         ArrayList parcelableList  = intent.getParcelableArrayListExtra("product");
         product = (Product) parcelableList.get(0);
@@ -173,13 +174,14 @@ public class ViewProductActivity  extends AppCompatActivity implements View.OnCl
             AsyncTask<Object, Void, Comment> task = new AddCommentTask().execute(objects);
             try {
                 Comment done = task.get();
-                ArrayList<Product> p = new ArrayList<>();
+                ArrayList<Long> p = new ArrayList<>();
                 if(done!=null) {
                     product.getComments().add(done);
                     commentAdapter.updateResults((ArrayList<Comment>) product.getComments());
-                    p.add(product);
-                    getIntent().removeExtra("product");
-                    getIntent().putParcelableArrayListExtra("product", p);
+                    p.add(product.getId());
+                    Intent intent = new Intent(this, MainActivity.class);
+                    intent.removeExtra("productUpdate");
+                    intent.putExtra("productUpdate", p);
                 }
                 editText_add_comment.setText("");
             } catch (InterruptedException e) {
