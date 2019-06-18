@@ -22,6 +22,7 @@ import com.pma.mastercart.R;
 import com.pma.mastercart.ViewProductActivity;
 import com.pma.mastercart.asyncTasks.AddToCartTask;
 import com.pma.mastercart.asyncTasks.AddToFavsTask;
+import com.pma.mastercart.asyncTasks.GetFavoriteIdsTask;
 import com.pma.mastercart.asyncTasks.GetUserTask;
 import com.pma.mastercart.model.Product;
 import com.pma.mastercart.model.Shop;
@@ -134,6 +135,7 @@ public class ProductAdapter extends BaseAdapter {
                     try {
                         String resp = task.get();
                         if(resp.equals("done")){
+                            ((ImageButton)view.findViewById(R.id.add_favorite)).setImageResource(R.drawable.ic_favorite);
                             Toast.makeText(mContext, "Item added to favorites.", Toast.LENGTH_SHORT).show();
                         }
                     } catch (InterruptedException e) {
@@ -145,6 +147,26 @@ public class ProductAdapter extends BaseAdapter {
 
             }
         });
+        //postavljanje favorite ikonice
+        SharedPreferences sharedpreferences = mContext.getSharedPreferences(MainActivity.PREFS, 0);
+        if (sharedpreferences.contains("AuthToken")) {
+            Object[] objects = {sharedpreferences.getString("AuthToken", null), products[position].getId()};
+            AsyncTask<Object, Void,  Boolean> task = new GetFavoriteIdsTask().execute(objects);
+            try {
+                Boolean longs= task.get();
+                if(longs!= null) {
+                    if (longs)
+                        add_favorite.setImageResource(R.drawable.ic_favorite);
+                    else
+                        add_favorite.setImageResource(R.drawable.ic_pick_favorite);
+                }
+            } catch (InterruptedException e) {
+
+            } catch (ExecutionException e) {
+
+            }
+        }
+
 
         add_cart = (ImageButton)convertView.findViewById(R.id.add_cart);
         add_cart.setOnClickListener(new View.OnClickListener() {
@@ -171,7 +193,6 @@ public class ProductAdapter extends BaseAdapter {
         });
 
         User currentUser = null;
-        SharedPreferences sharedpreferences = mContext.getSharedPreferences(MainActivity.PREFS, 0);
         if (sharedpreferences.contains("AuthToken")) {
             AsyncTask<String, Void, User> task = new GetUserTask().execute(sharedpreferences.getString("AuthToken", null));
             // The URL for making the POST request
