@@ -33,6 +33,7 @@ import com.pma.mastercart.adapter.CommentAdapter;
 import com.pma.mastercart.adapter.ProductAdapter;
 import com.pma.mastercart.asyncTasks.AddCommentTask;
 import com.pma.mastercart.asyncTasks.AddToFavsTask;
+import com.pma.mastercart.asyncTasks.GetFavoriteIdsTask;
 import com.pma.mastercart.asyncTasks.GetProductTask;
 import com.pma.mastercart.asyncTasks.GetUserTask;
 import com.pma.mastercart.asyncTasks.RemoveFromFavs;
@@ -65,6 +66,7 @@ public class ViewProductActivity  extends AppCompatActivity implements View.OnCl
     private EditText editText_add_comment;
     private Button button_sendComment;
     private Long id;
+    private ImageView single_add_favorite;
 
 
     @Override
@@ -94,6 +96,23 @@ public class ViewProductActivity  extends AppCompatActivity implements View.OnCl
         categoryTextView.setText("Category: " + product.getCategory().getName());
         sizeTextView = (TextView) findViewById(R.id.single_product_size);
         sizeTextView.setText("Size: " + product.getSize());
+        single_add_favorite = (ImageView) findViewById(R.id.single_add_favorite);
+        //postavljanje favourite ikonice
+        SharedPreferences sharedpreferences = getSharedPreferences(MainActivity.PREFS, 0);
+        if (sharedpreferences.contains("AuthToken")) {
+            Object[] objects = {sharedpreferences.getString("AuthToken", null), product.getId()};
+            AsyncTask<Object, Void,  Boolean> task = new GetFavoriteIdsTask().execute(objects);
+            try {
+                Boolean longs= task.get();
+                if(longs!= null)
+                    if(longs)
+                        single_add_favorite.setImageResource(R.drawable.ic_favorite);
+            } catch (InterruptedException e) {
+
+            } catch (ExecutionException e) {
+
+            }
+        }
         
         Toolbar back_toolbar = (Toolbar) findViewById(R.id.back_toolbar);
         setSupportActionBar(back_toolbar);
@@ -102,7 +121,6 @@ public class ViewProductActivity  extends AppCompatActivity implements View.OnCl
         back_toolbar.setTitle(product.getName());
 
         layout_AddComment = (LinearLayout) findViewById(R.id.layout_AddComment);
-        SharedPreferences sharedpreferences = getSharedPreferences(MainActivity.PREFS, 0);
         layout_AddComment.setVisibility(View.INVISIBLE);
         if (sharedpreferences.contains("AuthToken"))
             layout_AddComment.setVisibility(View.VISIBLE);
@@ -152,7 +170,6 @@ public class ViewProductActivity  extends AppCompatActivity implements View.OnCl
             }
         });
     }
-
 
 
     @Override

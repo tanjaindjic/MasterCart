@@ -96,7 +96,7 @@
                                     android:layout_marginLeft="8dp"
                                     android:layout_marginRight="8dp"
                                     android:background="@android:color/transparent"
-                                    android:src="@drawable/ic_favorite" />
+                                    android:src="@drawable/ic_pick_favorite" />
 
                                 <ImageButton
                                     android:id="@+id/single_add_cart"
