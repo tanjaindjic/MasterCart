@@ -6,8 +6,7 @@ import android.os.AsyncTask;
 import com.pma.mastercart.MainActivity;
 import com.pma.mastercart.OfflineActivity;
 import com.pma.mastercart.model.Category;
-import com.pma.mastercart.model.DTO.EditUserDTO;
-import com.pma.mastercart.model.User;
+import com.pma.mastercart.model.Product;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -23,49 +22,44 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-public class UpdateUserTask extends AsyncTask<Object, Void, User> {
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class OfflineTask extends AsyncTask<Void, Void, Boolean> {
     private boolean valid;
+
     @Override
-    protected User doInBackground(Object... objects) {
+    protected Boolean doInBackground(Void... voids) {
         valid = true;
         SimpleClientHttpRequestFactory simpleClientHttpRequestFactory = new SimpleClientHttpRequestFactory();
         simpleClientHttpRequestFactory.setConnectTimeout(10000);
         HttpHeaders requestHeaders = new HttpHeaders();
-
-
-        // Sending a JSON or XML object i.e. "application/json" or "application/xml"
         requestHeaders.setContentType(MediaType.APPLICATION_JSON);
-        requestHeaders.add("Authorization", objects[1].toString());
 
-        MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
+        HttpEntity<?> httpEntity = new HttpEntity<Object>(requestHeaders);
 
-        //body.add("name", strings[0]);
-        HttpEntity<?> httpEntity = new HttpEntity<Object>(objects[0], requestHeaders);
-
-        // Create a new RestTemplate instance
         RestTemplate restTemplate = new RestTemplate(simpleClientHttpRequestFactory);
         restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
 
         // Make the network request, posting the message, expecting a String in response from the server
-        ResponseEntity<User> response = null;
-        User user = new User();
+        ResponseEntity<Boolean> response = null;
         try {
-            response = restTemplate.exchange(MainActivity.URL+"user", HttpMethod.PUT, httpEntity, User.class);
+            response = restTemplate.exchange(MainActivity.URL+"offline", HttpMethod.GET, httpEntity, Boolean.class);
         }catch (RestClientException e){
             valid=false;
-            return user;
+            return true;
         }
         if(response.getStatusCode()== HttpStatus.OK)
-            user = response.getBody();
-        return user;
+            return false;
+        return true;
     }
 
 
     @Override
-    protected void onPostExecute(User user) {
-        super.onPostExecute(user);
+    protected void onPostExecute(Boolean bool) {
+        super.onPostExecute(bool);
         if(!valid){
             Intent homepage = new Intent(MainActivity.appContext, OfflineActivity.class);
             homepage.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

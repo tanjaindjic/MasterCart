@@ -6,6 +6,7 @@ import com.pma.mastercart.model.Category;
 import com.pma.mastercart.model.DTO.UserDTO;
 
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -74,6 +75,10 @@ public class AddCategoryActivity extends AppCompatActivity implements View.OnCli
                 case 2:
                     editTextNameCategory.requestFocus();
                     break;
+                case 3:
+                    Intent i = new Intent(getApplicationContext(), OfflineActivity.class);
+                    startActivity(i);
+                    break;
                 default:
                     break;
 
@@ -96,6 +101,8 @@ public class AddCategoryActivity extends AppCompatActivity implements View.OnCli
         Category response = task.get();
         if(response==null)
             return 1;
+        if(response.getId()==(long)-1)
+            return 3;
         return 0;
     }
 }

@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private TabLayout tabLayout;
     public static ViewPager viewPager;
-    public static String URL = "http://192.168.1.8:8096/";
+    public static String URL = "http://192.168.43.84:8096/";
     public static ArrayList<Product> products = new ArrayList();
     public static ArrayList<Shop> shops = new ArrayList();
     public static ProgressDialog progress;
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    public static void loadData() throws ExecutionException, InterruptedException {
+    private void loadData() throws ExecutionException, InterruptedException {
         AsyncTask<ProgressDialog, Void, ArrayList<Product>> task = new RetrieveProductsTask().execute(progress);
         products = task.get();
 
@@ -134,7 +134,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

@@ -183,12 +183,14 @@ public class TabFragment extends Fragment implements OnLoadDataListener {
         if(data instanceof ProductListDTO){
             products = ((ProductListDTO) data).getProducts();
             productsAdapter = new ProductAdapter(MainActivity.appContext, products.toArray(new Product[products.size()]));
-            gridView.setAdapter(productsAdapter);
+            if(gridView!=null)
+                gridView.setAdapter(productsAdapter);
 
         }else if(data instanceof ShopListDTO){
             shops = ((ShopListDTO) data).getShops();
             shopAdapter = new ShopAdapter(MainActivity.appContext, shops.toArray(new Shop[shops.size()]));
-            listView.setAdapter(shopAdapter);
+            if(listView!=null)
+               listView.setAdapter(shopAdapter);
 
         }
     }

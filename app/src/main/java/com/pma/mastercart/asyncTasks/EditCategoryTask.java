@@ -1,24 +1,33 @@
 package com.pma.mastercart.asyncTasks;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 
 import com.pma.mastercart.MainActivity;
+import com.pma.mastercart.OfflineActivity;
 import com.pma.mastercart.model.Category;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 public class EditCategoryTask extends AsyncTask<Object, Void, Category> {
+    private boolean valid;
     @Override
     protected Category doInBackground(Object... objects) {
+        valid = true;
+        SimpleClientHttpRequestFactory simpleClientHttpRequestFactory = new SimpleClientHttpRequestFactory();
+        simpleClientHttpRequestFactory.setConnectTimeout(10000);
         HttpHeaders requestHeaders = new HttpHeaders();
 
 
@@ -32,17 +41,33 @@ public class EditCategoryTask extends AsyncTask<Object, Void, Category> {
         HttpEntity<?> httpEntity = new HttpEntity<Object>(objects[0], requestHeaders);
 
         // Create a new RestTemplate instance
-        RestTemplate restTemplate = new RestTemplate();
+        RestTemplate restTemplate = new RestTemplate(simpleClientHttpRequestFactory);
         restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
 
         // Make the network request, posting the message, expecting a String in response from the server
-        ResponseEntity<Category> response = restTemplate.exchange(MainActivity.URL+"category", HttpMethod.PUT, httpEntity, Category.class);
-        if(response.getBody()==null){
-            return null;
+        Category category = new Category();
+        ResponseEntity<Category> response = null;
+        try {
+            response = restTemplate.exchange(MainActivity.URL+"category", HttpMethod.PUT, httpEntity, Category.class);
+        }catch (RestClientException e){
+            valid=false;
+            return category;
         }
-        Category category = response.getBody();
+        if(response.getStatusCode()== HttpStatus.OK)
+            category = response.getBody();
         return category;
+    }
+
+
+    @Override
+    protected void onPostExecute(Category category) {
+        super.onPostExecute(category);
+        if(!valid){
+            Intent homepage = new Intent(MainActivity.appContext, OfflineActivity.class);
+            homepage.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            MainActivity.appContext.startActivity(homepage);
+        }
     }
 }
