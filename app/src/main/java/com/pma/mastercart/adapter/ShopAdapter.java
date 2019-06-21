@@ -162,11 +162,10 @@ public class ShopAdapter  extends BaseAdapter {
         else if(currentUser.getRole().equals(Role.PRODAVAC)){
             edit_shop.setVisibility(View.GONE);
             add_product.setVisibility(View.GONE);
-            for(User u : shop.getSeller())
-                if(u.getId()==currentUser.getId()){
-                    edit_shop.setVisibility(View.VISIBLE);
-                    add_product.setVisibility(View.VISIBLE);
-                }
+            if(shop.getSeller().getId()==currentUser.getId()){
+                edit_shop.setVisibility(View.VISIBLE);
+                add_product.setVisibility(View.VISIBLE);
+            }
         }else{
             edit_shop.setVisibility(View.GONE);
             add_product.setVisibility(View.GONE);

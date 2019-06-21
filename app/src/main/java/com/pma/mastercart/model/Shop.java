@@ -19,13 +19,13 @@ public class Shop  implements Parcelable {
     private double rating;
     private int numberOfRatings;
     private List<Product> products;
-    private List<User> seller;
+    private User seller;
     private List<Comment> comments;
 
     public Shop() {
     }
 
-    public Shop(Long id, String name, byte[] imageResource, String location, double lat, double lng, String phone, String email, boolean active, double rating, int numberOfRatings, List<Product> products, List<User> seller, List<Comment> comments) {
+    public Shop(Long id, String name, byte[] imageResource, String location, double lat, double lng, String phone, String email, boolean active, double rating, int numberOfRatings, List<Product> products, User seller, List<Comment> comments) {
         this.id = id;
         this.name = name;
         this.imageResource = imageResource;
@@ -138,11 +138,11 @@ public class Shop  implements Parcelable {
         this.products = products;
     }
 
-    public List<User> getSeller() {
+    public User getSeller() {
         return seller;
     }
 
-    public void setSeller(List<User> seller) {
+    public void setSeller(User seller) {
         this.seller = seller;
     }
 
@@ -174,7 +174,7 @@ public class Shop  implements Parcelable {
         dest.writeDouble(this.rating);
         dest.writeInt(this.numberOfRatings);
         dest.writeTypedList(this.products);
-        dest.writeTypedList(this.seller);
+        dest.writeParcelable(this.seller, flags);
         dest.writeTypedList(this.comments);
     }
 
@@ -191,7 +191,7 @@ public class Shop  implements Parcelable {
         this.rating = in.readDouble();
         this.numberOfRatings = in.readInt();
         this.products = in.createTypedArrayList(Product.CREATOR);
-        this.seller = in.createTypedArrayList(User.CREATOR);
+        this.seller = in.readParcelable(User.class.getClassLoader());
         this.comments = in.createTypedArrayList(Comment.CREATOR);
     }
 
@@ -206,5 +206,4 @@ public class Shop  implements Parcelable {
             return new Shop[size];
         }
     };
-
 }

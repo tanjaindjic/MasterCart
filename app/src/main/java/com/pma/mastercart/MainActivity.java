@@ -20,7 +20,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -42,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private TabLayout tabLayout;
     public static ViewPager viewPager;
-    public static String URL = "http://192.168.43.84:8096/";
+    public static String URL = "http://192.168.15.148:8096/";
     public static ArrayList<Product> products = new ArrayList();
     public static ArrayList<Shop> shops = new ArrayList();
     public static ProgressDialog progress;
@@ -54,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Category> categs;
     private TextView userNameTextView;
     private String currentUserFirstName;
+    private User currentUser;
 
 
     @Override
@@ -62,8 +62,8 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    private void loadData() throws ExecutionException, InterruptedException {
-        AsyncTask<ProgressDialog, Void, ArrayList<Product>> task = new RetrieveProductsTask().execute(progress);
+    private void loadData(Long i) throws ExecutionException, InterruptedException {
+        AsyncTask<Long, Void, ArrayList<Product>> task = new RetrieveProductsTask().execute(i);
         products = task.get();
 
         AsyncTask<String, Void, ArrayList<Shop>> task2 = new RetrieveShopsTask().execute("sta god");
@@ -137,17 +137,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        setupNavBar();
 
         appContext = getApplicationContext();
-        progress = new ProgressDialog(this);
+     /*   progress = new ProgressDialog(this);
         progress.setTitle("Loading");
         progress.setMessage("Syncing with Database");
         progress.setCancelable(false);
-        progress.show();
+        progress.show();*/
         Log.d("ONTEST", "create");
 
         try {
-            loadData();
+            if(currentUser!=null)
+                if(currentUser.getRole().equals(Role.PRODAVAC))
+                    loadData(currentUser.getId());
+            loadData(-1L);
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -188,8 +193,7 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
 
-        final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        setupNavBar();
+
 
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -309,7 +313,7 @@ public class MainActivity extends AppCompatActivity {
     }*/
 
     private void setupNavBar() {
-        User currentUser = null;
+        currentUser = null;
         SharedPreferences sharedpreferences = getSharedPreferences(MainActivity.PREFS, 0);
         if (sharedpreferences.contains("AuthToken")) {
             AsyncTask<String, Void, User> task = new GetUserTask().execute(sharedpreferences.getString("AuthToken", null));
