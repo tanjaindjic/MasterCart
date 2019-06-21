@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private TabLayout tabLayout;
     public static ViewPager viewPager;
-    public static String URL = "http://192.168.15.148:8096/";
+    public static String URL = "http://192.168.15.147:8096/";
     public static ArrayList<Product> products = new ArrayList();
     public static ArrayList<Shop> shops = new ArrayList();
     public static ProgressDialog progress;
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView userNameTextView;
     private String currentUserFirstName;
     private User currentUser;
+    private SearchView search_field;
 
 
     @Override
@@ -148,10 +150,12 @@ public class MainActivity extends AppCompatActivity {
         Log.d("ONTEST", "create");
 
         try {
-            if(currentUser!=null)
-                if(currentUser.getRole().equals(Role.PRODAVAC))
+            if(currentUser!=null) {
+                if (currentUser.getRole().equals(Role.PRODAVAC))
                     loadData(currentUser.getId());
-            loadData(-1L);
+                else loadData(-1L);
+            }
+            else loadData(-1L);
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -191,7 +195,32 @@ public class MainActivity extends AppCompatActivity {
         });
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
+        search_field = (SearchView) findViewById(R.id.search_field);
+        search_field.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                ArrayList<Product> searchProducts = new ArrayList<Product>();
+                ArrayList<Shop> searchShops = new ArrayList<Shop>();
+                for(Product p : products) {
+                    if(p.getName().contains(query)) {
+                        searchProducts.add(p);
+                    }
+                }
+                for(Shop s : shops) {
+                    if(s.getName().contains(query)) {
+                        searchShops.add(s);
+                    }
+                }
+                products=searchProducts;
+                shops = searchShops;
+                return true;
+            }
 
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
 
 
         navigationView.setNavigationItemSelectedListener(
@@ -243,6 +272,13 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.nav_logout:
                                 logOut();
                                 setupNavBar();
+                                try {
+                                    loadData(-1L);
+                                } catch (ExecutionException e) {
+                                    e.printStackTrace();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
                                 break;
                         }
                         menuItem.setChecked(true);
