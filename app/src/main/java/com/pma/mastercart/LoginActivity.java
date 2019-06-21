@@ -120,7 +120,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         progressDialog.setTitle("Loading");
         progressDialog.setMessage("Syncing with Database");
         progressDialog.setCancelable(false);
-//        progressDialog.show();
+        progressDialog.show();
         Object[] objects = new Object[]{userDTO, progressDialog};
         AsyncTask<Object, Void, UserDTO> task = new LoginUserTask(this).execute(objects);
         // The URL for making the POST request

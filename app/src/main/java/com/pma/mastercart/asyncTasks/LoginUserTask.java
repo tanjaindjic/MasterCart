@@ -80,7 +80,6 @@ public class LoginUserTask extends AsyncTask<Object, Void, UserDTO> {
         editor.putString("AuthToken", u.getPassword());
         editor.apply();
         editor.commit();
-        ((ProgressDialog) objects[1]).dismiss();
         return u;
     }
 

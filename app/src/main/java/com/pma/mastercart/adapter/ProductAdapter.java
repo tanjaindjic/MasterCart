@@ -220,6 +220,10 @@ public class ProductAdapter extends BaseAdapter {
             edit_product.setVisibility(View.GONE);
             add_favorite.setVisibility(View.VISIBLE);
             add_cart.setVisibility(View.VISIBLE);
+        }else{
+            edit_product.setVisibility(View.GONE);
+            add_cart.setVisibility(View.GONE);
+            add_favorite.setVisibility(View.GONE);
         }
         return convertView;
     }

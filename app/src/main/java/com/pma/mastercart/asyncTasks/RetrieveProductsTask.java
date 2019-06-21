@@ -27,14 +27,14 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class RetrieveProductsTask extends AsyncTask<ProgressDialog, Void, ArrayList<Product>> {
+public class RetrieveProductsTask extends AsyncTask<Long, Void, ArrayList<Product>> {
 
     private Product[] products;
     private boolean valid;
 
 
     @Override
-    protected ArrayList<Product> doInBackground(ProgressDialog... progressDialogs) {
+    protected ArrayList<Product> doInBackground(Long... longs) {
         valid = true;
         SimpleClientHttpRequestFactory simpleClientHttpRequestFactory = new SimpleClientHttpRequestFactory();
         simpleClientHttpRequestFactory.setConnectTimeout(10000);
@@ -43,14 +43,16 @@ public class RetrieveProductsTask extends AsyncTask<ProgressDialog, Void, ArrayL
         products = new Product[0];
         ResponseEntity<Product[]> response = null;
         try {
-            response = restTemplate.getForEntity(MainActivity.URL + "product", Product[].class);
+            if(longs[0]==-1L)
+                response = restTemplate.getForEntity(MainActivity.URL + "product", Product[].class);
+            else
+                response = restTemplate.getForEntity(MainActivity.URL + "product/seller/" + longs[0], Product[].class);
         }catch (RestClientException e){
             valid=false;
             return new ArrayList<>(Arrays.asList(products));
         }
         if(response.getStatusCode()== HttpStatus.OK)
             products = response.getBody();
-        progressDialogs[0].dismiss();
         return new ArrayList<>(Arrays.asList(products));
     }
 
