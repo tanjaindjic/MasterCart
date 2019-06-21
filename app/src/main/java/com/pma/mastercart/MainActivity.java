@@ -139,7 +139,6 @@ public class MainActivity extends AppCompatActivity {
 
         final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         setupNavBar();
-
         appContext = getApplicationContext();
      /*   progress = new ProgressDialog(this);
         progress.setTitle("Loading");
