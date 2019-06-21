@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private TabLayout tabLayout;
     public static ViewPager viewPager;
-    public static String URL = "http://192.168.43.84:8096/";
+    public static String URL = "http://192.168.15.147:8096/";
     public static ArrayList<Product> products = new ArrayList();
     public static ArrayList<Shop> shops = new ArrayList();
     public static ProgressDialog progress;
@@ -108,16 +108,16 @@ public class MainActivity extends AppCompatActivity {
         Log.d("ONTEST", "restart");
         //progress.show();
         //setupNavBar();
-        long productUpdates = this.getIntent().getLongExtra("productUpdate", -1);
+    /*    long productUpdates = this.getIntent().getLongExtra("productUpdate", -1);
         long shopUpdates = this.getIntent().getLongExtra("shopUpdate", -1);
         Long pU = null;
         Long sU = null;
         if(productUpdates!=-1)
             pU = Long.valueOf(productUpdates);
         if(shopUpdates!=-1)
-            sU = Long.valueOf(shopUpdates);
+            sU = Long.valueOf(shopUpdates);*/
         try {
-            updateData(pU, sU);
+            loadData();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
