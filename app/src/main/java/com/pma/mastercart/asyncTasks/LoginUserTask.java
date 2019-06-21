@@ -72,6 +72,8 @@ public class LoginUserTask extends AsyncTask<Object, Void, UserDTO> {
         }
         if(response.getStatusCode()== HttpStatus.OK)
             u = response.getBody();
+        if(u==null)
+            return null;
 
         SharedPreferences pref = context.getSharedPreferences(MainActivity.PREFS, 0); // 0 - for private mode
         SharedPreferences.Editor editor = pref.edit();

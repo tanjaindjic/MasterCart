@@ -6,6 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
     <!-- Layout to contain contents of main body of screen (drawer will slide over this) -->
     <LinearLayout
@@ -101,19 +104,29 @@
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
             android:paddingRight="15dp"
+            android:layout_marginBottom="20dp"
             android:paddingLeft="15dp"/>
-
-        <ImageView
-            android:id="@+id/imageViewProduct"
-            android:layout_width="95dp"
-            android:layout_height="95dp"
-            android:src="@drawable/ic_dummy"/>
-
-        <Button
-            android:id="@+id/btnAddPictureProduct"
+        <GridLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Choose"/>
+            android:layout_marginBottom="10dp">
+
+            <ImageView
+                android:id="@+id/imageViewProduct"
+                android:layout_width="95dp"
+                android:layout_height="95dp"
+                android:layout_marginLeft="15dp"
+                android:src="@drawable/ic_dummy"/>
+
+            <Button
+                android:id="@+id/btnAddPictureProduct"
+                android:layout_width="101dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_gravity="center"
+                android:text="Choose" />
+
+        </GridLayout>
 
         <android.support.v7.widget.FitWindowsLinearLayout
             android:layout_width="match_parent"
@@ -129,5 +142,6 @@
 
         </android.support.v7.widget.FitWindowsLinearLayout>
     </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 
 </android.support.v4.widget.DrawerLayout>
