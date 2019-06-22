@@ -3,7 +3,6 @@ package com.pma.mastercart.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Product  implements Parcelable {
@@ -22,11 +21,12 @@ public class Product  implements Parcelable {
     private List<Comment> comments;
     private Category category;
     private List<Order> orders;
+    private Shop shop;
 
     public Product() {
     }
 
-    public Product(Long id, String name, byte[] imageResource, double price, String description, int onStock, String size, int discount, boolean active, double rating, int numberOfRatings, List<Comment> comments, Category category, List<Order> orders) {
+    public Product(Long id, String name, byte[] imageResource, double price, String description, int onStock, String size, int discount, boolean active, double rating, int numberOfRatings, List<Comment> comments, Category category, List<Order> orders, Shop shop) {
         this.id = id;
         this.name = name;
         this.imageResource = imageResource;
@@ -41,6 +41,7 @@ public class Product  implements Parcelable {
         this.comments = comments;
         this.category = category;
         this.orders = orders;
+        this.shop = shop;
     }
 
     public Long getId() {
@@ -156,6 +157,16 @@ public class Product  implements Parcelable {
     }
 
 
+
+
+    public Shop getShop() {
+        return shop;
+    }
+
+    public void setShop(Shop shop) {
+        this.shop = shop;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -177,6 +188,7 @@ public class Product  implements Parcelable {
         dest.writeTypedList(this.comments);
         dest.writeParcelable(this.category, flags);
         dest.writeTypedList(this.orders);
+        dest.writeParcelable(this.shop, flags);
     }
 
     protected Product(Parcel in) {
@@ -194,6 +206,7 @@ public class Product  implements Parcelable {
         this.comments = in.createTypedArrayList(Comment.CREATOR);
         this.category = in.readParcelable(Category.class.getClassLoader());
         this.orders = in.createTypedArrayList(Order.CREATOR);
+        this.shop = in.readParcelable(Shop.class.getClassLoader());
     }
 
     public static final Creator<Product> CREATOR = new Creator<Product>() {

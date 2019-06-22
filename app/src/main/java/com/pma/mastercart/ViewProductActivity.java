@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Paint;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -67,6 +68,7 @@ public class ViewProductActivity  extends AppCompatActivity implements View.OnCl
     private Button button_sendComment;
     private Long id;
     private ImageView single_add_favorite;
+    private TextView productShop;
 
 
     @Override
@@ -87,16 +89,31 @@ public class ViewProductActivity  extends AppCompatActivity implements View.OnCl
         name = (TextView) findViewById(R.id.single_product_name);
         name.setText(product.getName());
         price = (TextView) findViewById(R.id.single_product_price);
-        price.setText("Price: " + Double.toString(product.getPrice())+'$');
+        price.setText(Double.toString(product.getPrice())+'$');
         description = (TextView) findViewById(R.id.single_product_description);
-        description.setText("Description: " + product.getDescription());
+        description.setText(product.getDescription());
         rating = (RatingBar) findViewById(R.id.single_product_rating);
         rating.setRating((float) product.getRating());
         categoryTextView = (TextView) findViewById(R.id.single_product_category1);
-        categoryTextView.setText("Category: " + product.getCategory().getName());
+        categoryTextView.setText(product.getCategory().getName());
         sizeTextView = (TextView) findViewById(R.id.single_product_size);
-        sizeTextView.setText("Size: " + product.getSize());
+        sizeTextView.setText(product.getSize());
         single_add_favorite = (ImageView) findViewById(R.id.single_add_favorite);
+        productShop = (TextView) findViewById(R.id.single_product_shop);
+        productShop.setText(product.getShop().getName());
+        productShop.setPaintFlags(productShop.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
+        productShop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList parcelableList = new ArrayList();
+                parcelableList.add(product.getShop());
+                Intent intent = new Intent(getApplicationContext(), ViewShopActivity.class);
+                intent.putParcelableArrayListExtra("shop", parcelableList);
+                startActivity(intent);
+                finish();
+            }
+        });
         //postavljanje favourite ikonice
         SharedPreferences sharedpreferences = getSharedPreferences(MainActivity.PREFS, 0);
         if (sharedpreferences.contains("AuthToken")) {
