@@ -11,8 +11,8 @@ public class Shop  implements Parcelable {
     private String name;
     private byte[] imageResource;
     private String location;
-    public double lat;
-    public double lng;
+    public float lat;
+    public float lng;
     private String phone;
     private String email;
     private boolean active;
@@ -25,7 +25,7 @@ public class Shop  implements Parcelable {
     public Shop() {
     }
 
-    public Shop(Long id, String name, byte[] imageResource, String location, double lat, double lng, String phone, String email, boolean active, double rating, int numberOfRatings, List<Product> products, User seller, List<Comment> comments) {
+    public Shop(Long id, String name, byte[] imageResource, String location, float lat, float lng, String phone, String email, boolean active, double rating, int numberOfRatings, List<Product> products, User seller, List<Comment> comments) {
         this.id = id;
         this.name = name;
         this.imageResource = imageResource;
@@ -42,19 +42,19 @@ public class Shop  implements Parcelable {
         this.comments = comments;
     }
 
-    public double getLat() {
+    public float getLat() {
         return lat;
     }
 
-    public void setLat(double lat) {
+    public void setLat(float lat) {
         this.lat = lat;
     }
 
-    public double getLng() {
+    public float getLng() {
         return lng;
     }
 
-    public void setLng(double lng) {
+    public void setLng(float lng) {
         this.lng = lng;
     }
 
@@ -164,10 +164,10 @@ public class Shop  implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeValue(this.id);
         dest.writeString(this.name);
-        dest.writeByteArray(this.imageResource);
+        dest.writeFloat(this.lat);
         dest.writeString(this.location);
-        dest.writeDouble(this.lat);
-        dest.writeDouble(this.lng);
+        dest.writeByteArray(this.imageResource);
+        dest.writeFloat(this.lng);
         dest.writeString(this.phone);
         dest.writeString(this.email);
         dest.writeByte(this.active ? (byte) 1 : (byte) 0);
@@ -181,10 +181,10 @@ public class Shop  implements Parcelable {
     protected Shop(Parcel in) {
         this.id = (Long) in.readValue(Long.class.getClassLoader());
         this.name = in.readString();
-        this.imageResource = in.createByteArray();
+        this.lat = in.readFloat();
         this.location = in.readString();
-        this.lat = in.readDouble();
-        this.lng = in.readDouble();
+        this.imageResource = in.createByteArray();
+        this.lng = in.readFloat();
         this.phone = in.readString();
         this.email = in.readString();
         this.active = in.readByte() != 0;

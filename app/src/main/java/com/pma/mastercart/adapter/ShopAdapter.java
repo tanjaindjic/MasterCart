@@ -111,6 +111,8 @@ public class ShopAdapter  extends BaseAdapter {
 
                 //open new activity to view location
                 Intent intent = new Intent(mContext, MapsActivity.class);
+                intent.putExtra("lat", shops[position].getLat());
+                intent.putExtra("lon", shops[position].getLng());
                 mContext.startActivity(intent);
             }
 

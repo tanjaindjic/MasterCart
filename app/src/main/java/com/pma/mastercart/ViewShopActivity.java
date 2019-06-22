@@ -97,6 +97,8 @@ public class ViewShopActivity extends AppCompatActivity implements View.OnClickL
                 //TODO proslediti pravu lokaciju prodavnice
                 //open new activity to view location
                 Intent intent = new Intent(view.getContext(), MapsActivity.class);
+                intent.putExtra("lat", shop.getLat());
+                intent.putExtra("lon", shop.getLng());
                 startActivity(intent);
             }
 

@@ -1,5 +1,6 @@
 package com.pma.mastercart;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -51,8 +52,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng noviSad = new LatLng(45.248996,19.839229);
-        mMap.addMarker(new MarkerOptions().position(noviSad).title("Marker in Novi Sad"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(noviSad, 16));
+        Intent intent = getIntent();
+        LatLng adresa = new LatLng(intent.getFloatExtra("lat", 0),intent.getFloatExtra("lon", 0));
+        mMap.addMarker(new MarkerOptions().position(adresa).title("Marker in Novi Sad"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(adresa, 16));
     }
 }
