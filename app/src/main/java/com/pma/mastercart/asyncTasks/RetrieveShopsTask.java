@@ -24,13 +24,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.TimeoutException;
 
-public class RetrieveShopsTask extends AsyncTask<String, Void, ArrayList<Shop>> {
+public class RetrieveShopsTask extends AsyncTask<Long, Void, ArrayList<Shop>> {
 
     private Shop[] shops;
     private boolean valid;
 
     @Override
-    protected ArrayList<Shop> doInBackground(String... strings) {
+    protected ArrayList<Shop> doInBackground(Long... longs) {
         valid = true;
         SimpleClientHttpRequestFactory simpleClientHttpRequestFactory = new SimpleClientHttpRequestFactory();
         simpleClientHttpRequestFactory.setConnectTimeout(10000);
@@ -39,7 +39,10 @@ public class RetrieveShopsTask extends AsyncTask<String, Void, ArrayList<Shop>> 
         shops = new Shop[0];
         ResponseEntity<Shop[]> response = null;
         try {
-            response = restTemplate.getForEntity(MainActivity.URL + "shop", Shop[].class);
+            if(longs[0]==-1L)
+                response = restTemplate.getForEntity(MainActivity.URL + "shop", Shop[].class);
+            else
+                response = restTemplate.getForEntity(MainActivity.URL + "shop/seller/" + longs[0], Shop[].class);
         }catch (RestClientException e){
             valid=false;
             return new ArrayList<>(Arrays.asList(shops));

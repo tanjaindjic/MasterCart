@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private TabLayout tabLayout;
     public static ViewPager viewPager;
-    public static String URL = "http://192.168.15.147:8096/";
+    public static String URL = "http://192.168.8.149:8096/";
     public static ArrayList<Product> products = new ArrayList();
     public static ArrayList<Shop> shops = new ArrayList();
     public static ProgressDialog progress;
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         AsyncTask<Long, Void, ArrayList<Product>> task = new RetrieveProductsTask().execute(i);
         products = task.get();
 
-        AsyncTask<String, Void, ArrayList<Shop>> task2 = new RetrieveShopsTask().execute("sta god");
+        AsyncTask<Long, Void, ArrayList<Shop>> task2 = new RetrieveShopsTask().execute(i);
         shops = task2.get();
     }
 

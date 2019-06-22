@@ -95,8 +95,8 @@
         <RatingBar
             android:id="@+id/shop_rating"
             android:layout_marginTop="11dp"
-            android:layout_marginRight="8dp"
-            android:layout_toLeftOf="@id/shop_details"
+            android:layout_below="@id/shop_address"
+            android:paddingLeft="8dp"
             style="@android:style/Widget.Material.RatingBar.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
