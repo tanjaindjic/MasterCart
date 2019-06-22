@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,7 +44,7 @@ public class ShopAdapter  extends BaseAdapter {
     private TextView nameTextView;
     private TextView locationTextView;
     private ImageView pic;
-
+    private RatingBar ratingBar;
 
 
     public ShopAdapter(Context mContext, Shop[] shops) {
@@ -83,6 +84,8 @@ public class ShopAdapter  extends BaseAdapter {
         Bitmap bitmap = BitmapFactory.decodeByteArray(shop.getImageResource(), 0, shop.getImageResource().length);
         pic = (ImageView)convertView.findViewById(R.id.shop_thumbnail);
         pic.setImageBitmap(bitmap);
+        ratingBar = (RatingBar) convertView.findViewById(R.id.shop_rating);
+        ratingBar.setRating((float) shop.getRating());
 
         shop_details = (ImageButton)convertView.findViewById(R.id.shop_details);
         shop_details.setOnClickListener(new View.OnClickListener() {
