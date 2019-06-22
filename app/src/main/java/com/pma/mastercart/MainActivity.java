@@ -406,6 +406,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }else {
             currentUserFirstName="";
+            ((TextView) navigationView.getHeaderView(0).findViewById(R.id.user_name_sidebar)).setText(currentUserFirstName);
             navigationView.getMenu().findItem(R.id.nav_login).setVisible(true);
             navigationView.getMenu().findItem(R.id.nav_add_category).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_edit_category).setVisible(false);
