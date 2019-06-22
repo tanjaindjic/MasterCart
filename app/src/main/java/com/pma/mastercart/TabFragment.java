@@ -177,7 +177,6 @@ public class TabFragment extends Fragment implements OnLoadDataListener {
         });
     }
 
-
     @Override
     public void onLoad(Object data) {
         if(data instanceof ProductListDTO){
