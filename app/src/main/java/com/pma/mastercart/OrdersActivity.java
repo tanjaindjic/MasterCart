@@ -55,11 +55,12 @@ public class OrdersActivity extends AppCompatActivity implements OnLoadDataListe
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         GetOrdersTask t = new GetOrdersTask(OrdersActivity.this);
-                        t.execute();
+                        t.execute(user.getId());
                     }
                 });
 
-        Order[] orders = user.getOrders().toArray(new Order[user.getOrders().size()]);
+        GetOrdersTask t = new GetOrdersTask(OrdersActivity.this);
+        t.execute(user.getId());
 
         Toolbar back_toolbar = (Toolbar) findViewById(R.id.back_toolbar);
         setSupportActionBar(back_toolbar);
@@ -67,8 +68,8 @@ public class OrdersActivity extends AppCompatActivity implements OnLoadDataListe
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         listView = (ListView) findViewById(R.id.orders_list_view);
-        ordersAdapter = new OrdersAdapter(this, orders);
-        listView.setAdapter(ordersAdapter);
+  /*      ordersAdapter = new OrdersAdapter(this, orders);
+        listView.setAdapter(ordersAdapter);*/
     }
 
     @Override

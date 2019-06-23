@@ -21,11 +21,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.pma.mastercart.adapter.CommentAdapter;
 import com.pma.mastercart.asyncTasks.AddCommentTask;
 import com.pma.mastercart.model.Comment;
@@ -42,9 +37,6 @@ public class ViewShopActivity extends AppCompatActivity implements View.OnClickL
     private ImageButton shop_location;
     private TextView name;
     private TextView address;
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference myRef = database.getReferenceFromUrl("https://mastercart-4c01a.firebaseio.com/");
-    private DatabaseReference prodavnice = myRef.child("prodavnice");
     private Shop shop;
     private ListView listView;
     private CommentAdapter commentAdapter;

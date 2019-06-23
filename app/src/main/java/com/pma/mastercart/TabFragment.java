@@ -21,8 +21,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.pma.mastercart.adapter.CategoryAdapter;
 import com.pma.mastercart.adapter.OnLoadDataListener;
 import com.pma.mastercart.adapter.ProductAdapter;

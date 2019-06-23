@@ -21,7 +21,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class GetOrdersTask extends AsyncTask<Void, Void, Order[]> {
+public class GetOrdersTask extends AsyncTask<Long, Void, Order[]> {
 
     private Context mContext;
 
@@ -30,7 +30,7 @@ public class GetOrdersTask extends AsyncTask<Void, Void, Order[]> {
     }
 
     @Override
-    protected Order[] doInBackground(Void... voids) {
+    protected Order[] doInBackground(Long... id) {
         SimpleClientHttpRequestFactory simpleClientHttpRequestFactory = new SimpleClientHttpRequestFactory();
         simpleClientHttpRequestFactory.setConnectTimeout(10000);
         RestTemplate restTemplate = new RestTemplate(simpleClientHttpRequestFactory);
@@ -38,7 +38,7 @@ public class GetOrdersTask extends AsyncTask<Void, Void, Order[]> {
         Order[] orders = new Order[0];
         ResponseEntity<Order[]> response = null;
         try {
-            response = restTemplate.getForEntity(MainActivity.URL+"orders", Order[].class);
+            response = restTemplate.getForEntity(MainActivity.URL+"orders/" + id[0], Order[].class);
         }catch (RestClientException e){
 
             return orders;
