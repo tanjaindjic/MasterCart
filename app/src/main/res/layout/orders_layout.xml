@@ -55,6 +55,16 @@
             android:background="@android:color/transparent"
             android:src="@drawable/ic_share"
             android:paddingTop="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageButton
+            android:id="@+id/rate_order"
+            android:layout_toLeftOf="@id/share_order"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_rate"
+            android:paddingTop="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

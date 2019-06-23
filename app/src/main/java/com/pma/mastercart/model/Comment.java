@@ -12,19 +12,22 @@ public class Comment  implements Parcelable {
     private String user;
     private String comment;
     private Date time;
-    private double review;
+    private double shopRating;
+    private double productRating;
+    private Long orderId;
 
     public Comment() {
     }
 
-    public Comment(Long id, Shop forShop, Product forProduct, String user, String comment, Date time, double review) {
-        this.id = id;
+    public Comment(Shop forShop, Product forProduct, String user, String comment, Date time, double shopRating, double productRating, Long orderId) {
         this.forShop = forShop;
         this.forProduct = forProduct;
         this.user = user;
         this.comment = comment;
         this.time = time;
-        this.review = review;
+        this.shopRating = shopRating;
+        this.productRating = productRating;
+        this.orderId = orderId;
     }
 
     public Long getId() {
@@ -75,14 +78,34 @@ public class Comment  implements Parcelable {
         this.time = time;
     }
 
-    public double getReview() {
-        return review;
+    public double getShopRating() {
+        return shopRating;
     }
 
-    public void setReview(double review) {
-        this.review = review;
+    public void setShopRating(double shopRating) {
+        this.shopRating = shopRating;
     }
 
+
+
+
+    public double getProductRating() {
+        return productRating;
+    }
+
+    public void setProductRating(double productRating) {
+        this.productRating = productRating;
+    }
+
+
+
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
 
     @Override
     public int describeContents() {
@@ -97,7 +120,9 @@ public class Comment  implements Parcelable {
         dest.writeString(this.user);
         dest.writeString(this.comment);
         dest.writeLong(this.time != null ? this.time.getTime() : -1);
-        dest.writeDouble(this.review);
+        dest.writeDouble(this.shopRating);
+        dest.writeDouble(this.productRating);
+        dest.writeValue(this.orderId);
     }
 
     protected Comment(Parcel in) {
@@ -108,7 +133,9 @@ public class Comment  implements Parcelable {
         this.comment = in.readString();
         long tmpTime = in.readLong();
         this.time = tmpTime == -1 ? null : new Date(tmpTime);
-        this.review = in.readDouble();
+        this.shopRating = in.readDouble();
+        this.productRating = in.readDouble();
+        this.orderId = (Long) in.readValue(Long.class.getClassLoader());
     }
 
     public static final Creator<Comment> CREATOR = new Creator<Comment>() {
