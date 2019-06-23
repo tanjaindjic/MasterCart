@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
     private DrawerLayout drawerLayout;
     private TabLayout tabLayout;
     public static ViewPager viewPager;
-    public static String URL = "http://192.168.8.149:8096/";
+    public static String URL = "http://192.168.15.138:8096/";
     public static ArrayList<Product> products = new ArrayList();
     public static ArrayList<Shop> shops = new ArrayList();
     public static ProgressDialog progress;
@@ -286,6 +286,9 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
         search_field.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
+                toolbar.collapseActionView();
+                InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
                 try {
                     if(currentUser!=null) {
                         if (currentUser.getRole().equals(Role.PRODAVAC))
@@ -302,7 +305,7 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                return true;
+                return false;
             }
         });
 

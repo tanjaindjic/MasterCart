@@ -79,11 +79,11 @@
         android:stretchMode="spacingWidthUniform"
         android:verticalSpacing="32dp" />
 
-    <ListView
+    <GridView
         android:id="@+id/shop_list_view"
         android:layout_height="match_parent"
         android:layout_width="match_parent">
-    </ListView>
+    </GridView>
 
 
 

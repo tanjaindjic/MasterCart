@@ -3,6 +3,7 @@ package com.pma.mastercart.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class Product  implements Parcelable {

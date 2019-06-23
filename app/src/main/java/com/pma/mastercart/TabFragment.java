@@ -12,8 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.ListPopupWindow;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -31,11 +33,14 @@ import com.pma.mastercart.asyncTasks.RetrieveShopsTask;
 import com.pma.mastercart.adapter.ShopAdapter;
 import com.pma.mastercart.model.Category;
 import com.pma.mastercart.model.DTO.ProductListDTO;
+import com.pma.mastercart.model.DTO.ShopDTO;
 import com.pma.mastercart.model.DTO.ShopListDTO;
 import com.pma.mastercart.model.Product;
 import com.pma.mastercart.model.Shop;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -54,7 +59,7 @@ public class TabFragment extends Fragment implements OnLoadDataListener {
     private ArrayList<Product> products = new ArrayList<>();
     private ProductAdapter productsAdapter;
     public static GridView gridView;
-    public static ListView listView;
+    public static GridView gridView2;
     private ShopAdapter shopAdapter;
     public static ArrayList<Category> categs;
     private CategoryAdapter categoryAdapter;
@@ -92,9 +97,9 @@ public class TabFragment extends Fragment implements OnLoadDataListener {
         gridView = (GridView) view.findViewById(R.id.products_grid_view);
         productsAdapter = new ProductAdapter(view.getContext(), MainActivity.products.toArray(new Product[MainActivity.products.size()]));
         gridView.setAdapter(productsAdapter);
-        listView = (ListView) view.findViewById(R.id.shop_list_view);
+        gridView2 = (GridView) view.findViewById(R.id.shop_list_view);
         shopAdapter = new ShopAdapter(view.getContext(), MainActivity.shops.toArray(new Shop[MainActivity.shops.size()]));
-        listView.setAdapter(shopAdapter);
+        gridView2.setAdapter(shopAdapter);
 
         category = (TextView) view.findViewById(R.id.category);
         sort = (TextView) view.findViewById(R.id.sort);
@@ -112,7 +117,7 @@ public class TabFragment extends Fragment implements OnLoadDataListener {
         }
 
         if(position==0){
-            listView.setVisibility(View.GONE);
+            gridView2.setVisibility(View.GONE);
             category.setVisibility(View.VISIBLE);
             sort.setVisibility(View.VISIBLE);
             sort2.setVisibility(View.GONE);
@@ -129,13 +134,157 @@ public class TabFragment extends Fragment implements OnLoadDataListener {
             sort_spinner2.setVisibility(View.VISIBLE);
 
         }
+        sort_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch(position){
+                    case 0://best match
+                        products = sortId();
+                        break;
+                    case 1://Price: Low
+                        products = sortPriceLow();
+                        break;
+                    case 2://Price: High
+                        products = sortPriceHigh();
+                        break;
+                    case 3://Rating
+                        products = sortRating();
+                        break;
+                }
+                ViewPager viewPager = (ViewPager)parent.getParent().getParent().getParent();
+                LinearLayout v = (LinearLayout) viewPager.getChildAt(0);
+                GridView gw = (GridView) v.getChildAt(1);
+                productsAdapter = new ProductAdapter(MainActivity.appContext, products.toArray(new Product[products.size()]));
+                gw.setAdapter(productsAdapter);
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+
+        });
+
+        sort_spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch(position){
+                    case 0://best match
+                        shops = sortSId();
+                        break;
+                    case 1://Name Asc
+                        shops = sortNameAsc();
+                        break;
+                    case 2://Name Desc
+                        shops = sortNameDesc();
+                        break;
+                    case 3://Rating
+                        shops = sortSRating();
+                        break;
+                }
+           
+                onLoad(new ShopListDTO(shops));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+    }
+
+    private ArrayList<Shop> sortSRating() {
+        ArrayList<Shop> retVal = shops;
+        Collections.sort(retVal, new Comparator<Shop>() {
+            @Override
+            public int compare(Shop s1, Shop s2) {
+                return Double.compare(s2.getRating(), s1.getRating());
+            }
+        });
+        return retVal;
+    }
+
+    private ArrayList<Shop> sortNameDesc() {
+        ArrayList<Shop> retVal = shops;
+        Collections.sort(retVal, new Comparator<Shop>() {
+            @Override
+            public int compare(Shop s1, Shop s2) {
+                return s2.getName().compareTo(s1.getName());
+            }
+        });
+        return retVal;
+    }
+    private ArrayList<Shop> sortNameAsc() {
+        ArrayList<Shop> retVal = shops;
+        Collections.sort(retVal, new Comparator<Shop>() {
+            @Override
+            public int compare(Shop s1, Shop s2) {
+                return s1.getName().compareTo(s2.getName());
+            }
+        });
+        return retVal;
+    }
+
+    private ArrayList<Shop> sortSId() {
+        ArrayList<Shop> retVal = shops;
+        Collections.sort(retVal, new Comparator<Shop>() {
+            @Override
+            public int compare(Shop s1, Shop s2) {
+                return Long.compare(s1.getId(), s2.getId());
+            }
+        });
+        return retVal;
+    }
+
+    private ArrayList<Product> sortId() {
+        ArrayList<Product> retVal = products;
+        Collections.sort(retVal, new Comparator<Product>() {
+            @Override
+            public int compare(Product c1, Product c2) {
+                return Long.compare(c1.getId(), c2.getId());
+            }
+        });
+        return retVal;
+    }
+
+    private ArrayList<Product> sortRating() {
+        ArrayList<Product> retVal = products;
+        Collections.sort(retVal, new Comparator<Product>() {
+            @Override
+            public int compare(Product c1, Product c2) {
+                return Double.compare(c2.getRating(), c1.getRating());
+            }
+        });
+        return retVal;
+    }
+
+    private ArrayList<Product> sortPriceHigh() {
+        ArrayList<Product> retVal = products;
+        Collections.sort(retVal, new Comparator<Product>() {
+            @Override
+            public int compare(Product c1, Product c2) {
+                return Double.compare(c2.getPrice(), c1.getPrice());
+            }
+        });
+        return retVal;
+    }
+
+    private ArrayList<Product> sortPriceLow() {
+        ArrayList<Product> retVal = products;
+        Collections.sort(retVal, new Comparator<Product>() {
+            @Override
+            public int compare(Product c1, Product c2) {
+                return Double.compare(c1.getPrice(), c2.getPrice());
+            }
+        });
+        return retVal;
     }
 
     private void addCategoriesOnSpinner() throws ExecutionException, InterruptedException {
         AsyncTask<Void, Void, ArrayList<Category>> task = new GetCategoriesTask().execute();
         categs = task.get();
+        shops = MainActivity.shops;
 
         List<String> vrednosti = new ArrayList<String>();
         for(Category c0 : categs){
@@ -188,8 +337,8 @@ public class TabFragment extends Fragment implements OnLoadDataListener {
         }else if(data instanceof ShopListDTO){
             shops = ((ShopListDTO) data).getShops();
             shopAdapter = new ShopAdapter(MainActivity.appContext, shops.toArray(new Shop[shops.size()]));
-            if(listView!=null)
-               listView.setAdapter(shopAdapter);
+            if(gridView2!=null)
+                gridView2.setAdapter(shopAdapter);
 
         }
     }
