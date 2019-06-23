@@ -1,25 +1,31 @@
 package com.pma.mastercart;
 
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ListView;
 
+import com.pma.mastercart.adapter.OnLoadDataListener;
 import com.pma.mastercart.adapter.OrdersAdapter;
+import com.pma.mastercart.asyncTasks.GetOrdersTask;
 import com.pma.mastercart.asyncTasks.GetUserTask;
 import com.pma.mastercart.model.Order;
 import com.pma.mastercart.model.User;
 
 import java.util.concurrent.ExecutionException;
 
-public class OrdersActivity extends AppCompatActivity {
+public class OrdersActivity extends AppCompatActivity implements OnLoadDataListener {
 
-    private Order[] orders;
-    private OrdersAdapter ordersAdapter;
+    public static Order[] orders;
+    public static OrdersAdapter ordersAdapter;
     private User user;
+    public static AlertDialog alertDialog;
+    public static ListView listView;
 
 
     @Override
@@ -42,16 +48,34 @@ public class OrdersActivity extends AppCompatActivity {
         else{
             finish();
         }
+        alertDialog = new AlertDialog.Builder(OrdersActivity.this).create();
+
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        GetOrdersTask t = new GetOrdersTask(OrdersActivity.this);
+                        t.execute();
+                    }
+                });
 
         Order[] orders = user.getOrders().toArray(new Order[user.getOrders().size()]);
+
         Toolbar back_toolbar = (Toolbar) findViewById(R.id.back_toolbar);
         setSupportActionBar(back_toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        ListView listView = (ListView) findViewById(R.id.orders_list_view);
+        listView = (ListView) findViewById(R.id.orders_list_view);
         ordersAdapter = new OrdersAdapter(this, orders);
         listView.setAdapter(ordersAdapter);
     }
 
+    @Override
+    public void onLoad(Object data) {
+        orders = (Order[]) data;
+        ordersAdapter = new OrdersAdapter(OrdersActivity.this, orders);
+        if(listView!=null)
+            listView.setAdapter(ordersAdapter);
+    }
 }
