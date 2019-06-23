@@ -51,6 +51,11 @@
             android:title="@string/wallet" />
 
         <item
+            android:id="@+id/nav_add_wallet"
+            android:icon="@drawable/ic_add"
+            android:title="Add wallet" />
+
+        <item
             android:id="@+id/nav_login"
             android:icon="@drawable/ic_login"
             android:title="Login"

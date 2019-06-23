@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
     private DrawerLayout drawerLayout;
     private TabLayout tabLayout;
     public static ViewPager viewPager;
-    public static String URL = "http://192.168.8.149:8096/";
+    public static String URL = "http://192.168.0.21:8096/";
     public static ArrayList<Product> products = new ArrayList();
     public static ArrayList<Shop> shops = new ArrayList();
     public static ProgressDialog progress;
@@ -348,6 +348,10 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
                                 i = new Intent(getApplicationContext(), WalletActivity.class);
                                 startActivity(i);
                                 break;
+                            case R.id.nav_add_wallet:
+                                i = new Intent(getApplicationContext(),AddWalletActivity.class);
+                                startActivity(i);
+                                break;
                             case R.id.nav_inbox:
                                 i = new Intent(getApplicationContext(), InboxActivity.class);
                                 startActivity(i);
@@ -465,6 +469,7 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
                 navigationView.getMenu().findItem(R.id.nav_orders).setVisible(false);
                 navigationView.getMenu().findItem(R.id.nav_favorite).setVisible(false);
                 navigationView.getMenu().findItem(R.id.nav_wallet).setVisible(false);
+                navigationView.getMenu().findItem(R.id.nav_add_wallet).setVisible(true);
 
             }
             else if(currentUser.getRole().equals(Role.KUPAC)){
@@ -475,6 +480,7 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
                 navigationView.getMenu().findItem(R.id.nav_orders).setVisible(true);
                 navigationView.getMenu().findItem(R.id.nav_favorite).setVisible(true);
                 navigationView.getMenu().findItem(R.id.nav_wallet).setVisible(true);
+                navigationView.getMenu().findItem(R.id.nav_add_wallet).setVisible(false);
 
             }
             else if(currentUser.getRole().equals(Role.PRODAVAC)){
@@ -485,6 +491,7 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
                 navigationView.getMenu().findItem(R.id.nav_orders).setVisible(false);
                 navigationView.getMenu().findItem(R.id.nav_favorite).setVisible(false);
                 navigationView.getMenu().findItem(R.id.nav_wallet).setVisible(false);
+                navigationView.getMenu().findItem(R.id.nav_add_wallet).setVisible(false);
 
             }
         }else {
@@ -501,6 +508,7 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
             navigationView.getMenu().findItem(R.id.nav_profile).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_wallet).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_logout).setVisible(false);
+            navigationView.getMenu().findItem(R.id.nav_add_wallet).setVisible(false);
 
         }
     }
