@@ -16,6 +16,7 @@ import com.pma.mastercart.adapter.CartAdapter;
 import com.pma.mastercart.adapter.FavoritesAdapter;
 import com.pma.mastercart.asyncTasks.GetUserTask;
 import com.pma.mastercart.asyncTasks.makeOrderTask;
+import com.pma.mastercart.asyncTasks.makesOrderTask;
 import com.pma.mastercart.model.CartItem;
 import com.pma.mastercart.model.DTO.CartItemDTO;
 import com.pma.mastercart.model.Order;
@@ -23,6 +24,7 @@ import com.pma.mastercart.model.Product;
 import com.pma.mastercart.model.User;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class CartActivity extends AppCompatActivity implements View.OnClickListener{
@@ -87,11 +89,17 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
             SharedPreferences sharedpreferences = getSharedPreferences(MainActivity.PREFS, 0);
             if (sharedpreferences.contains("AuthToken")) {
                 boolean success = true;
-                for(CartItem item : items){
+                List<Object> objekti = new ArrayList<Object>();
+                for(CartItem item : items) {
                     CartItemDTO cartItemDTO = new CartItemDTO(item.getId(), item.getQuantity(), item.getTotal(), item.getItem().getId());
-                    Object[] objects = {cartItemDTO, sharedpreferences.getString("AuthToken", null)};
-                    AsyncTask<Object, Void, Order> task = new makeOrderTask().execute(objects);
+                   // Object[] objects = {cartItemDTO, sharedpreferences.getString("AuthToken", null)};
+                    objekti.add(cartItemDTO);
+
                     // The URL for making the POST request
+                }
+                List<Object> authToken = new ArrayList<Object>();
+                authToken.add(sharedpreferences.getString("AuthToken", null));
+                AsyncTask<List<Object>, Void, Order> task = new makesOrderTask().execute(objekti,authToken);
                     try {
                         Order resp = task.get();
                         if(resp==null){
@@ -100,16 +108,17 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
                     } catch (InterruptedException e) {
                     } catch (ExecutionException e) {
                     }
-                 }
+
                 if(success){
                     Toast.makeText(this, "Successfully made an order.", Toast.LENGTH_SHORT).show();
                     items.removeAll(items);
                     cartAdapter.notifyDataSetChanged();
                 }
                 else
-                    Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Nemate dovoljno novca za cijelu porudzbinu.", Toast.LENGTH_SHORT).show();
 
-             }
+             } else
+                Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
         }
     }
 }

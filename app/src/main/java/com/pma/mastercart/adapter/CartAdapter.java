@@ -210,7 +210,9 @@ public class CartAdapter extends BaseAdapter {
                             items.remove(position);
                             Toast.makeText(mContext, "Successfully made an order.", Toast.LENGTH_SHORT).show();
                             notifyDataSetChanged();
-                        }
+                        }else
+                        Toast.makeText(mContext, "Nemate dovoljno novca za ovu porudzbinu.", Toast.LENGTH_SHORT).show();
+
                     } catch (InterruptedException e) {
                     } catch (ExecutionException e) {
                     }
