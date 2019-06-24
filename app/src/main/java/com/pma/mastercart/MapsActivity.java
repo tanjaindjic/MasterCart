@@ -131,17 +131,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 createMap();
                /* currentOptions.title("Current Location");
                 mMap.addMarker(currentOptions);*/
-                destOptions.title("Destination");
-                mMap.addMarker(destOptions);
-                //move map camera
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(current));
-                mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
+        destOptions.title("Destination");
+        mMap.addMarker(destOptions);
+        //move map camera
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(current));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
     }
 
 
     private void createMap() {
-        // Creating MarkerOptions
-        // current = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+
         currentOptions = new MarkerOptions();
         currentOptions.position(current);
         currentOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
@@ -180,6 +179,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
+
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(current));
+                        mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
                         dialog.dismiss();
                     }
                 });
