@@ -78,6 +78,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private List<List<HashMap<String, String>>> routes;
     public static ProgressDialog progressDialog;
     public static AlertDialog alertDialog;
+    public static String api_key = "postavi me";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,6 +173,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
         progressDialog.show();
+        progressDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(current));
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
+            }
+        });
 
         alertDialog = new AlertDialog.Builder(MapsActivity.this).create();
         alertDialog.setTitle("Alert");
@@ -209,7 +217,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Building the url to the web service
         String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters
                 + "&travelmode=walking"
-                + "&key=AIzaSyBbKFaNO_P2qTr-3EhHplKWSsLCxnNV9hQ";
+                + "&key="+api_key;
 
 
         return url;

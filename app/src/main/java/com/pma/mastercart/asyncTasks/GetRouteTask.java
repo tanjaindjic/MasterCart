@@ -6,13 +6,19 @@ import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
+import com.google.android.gms.maps.model.Dash;
+import com.google.android.gms.maps.model.Dot;
+import com.google.android.gms.maps.model.Gap;
+import com.google.android.gms.maps.model.JointType;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.PatternItem;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.gson.Gson;
 import com.pma.mastercart.MainActivity;
 import com.pma.mastercart.MapsActivity;
 import com.pma.mastercart.maps.Legs;
 import com.pma.mastercart.maps.MapsResponse;
+import com.pma.mastercart.maps.Polyline;
 import com.pma.mastercart.maps.Routes;
 import com.pma.mastercart.maps.Steps;
 
@@ -34,6 +40,8 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class GetRouteTask extends AsyncTask<String, Void, MapsResponse> {
 
@@ -122,8 +130,11 @@ public class GetRouteTask extends AsyncTask<String, Void, MapsResponse> {
 
             // Adding all the points in the route to LineOptions
             lineOptions.addAll(points);
+            lineOptions.color(Color.BLUE);
+            List<PatternItem> pattern = Arrays.<PatternItem>asList(
+                    new Dot(), new Gap(10), new Dot(), new Gap(10));
+            lineOptions.pattern(pattern);
             lineOptions.width(10);
-            lineOptions.color(Color.RED);
 
             Log.d("onPostExecute", "onPostExecute lineoptions decoded");
 
