@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -29,6 +31,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -421,21 +424,7 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
     }
 
 
- /*   @Override
-    public void onResume(){
-        Log.d("ONTEST", "on resume");
-        super.onResume();
-        progress.show();
-        //setupNavBar();
 
-        try {
-            loadData();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }*/
 
     private void setupNavBar() {
         currentUser = null;
@@ -460,7 +449,12 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
             navigationView.getMenu().findItem(R.id.nav_profile).setVisible(true);
             navigationView.getMenu().findItem(R.id.nav_logout).setVisible(true);
             ((TextView) navigationView.getHeaderView(0).findViewById(R.id.user_name_sidebar)).setText(currentUserFirstName.toUpperCase());
-
+            if(currentUser.getImageResource().length>0) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(currentUser.getImageResource(), 0, currentUser.getImageResource().length);
+                ((ImageView) navigationView.getHeaderView(0).findViewById(R.id.user_pic_sidebar)).setImageBitmap(bitmap);
+            }else{
+                ((ImageView) navigationView.getHeaderView(0).findViewById(R.id.user_pic_sidebar)).setImageResource(R.mipmap.ic_launcher);
+            }
 
 
 
@@ -511,6 +505,8 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
             navigationView.getMenu().findItem(R.id.nav_wallet).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_logout).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_add_wallet).setVisible(false);
+            ((ImageView) navigationView.getHeaderView(0).findViewById(R.id.user_pic_sidebar)).setImageResource(R.mipmap.ic_launcher);
+
 
         }
     }

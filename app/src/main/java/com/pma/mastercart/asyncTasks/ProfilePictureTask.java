@@ -39,16 +39,15 @@ public class ProfilePictureTask extends AsyncTask<Object, Void, Boolean> {
         String token = objects[1].toString();
 
         // Sending a JSON or XML object i.e. "application/json" or "application/xml"
-        requestHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
+       // requestHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
         requestHeaders.add("Authorization", token);
-        Bitmap mapa = (Bitmap) objects[0];
-        String encodedImage = toBase64(mapa);
+        String s = (String) objects[0];
+        /*String encodedImage = (String) objects[0];
 
-        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-        body.add("file", mapa);
-
-        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, requestHeaders);
-
+        MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
+        body.add("file", encodedImage);
+*/
+        HttpEntity<String> requestEntity = new HttpEntity<>(s, requestHeaders);
 
         // Create a new RestTemplate instance
         RestTemplate restTemplate = new RestTemplate(simpleClientHttpRequestFactory);
@@ -85,5 +84,6 @@ public class ProfilePictureTask extends AsyncTask<Object, Void, Boolean> {
             homepage.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             MainActivity.appContext.startActivity(homepage);
         }
+
     }
 }

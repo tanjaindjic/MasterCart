@@ -5,7 +5,6 @@ import android.os.Parcelable;
 
 import com.pma.mastercart.model.enums.Role;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +17,7 @@ public class User  implements Parcelable {
     private String address;
     private String phone;
     private Role role;
-    private String imageResource;
+    private byte[] imageResource;
     private ArrayList<Product> favorites;
     private Wallet wallet;
     private ArrayList<CartItem> cartItems;
@@ -28,7 +27,7 @@ public class User  implements Parcelable {
     public User() {
     }
 
-    public User(Long id, String email, String password, String firstName, String lastName, String address, String phone, Role role, String imageResource, ArrayList<Product> favorites, Wallet wallet, ArrayList<CartItem> cartItems, ArrayList<Order> orders, List<Conversation> conversations) {
+    public User(Long id, String email, String password, String firstName, String lastName, String address, String phone, Role role, byte[] imageResource, ArrayList<Product> favorites, Wallet wallet, ArrayList<CartItem> cartItems, ArrayList<Order> orders, List<Conversation> conversations) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -102,11 +101,11 @@ public class User  implements Parcelable {
         this.role = role;
     }
 
-    public String getImageResource() {
+    public byte[] getImageResource() {
         return imageResource;
     }
 
-    public void setImageResource(String imageResource) {
+    public void setImageResource(byte[] imageResource) {
         this.imageResource = imageResource;
     }
 
@@ -152,6 +151,11 @@ public class User  implements Parcelable {
 
 
     @Override
+    public String toString() {
+        return  email ;
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }
@@ -160,37 +164,36 @@ public class User  implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeValue(this.id);
         dest.writeString(this.email);
+        dest.writeString(this.password);
         dest.writeString(this.firstName);
         dest.writeString(this.lastName);
         dest.writeString(this.address);
         dest.writeString(this.phone);
         dest.writeInt(this.role == null ? -1 : this.role.ordinal());
-        dest.writeString(this.imageResource);
+        dest.writeByteArray(this.imageResource);
         dest.writeTypedList(this.favorites);
         dest.writeParcelable(this.wallet, flags);
-        dest.writeList(this.cartItems);
-        dest.writeList(this.orders);
-        dest.writeList(this.conversations);
+        dest.writeTypedList(this.cartItems);
+        dest.writeTypedList(this.orders);
+        dest.writeTypedList(this.conversations);
     }
 
     protected User(Parcel in) {
         this.id = (Long) in.readValue(Long.class.getClassLoader());
         this.email = in.readString();
+        this.password = in.readString();
         this.firstName = in.readString();
         this.lastName = in.readString();
         this.address = in.readString();
         this.phone = in.readString();
         int tmpRole = in.readInt();
         this.role = tmpRole == -1 ? null : Role.values()[tmpRole];
-        this.imageResource = in.readString();
+        this.imageResource = in.createByteArray();
         this.favorites = in.createTypedArrayList(Product.CREATOR);
         this.wallet = in.readParcelable(Wallet.class.getClassLoader());
-        this.cartItems = new ArrayList<CartItem>();
-        in.readList(this.cartItems, CartItem.class.getClassLoader());
-        this.orders = new ArrayList<Order>();
-        in.readList(this.orders, Order.class.getClassLoader());
-        this.conversations = new ArrayList<Conversation>();
-        in.readList(this.conversations, Conversation.class.getClassLoader());
+        this.cartItems = in.createTypedArrayList(CartItem.CREATOR);
+        this.orders = in.createTypedArrayList(Order.CREATOR);
+        this.conversations = in.createTypedArrayList(Conversation.CREATOR);
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -204,9 +207,4 @@ public class User  implements Parcelable {
             return new User[size];
         }
     };
-
-    @Override
-    public String toString() {
-        return  email ;
-    }
 }

@@ -1,12 +1,14 @@
 package com.pma.mastercart;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -41,9 +43,13 @@ import com.pma.mastercart.model.User;
 import net.gotev.uploadservice.MultipartUploadRequest;
 import net.gotev.uploadservice.UploadNotificationConfig;
 
+import org.springframework.util.support.Base64;
+
+import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -74,6 +80,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private static final int PICK_IMAGE_REQUEST = 22;
     private Uri filePath;
     private Bitmap bitmap;
+    private String imagePath;
 
 
     @Override
@@ -108,8 +115,15 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         profile_phone = (TextView) findViewById(R.id.profile_phone);
 
         profile_thumbnail = (ImageView) findViewById(R.id.profile_thumbnail);
+        if(user.getImageResource().length>0) {
+            Bitmap bitmap = BitmapFactory.decodeByteArray(user.getImageResource(), 0, user.getImageResource().length);
+            profile_thumbnail.setImageBitmap(bitmap);
+        }else{
+            profile_thumbnail.setImageResource(R.mipmap.ic_launcher);
+        }
         profile_thumbnail.getLayoutParams().height = 400;
         profile_thumbnail.getLayoutParams().width = 400;
+
 
         profile_firstName.setText(user.getFirstName());
         profile_lastName.setText(user.getLastName());
@@ -244,23 +258,41 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==PICK_IMAGE_REQUEST && resultCode==RESULT_OK && data!=null && data.getData()!=null){
-            filePath = data.getData();
-            try{
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                profile_thumbnail.setImageBitmap(bitmap);
+        if (requestCode == 1)
+            if (resultCode == Activity.RESULT_OK) {
+                Uri selectedImage = data.getData();
 
-                Uri selectedImageUri  = data.getData();
-                String selectedPath = getPath(selectedImageUri);
-                int returnCode = uploadImage(selectedPath);
-                Toast.makeText(this, "return code "+returnCode, Toast.LENGTH_SHORT).show();
-            } catch (IOException e) {
-                e.printStackTrace();
+                String filePath = getPath(selectedImage);
+                String file_extn = filePath.substring(filePath.lastIndexOf(".") + 1);
+
+
+                try {
+                    if (file_extn.equals("img") || file_extn.equals("jpg") || file_extn.equals("jpeg") || file_extn.equals("gif") || file_extn.equals("png")) {
+                        Bitmap bm = BitmapFactory.decodeFile(filePath);
+                        profile_thumbnail.setImageBitmap(bm);
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                        byte[] imageBytes = baos.toByteArray();
+                        String encodedImage = Base64.encodeBytes(imageBytes);
+
+
+
+                        // Upload image to server
+                        SharedPreferences pref = this.getSharedPreferences(MainActivity.PREFS, 0); // 0 - for private mode
+                        Object[] objects = {encodedImage,  pref.getString("AuthToken", "")};
+                        new ProfilePictureTask().execute(objects);
+                    } else {
+                        //NOT IN REQUIRED FORMAT
+                    }
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
             }
-        }
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -274,20 +306,20 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void showFileChooser(){
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent.createChooser(intent, "Select picture"), PICK_IMAGE_REQUEST);
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, 1);
     }
 
-    private String getPath(Uri uri){
-        String[] projection = { MediaStore.Images.Media.DATA };
+    public String getPath(Uri uri) {
+        String[] projection = {MediaStore.MediaColumns.DATA};
         Cursor cursor = managedQuery(uri, projection, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        int column_index = cursor
+                .getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
         cursor.moveToFirst();
-        //OVDE DOBIJE DA JE VREDNOST NULL I ONDA JE TO KRAJ
-        String retVal = cursor.getString(column_index);
-        return retVal;
+        imagePath = cursor.getString(column_index);
+
+        return cursor.getString(column_index);
     }
 
     private int uploadImage(String sourceFileUri){
