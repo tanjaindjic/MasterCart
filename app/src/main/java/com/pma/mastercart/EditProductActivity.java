@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.pma.mastercart.asyncTasks.EditProductTask;
 import com.pma.mastercart.asyncTasks.GetCategoriesTask;
@@ -33,6 +34,7 @@ public class EditProductActivity extends AppCompatActivity implements View.OnCli
     private Spinner editSpinnerCategoryProduct;
     private Category cat;
     private Context ctx;
+    private Product product;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,22 +48,37 @@ public class EditProductActivity extends AppCompatActivity implements View.OnCli
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         Intent intent = getIntent();
         idProduct = intent.getLongExtra("PRODUCT_ID", 0);
+        product = intent.getParcelableExtra("editProductEditing");
+
         editProduct = (Button) findViewById(R.id.editProduct);
         editProduct.setOnClickListener(this);
+
         btnEditPictureProduct = (Button) findViewById(R.id.btnEditPictureProduct);
         btnEditPictureProduct.setOnClickListener(this);
+
         editEditTextNameProduct = (EditText) findViewById(R.id.editEditTextNameProduct);
+        editEditTextNameProduct.setText(product.getName());
+
         editEditTextPriceProduct = (EditText) findViewById(R.id.editEditTextPriceProduct);
+        editEditTextPriceProduct.setText(Double.toString(product.getPrice()));
+
         editEditTextDescriptionProduct = (EditText) findViewById(R.id.editEditTextDescriptionProduct);
+        editEditTextDescriptionProduct.setText(product.getDescription());
+
         editEditTextQuantityProduct = (EditText) findViewById(R.id.editEditTextQuantityProduct);
+        editEditTextQuantityProduct.setText(Integer.toString(product.getOnStock()));
+
         editEditTextSizeProduct = (EditText) findViewById(R.id.editEditTextSizeProduct);
+        editEditTextSizeProduct.setText(product.getSize());
+
         editEditTextDiscountProduct = (EditText) findViewById(R.id.editEditTextDiscountProduct);
+        editEditTextDiscountProduct.setText(Integer.toString(product.getDiscount()));
+
         editSpinnerCategoryProduct = (Spinner) findViewById(R.id.editSpinnerCategoryProduct);
         editSpinnerCategoryProduct.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 cat = (Category) adapterView.getSelectedItem();
-
             }
 
             @Override
@@ -96,7 +113,13 @@ public class EditProductActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View view) {
         if (view == editProduct) {
-            editProduct();
+            if(editEditTextNameProduct.getText().toString().trim().isEmpty() ||
+                    editEditTextPriceProduct.getText().toString().trim().isEmpty() ||
+                    editEditTextQuantityProduct.getText().toString().trim().isEmpty() ||
+                    editEditTextSizeProduct.getText().toString().trim().isEmpty())
+                Toast.makeText(this, "Invalid to update.", Toast.LENGTH_SHORT).show();
+            else
+                editProduct();
         }
     }
 
@@ -116,6 +139,9 @@ public class EditProductActivity extends AppCompatActivity implements View.OnCli
         Intent intent = this.getParentActivityIntent();
         intent.removeExtra("productUpdate");
         intent.putExtra("productUpdate", p);
+        Toast.makeText(this, "Product is updated", Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(MainActivity.appContext, MainActivity.class);
+        startActivity(i);
         return true;
     }
 }

@@ -116,6 +116,7 @@ public class ProductAdapter extends BaseAdapter {
                 //open new activity to view this product
                 Intent intent = new Intent(mContext, EditProductActivity.class);
                 intent.putExtra("PRODUCT_ID", products[position].getId()); //long
+                intent.putExtra("editProductEditing", products[position]);
                 mContext.startActivity(intent);
             }
 

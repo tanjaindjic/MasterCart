@@ -1,6 +1,8 @@
 package com.pma.mastercart;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -43,6 +46,8 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
     private CartAdapter cartAdapter;
     private User user;
     private Button cart_buy_button;
+    private ImageView image_empty_cart;
+    private Button cart_start_shoping;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,29 +55,41 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.cart_fragment);
 
         Toolbar back_toolbar = (Toolbar) findViewById(R.id.back_toolbar);
+        image_empty_cart = (ImageView) findViewById(R.id.image_empty_cart);
         setSupportActionBar(back_toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        user=null;
+        user = null;
+        cart_buy_button = (Button) findViewById(R.id.cart_buy_button);
+        cart_buy_button.setOnClickListener(this);
+        cart_start_shoping = (Button) findViewById(R.id.cart_start_shoping);
+        cart_start_shoping.setOnClickListener(this);
         SharedPreferences sharedpreferences = getSharedPreferences(MainActivity.PREFS, 0);
         if (sharedpreferences.contains("AuthToken")) {
             AsyncTask<String, Void, User> task = new GetUserTask().execute(sharedpreferences.getString("AuthToken", null));
             // The URL for making the POST request
             try {
-                user= task.get();
+                user = task.get();
+                if (user.getCartItems().size() == 0) {
+                    image_empty_cart.setVisibility(View.VISIBLE);
+                    cart_buy_button.setVisibility(View.INVISIBLE);
+                    cart_start_shoping.setVisibility(View.VISIBLE);
+                } else{
+                    image_empty_cart.setVisibility(View.INVISIBLE);
+                    cart_buy_button.setVisibility(View.VISIBLE);
+                    cart_start_shoping.setVisibility(View.INVISIBLE);
+                }
             } catch (InterruptedException e) {
                 finish();
             } catch (ExecutionException e) {
                 finish();
             }
-        }
-        else{
+        } else {
             finish();
         }
         items = user.getCartItems();
-        cart_buy_button = (Button) findViewById(R.id.cart_buy_button);
-        cart_buy_button.setOnClickListener(this);
+
 
         ListView listView = (ListView) findViewById(R.id.cart_list_view);
         cartAdapter = new CartAdapter(this, items);
@@ -113,12 +130,19 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
                     Toast.makeText(this, "Successfully made an order.", Toast.LENGTH_SHORT).show();
                     items.removeAll(items);
                     cartAdapter.notifyDataSetChanged();
+                    image_empty_cart.setVisibility(View.VISIBLE);
+                    cart_buy_button.setVisibility(View.INVISIBLE);
+                    cart_start_shoping.setVisibility(View.VISIBLE);
                 }
                 else
-                    Toast.makeText(this, "Nemate dovoljno novca za cijelu porudzbinu.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "There is not enough money to proceed order.", Toast.LENGTH_SHORT).show();
 
              } else
                 Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
+        }
+        if(v==cart_start_shoping){
+            Intent i = new Intent(MainActivity.appContext, MainActivity.class);
+            startActivity(i);
         }
     }
 }

@@ -28,29 +28,44 @@ public class EditShopActivity  extends AppCompatActivity implements View.OnClick
     private static int PICK_IMAGE = 100;
     private static Uri selectedImage;
     private Long idShop;
+    private Shop shop;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_shop);
-        getIntent().removeExtra("shopUpdate");
         Toolbar back_toolbar = (Toolbar) findViewById(R.id.back_toolbar);
         setSupportActionBar(back_toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         Intent intent = getIntent();
         idShop = intent.getLongExtra("idShop",0);
+        shop = (Shop) intent.getParcelableExtra("editShopEditing");
         editShopButton = (Button) findViewById(R.id.editShopButton);
         editShopButton.setOnClickListener(this);
+
         btnEditPictureShop = (Button) findViewById(R.id.btnEditPictureShop);
         btnEditPictureShop.setOnClickListener(this);
+
         editEditTextNameShop = (EditText) findViewById(R.id.editEditTextNameShop);
+        editEditTextNameShop.setText(shop.getName());
+
         editEditLocationShop = (EditText) findViewById(R.id.editEditLocationShop);
+        editEditLocationShop.setText(shop.getLocation());
+
         editEditPhoneShop = (EditText) findViewById(R.id.editEditPhoneShop);
+        editEditPhoneShop.setText(shop.getPhone());
+
         editEditEmailShop = (EditText) findViewById(R.id.editEditEmailShop);
+        editEditEmailShop.setText(shop.getEmail());
+
         editEditLongitudeShop = (EditText) findViewById(R.id.editEditLongitudeShop);
+        editEditLongitudeShop.setText(Float.toString(shop.getLng()));
+
         editEditLatitudeShop = (EditText) findViewById(R.id.editEditLatitudeShop);
-        Toast.makeText(this, idShop.toString(), Toast.LENGTH_SHORT).show();
+        editEditLatitudeShop.setText(Float.toString(shop.getLat()));
+
+        //Toast.makeText(this, idShop.toString(), Toast.LENGTH_SHORT).show();
 
     }
 
@@ -96,9 +111,9 @@ public class EditShopActivity  extends AppCompatActivity implements View.OnClick
         AsyncTask<ShopDTO, Void, ShopDTO> task = new EditShopTask().execute(shopDTO);
        // AsyncTask<String, Void, ArrayList<Shop>> task2 = new RetrieveShopsTask().execute("sta god");
         // The URL for making the POST request
-        ShopDTO user= task.get();
-        if(user==null){
-            Toast.makeText(this, "Wrong inputs, log in failed", Toast.LENGTH_SHORT).show();
+        ShopDTO shopDTO1= task.get();
+        if(shopDTO1==null){
+            Toast.makeText(this, "Something went wrong. Updating failed", Toast.LENGTH_SHORT).show();
             return false;
         }
         ArrayList<Long> ids = new ArrayList<>();
@@ -106,6 +121,9 @@ public class EditShopActivity  extends AppCompatActivity implements View.OnClick
         Intent intent = getIntent();
         intent.removeExtra("shopUpdate");
         intent.putExtra("shopUpdate", ids);
+        Toast.makeText(this, "Shop is updated", Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(MainActivity.appContext, MainActivity.class);
+        startActivity(i);
         return true;
     }
 

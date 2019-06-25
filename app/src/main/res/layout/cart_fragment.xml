@@ -35,11 +35,27 @@
         android:background="@android:color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/image_empty_cart"
+            android:minWidth="300dp"
+            android:minHeight="300dp"
+            android:gravity="center_vertical"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_empty_cart"/>
         <Button
             android:id="@+id/cart_buy_button"
-            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
             android:text="BUY ALL"
+            android:layout_below="@+id/image_empty_cart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/cart_start_shoping"
+            android:layout_centerHorizontal="true"
+            android:text="Start shoping"
+            android:layout_below="@+id/image_empty_cart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </RelativeLayout>
