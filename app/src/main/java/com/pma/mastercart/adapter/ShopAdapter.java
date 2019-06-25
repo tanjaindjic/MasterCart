@@ -30,12 +30,13 @@ import com.pma.mastercart.model.User;
 import com.pma.mastercart.model.enums.Role;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
 public class ShopAdapter  extends BaseAdapter {
 
     private final Context mContext;
-    private final Shop[] shops;
+    private Shop[] shops;
     private ImageButton shop_details;
     private ImageButton shop_location;
     private ImageButton add_product;
@@ -179,5 +180,12 @@ public class ShopAdapter  extends BaseAdapter {
         return convertView;
     }
 
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+        ArrayList<Shop> shopsMain = MainActivity.shops;
+        shops = shopsMain.toArray(new Shop[shopsMain.size()]);
+
+    }
 
 }

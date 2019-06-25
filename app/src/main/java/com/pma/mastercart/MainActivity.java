@@ -55,6 +55,7 @@ import com.pma.mastercart.asyncTasks.RetrieveProductsTask;
 import com.pma.mastercart.asyncTasks.RetrieveShopListTask;
 import com.pma.mastercart.asyncTasks.RetrieveShopsTask;
 import com.pma.mastercart.model.Category;
+import com.pma.mastercart.model.DTO.ShopListDTO;
 import com.pma.mastercart.model.Product;
 import com.pma.mastercart.model.Shop;
 import com.pma.mastercart.model.User;
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
     private DrawerLayout drawerLayout;
     private TabLayout tabLayout;
     public static ViewPager viewPager;
-    public static String URL = "http://192.168.1.10:8096/";
+    public static String URL = "http://192.168.1.13:8096/";
     public static ArrayList<Product> products = new ArrayList();
     public static ArrayList<Shop> shops = new ArrayList();
     public static ProgressDialog progress;
@@ -265,6 +266,11 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
                         searchProducts.add(p);
                     }
                 }
+                for(Shop s : shops) {
+                    if(s.getName().toLowerCase().contains(query.toLowerCase())) {
+                        searchShops.add(s);
+                    }
+                }
                 InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
                 products = searchProducts;
@@ -273,6 +279,11 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
                 GridView gw = (GridView) v.getChildAt(1);
                 ProductAdapter productsAdapter = new ProductAdapter(MainActivity.appContext, products.toArray(new Product[products.size()]));
                 gw.setAdapter(productsAdapter);
+                LinearLayout v2 = (LinearLayout) viewPager.getChildAt(0);
+                GridView gw2 = (GridView) v2.getChildAt(2);
+                ShopAdapter shopAdapter = new ShopAdapter(MainActivity.appContext, shops.toArray(new Shop[shops.size()]));
+                gw2.setAdapter(shopAdapter);
+                shopAdapter.notifyDataSetChanged();
                 return true;
             }
 
@@ -286,6 +297,9 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
         search_field.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
+                toolbar.collapseActionView();
+                InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
                 try {
                     if(currentUser!=null) {
                         if (currentUser.getRole().equals(Role.PRODAVAC))
@@ -302,7 +316,7 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                return true;
+                return false;
             }
         });
 
@@ -346,10 +360,6 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
                                 break;
                             case R.id.nav_wallet:
                                 i = new Intent(getApplicationContext(), WalletActivity.class);
-                                startActivity(i);
-                                break;
-                            case R.id.nav_add_wallet:
-                                i = new Intent(getApplicationContext(),AddWalletActivity.class);
                                 startActivity(i);
                                 break;
                             case R.id.nav_inbox:
@@ -469,7 +479,6 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
                 navigationView.getMenu().findItem(R.id.nav_orders).setVisible(false);
                 navigationView.getMenu().findItem(R.id.nav_favorite).setVisible(false);
                 navigationView.getMenu().findItem(R.id.nav_wallet).setVisible(false);
-                navigationView.getMenu().findItem(R.id.nav_add_wallet).setVisible(true);
 
             }
             else if(currentUser.getRole().equals(Role.KUPAC)){
@@ -480,7 +489,6 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
                 navigationView.getMenu().findItem(R.id.nav_orders).setVisible(true);
                 navigationView.getMenu().findItem(R.id.nav_favorite).setVisible(true);
                 navigationView.getMenu().findItem(R.id.nav_wallet).setVisible(true);
-                navigationView.getMenu().findItem(R.id.nav_add_wallet).setVisible(false);
 
             }
             else if(currentUser.getRole().equals(Role.PRODAVAC)){
@@ -491,7 +499,6 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
                 navigationView.getMenu().findItem(R.id.nav_orders).setVisible(false);
                 navigationView.getMenu().findItem(R.id.nav_favorite).setVisible(false);
                 navigationView.getMenu().findItem(R.id.nav_wallet).setVisible(false);
-                navigationView.getMenu().findItem(R.id.nav_add_wallet).setVisible(false);
 
             }
         }else {
@@ -508,7 +515,6 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
             navigationView.getMenu().findItem(R.id.nav_profile).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_wallet).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_logout).setVisible(false);
-            navigationView.getMenu().findItem(R.id.nav_add_wallet).setVisible(false);
 
         }
     }

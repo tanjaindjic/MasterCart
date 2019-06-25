@@ -180,7 +180,7 @@ public class TabFragment extends Fragment implements OnLoadDataListener {
                         shops = sortSRating();
                         break;
                 }
-           
+
                 onLoad(new ShopListDTO(shops));
             }
 
