@@ -112,7 +112,8 @@
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".AddWalletActivity"
-            android:label="Add Wallet" />
+            android:label="Add Wallet"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".OfflineActivity"
             android:label="Offline Activity" />

@@ -1,16 +1,17 @@
 package com.pma.mastercart;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,7 +21,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -30,27 +30,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.pma.mastercart.asyncTasks.AddCategoryTask;
 import com.pma.mastercart.asyncTasks.GetUserTask;
 import com.pma.mastercart.asyncTasks.ProfilePictureTask;
 import com.pma.mastercart.asyncTasks.UpdateUserTask;
-import com.pma.mastercart.model.Category;
 import com.pma.mastercart.model.DTO.EditUserDTO;
 import com.pma.mastercart.model.User;
 
-import net.gotev.uploadservice.MultipartUploadRequest;
-import net.gotev.uploadservice.UploadNotificationConfig;
+import org.springframework.util.support.Base64;
 
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.UUID;
+import java.io.ByteArrayOutputStream;
 import java.util.concurrent.ExecutionException;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener  {
@@ -72,8 +60,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private Button saveChangesBtn;
     private static final int STORAGE_PERMITION_CODE = 123;
     private static final int PICK_IMAGE_REQUEST = 22;
-    private Uri filePath;
+    private String filePath;
     private Bitmap bitmap;
+    private String imagePath;
+    private String file_extn;
 
 
     @Override
@@ -108,8 +98,15 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         profile_phone = (TextView) findViewById(R.id.profile_phone);
 
         profile_thumbnail = (ImageView) findViewById(R.id.profile_thumbnail);
+        if(user.getImageResource().length>0) {
+            Bitmap bitmap = BitmapFactory.decodeByteArray(user.getImageResource(), 0, user.getImageResource().length);
+            profile_thumbnail.setImageBitmap(bitmap);
+        }else{
+            profile_thumbnail.setImageResource(R.mipmap.ic_launcher);
+        }
         profile_thumbnail.getLayoutParams().height = 400;
         profile_thumbnail.getLayoutParams().width = 400;
+
 
         profile_firstName.setText(user.getFirstName());
         profile_lastName.setText(user.getLastName());
@@ -244,187 +241,44 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==PICK_IMAGE_REQUEST && resultCode==RESULT_OK && data!=null && data.getData()!=null){
-            filePath = data.getData();
-            try{
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                profile_thumbnail.setImageBitmap(bitmap);
+        if (requestCode == 1)
+            if (resultCode == Activity.RESULT_OK) {
+                Uri selectedImage = data.getData();
 
-                Uri selectedImageUri  = data.getData();
-                String selectedPath = getPath(selectedImageUri);
-                int returnCode = uploadImage(selectedPath);
-                Toast.makeText(this, "return code "+returnCode, Toast.LENGTH_SHORT).show();
-            } catch (IOException e) {
-                e.printStackTrace();
+                filePath = getPath(selectedImage);
+                file_extn = filePath.substring(filePath.lastIndexOf(".") + 1);
+                Bitmap bm = BitmapFactory.decodeFile(filePath);
+                profile_thumbnail.setImageBitmap(bm);
+
             }
-        }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode==STORAGE_PERMITION_CODE){
-            if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED)
-                Toast.makeText(this, "Permission granted", Toast.LENGTH_SHORT).show();
-            else
-                Toast.makeText(this, "Permission not granted", Toast.LENGTH_SHORT).show();
-
-        }
-    }
-
-    private void showFileChooser(){
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent.createChooser(intent, "Select picture"), PICK_IMAGE_REQUEST);
-    }
-
-    private String getPath(Uri uri){
-        String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor cursor = managedQuery(uri, projection, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        //OVDE DOBIJE DA JE VREDNOST NULL I ONDA JE TO KRAJ
-        String retVal = cursor.getString(column_index);
-        return retVal;
-    }
-
-    private int uploadImage(String sourceFileUri){
-        int day, month, year;
-        int second, minute, hour;
-        GregorianCalendar date = new GregorianCalendar();
-
-        day = date.get(Calendar.DAY_OF_MONTH);
-        month = date.get(Calendar.MONTH);
-        year = date.get(Calendar.YEAR);
-
-        second = date.get(Calendar.SECOND);
-        minute = date.get(Calendar.MINUTE);
-        hour = date.get(Calendar.HOUR);
-
-        String name=(hour+""+minute+""+second+""+day+""+(month+1)+""+year);
-        String tag=name+".jpg";
-        String fileName = sourceFileUri.replace(sourceFileUri,tag);
-
-        HttpURLConnection conn = null;
-        DataOutputStream dos = null;
-        String lineEnd = "\r\n";
-        String twoHyphens = "--";
-        String boundary = "*****";
-        int bytesRead, bytesAvailable, bufferSize;
-        byte[] buffer;
-        int maxBufferSize = 1 * 1024 * 1024;
-        File sourceFile = new File(sourceFileUri);
-        int serverResponseCode = 0;
-
-        if (!sourceFile.isFile()) {
-
-            Log.e("uploadFile", "Source File not exist :"+sourceFileUri);
-
-            runOnUiThread(new Runnable() {
-                public void run() {
-
-                }
-            });
-
-            return 0;
-
-        }
-        else
-        {
-            try {
-
-                // open a URL connection to the Servlet
-                FileInputStream fileInputStream = new FileInputStream(sourceFile);
-                URL url = new URL(MainActivity.URL+"upload");
-
-                // Open a HTTP  connection to  the URL
-                conn = (HttpURLConnection) url.openConnection();
-                conn.setDoInput(true); // Allow Inputs
-                conn.setDoOutput(true); // Allow Outputs
-                conn.setUseCaches(false); // Don't use a Cached Copy
-                conn.setRequestMethod("POST");
-                conn.setRequestProperty("Connection", "Keep-Alive");
-                conn.setRequestProperty("ENCTYPE", "multipart/form-data");
-                conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
-                conn.setRequestProperty("uploaded_file", fileName);
-
-                dos = new DataOutputStream(conn.getOutputStream());
-
-                dos.writeBytes(twoHyphens + boundary + lineEnd);
-                dos.writeBytes("Content-Disposition: form-data; name=\"uploaded_file\";filename=\""
-                        + fileName + "\"" + lineEnd);
-
-                dos.writeBytes(lineEnd);
+    private int upload(){
+        try {
+            if (file_extn.equals("img") || file_extn.equals("jpg") || file_extn.equals("jpeg") || file_extn.equals("gif") || file_extn.equals("png")) {
+                Bitmap bm = BitmapFactory.decodeFile(filePath);
+                profile_thumbnail.setImageBitmap(bm);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] imageBytes = baos.toByteArray();
+                String encodedImage = Base64.encodeBytes(imageBytes);
 
 
 
-
-                // create a buffer of  maximum size
-                bytesAvailable = fileInputStream.available();
-
-                bufferSize = Math.min(bytesAvailable, maxBufferSize);
-                buffer = new byte[bufferSize];
-
-                // read file and write it into form...
-                bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-
-                while (bytesRead > 0) {
-
-                    dos.write(buffer, 0, bufferSize);
-                    bytesAvailable = fileInputStream.available();
-                    bufferSize = Math.min(bytesAvailable, maxBufferSize);
-                    bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-
-                }
-
-                // send multipart form data necesssary after file data...
-                dos.writeBytes(lineEnd);
-                dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
-                // Responses from the server (code and message)
-                serverResponseCode = conn.getResponseCode();
-                String serverResponseMessage = conn.getResponseMessage();
-
-                Log.i("uploadFile", "HTTP Response is : "
-                        + serverResponseMessage + ": " + serverResponseCode);
-
-                if(serverResponseCode == 200){
-
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            String msg = "File Upload Completed.\n\n See uploaded file here : \n\n"
-                                    +" C:/wamp/wamp/www/uploads";
-                           // Toast.makeText(this, "File Upload Complete.", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-
-                //close the streams //
-                fileInputStream.close();
-                dos.flush();
-                dos.close();
-
-            } catch (MalformedURLException ex) {
-
-                ex.printStackTrace();
-
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                       // Toast.makeText(this, "MalformedURLException", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                Log.e("Upload file to server", "error: " + ex.getMessage(), ex);
-            } catch (Exception e) {
-                e.printStackTrace();
-                Toast.makeText(this, "Got Exception : see logcat ", Toast.LENGTH_SHORT).show();
-                    }
+                // Upload image to server
+                SharedPreferences pref = this.getSharedPreferences(MainActivity.PREFS, 0); // 0 - for private mode
+                Object[] objects = {encodedImage,  pref.getString("AuthToken", "")};
+                new ProfilePictureTask().execute(objects);
+            } else {
+                //NOT IN REQUIRED FORMAT
             }
-            return serverResponseCode;
-    }
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
-    private int saveChanges() {
         String firstName = profile_firstName.getText().toString().trim();
         String lastName = profile_lastName.getText().toString().trim();
         String address = profile_address.getText().toString().trim();
@@ -450,5 +304,39 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             e.printStackTrace();
         }
         return 0;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode==STORAGE_PERMITION_CODE){
+            if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED)
+                Toast.makeText(this, "Permission granted", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(this, "Permission not granted", Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
+    private void showFileChooser(){
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, 1);
+    }
+
+    public String getPath(Uri uri) {
+        String[] projection = {MediaStore.MediaColumns.DATA};
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        int column_index = cursor
+                .getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
+        cursor.moveToFirst();
+        imagePath = cursor.getString(column_index);
+
+        return cursor.getString(column_index);
+    }
+
+
+    private int saveChanges() {
+        return upload();
+
     }
 }
