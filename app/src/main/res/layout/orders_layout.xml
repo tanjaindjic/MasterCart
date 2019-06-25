@@ -16,9 +16,9 @@
 
         <ImageView
             android:id="@+id/order_product_thumbnail"
-            android:layout_width="wrap_content"
             android:layout_gravity="center"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:scaleType="centerCrop"/>
 
 
@@ -49,19 +49,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <ImageButton
-            android:id="@+id/share_order"
-            android:layout_toLeftOf="@id/order_product_again"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_share"
-            android:paddingTop="8dp"
-            android:layout_marginLeft="16dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
         <ImageButton
             android:id="@+id/rate_order"
-            android:layout_toLeftOf="@id/share_order"
+            android:layout_toLeftOf="@id/order_product_again"
             android:background="@android:color/transparent"
             android:src="@drawable/ic_rate"
             android:paddingTop="8dp"

@@ -3,6 +3,8 @@ package com.pma.mastercart.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,7 +78,8 @@ public class FavoritesAdapter  extends BaseAdapter {
         double rating = products.get(position).getRating();
         ratingBar.setRating((float) rating);
 
-        //imageView.setImageResource(product.getImageResource()); TODO ucitati sliku, ImageResource je path do slike
+        Bitmap bitmap = BitmapFactory.decodeByteArray(product.getImageResource(), 0, product.getImageResource().length);
+        imageView.setImageBitmap(bitmap);
         nameTextView.setText(product.getName());
         priceTextView.setText(Double.toString(product.getPrice()) + "$");
 

@@ -161,7 +161,7 @@ public class ViewProductActivity  extends AppCompatActivity implements View.OnCl
                         String resp = task.get();
                         if(resp.equals("done")){
                             single_add_favorite.setImageResource(R.drawable.ic_favorite);
-                            Toast.makeText(view.getContext(), "Item added to favorites.", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(view.getContext(), "Item added to favorites.", Toast.LENGTH_SHORT).show();
                         }
                     } catch (InterruptedException e) {
                     } catch (ExecutionException e) {

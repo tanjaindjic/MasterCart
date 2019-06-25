@@ -4,6 +4,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
@@ -78,7 +80,7 @@ public class OrdersAdapter extends BaseAdapter {
     // 5
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final Order order = orders[position];
+        Order order = orders[position];
         if (convertView == null) {
             final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
             convertView = layoutInflater.inflate(R.layout.orders_layout, null);
@@ -90,7 +92,8 @@ public class OrdersAdapter extends BaseAdapter {
         final TextView dateTextView = (TextView)convertView.findViewById(R.id.order_product_date);
         final TextView statusTextView = (TextView)convertView.findViewById(R.id.order_product_status);
 
-        imageView.setImageResource(R.drawable.ic_charger);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(orders[position].getProduct().getImageResource(), 0, orders[position].getProduct().getImageResource().length);
+        imageView.setImageBitmap(bitmap);
         nameTextView.setText(order.getProduct().getName());
         priceTextView.setText("Price: " + Double.toString(order.getPrice()) + "$");
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");

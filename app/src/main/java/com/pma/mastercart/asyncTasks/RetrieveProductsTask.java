@@ -3,6 +3,7 @@ package com.pma.mastercart.asyncTasks;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.pma.mastercart.MainActivity;
@@ -49,6 +50,7 @@ public class RetrieveProductsTask extends AsyncTask<Long, Void, ArrayList<Produc
                 response = restTemplate.getForEntity(MainActivity.URL + "product/seller/" + longs[0], Product[].class);
         }catch (RestClientException e){
             valid=false;
+            Log.e("OFFLINE", e.getMessage());
             return new ArrayList<>(Arrays.asList(products));
         }
         if(response.getStatusCode()== HttpStatus.OK)
