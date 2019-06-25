@@ -266,24 +266,13 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
                         searchProducts.add(p);
                     }
                 }
-                for(Shop s : shops) {
-                    if(s.getName().toLowerCase().contains(query.toLowerCase())) {
-                        searchShops.add(s);
-                    }
-                }
                 InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
                 products = searchProducts;
-                shops = searchShops;
                 LinearLayout v = (LinearLayout) viewPager.getChildAt(0);
                 GridView gw = (GridView) v.getChildAt(1);
                 ProductAdapter productsAdapter = new ProductAdapter(MainActivity.appContext, products.toArray(new Product[products.size()]));
                 gw.setAdapter(productsAdapter);
-                LinearLayout v2 = (LinearLayout) viewPager.getChildAt(0);
-                GridView gw2 = (GridView) v2.getChildAt(2);
-                ShopAdapter shopAdapter = new ShopAdapter(MainActivity.appContext, shops.toArray(new Shop[shops.size()]));
-                gw2.setAdapter(shopAdapter);
-                shopAdapter.notifyDataSetChanged();
                 return true;
             }
 
