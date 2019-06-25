@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
     private DrawerLayout drawerLayout;
     private TabLayout tabLayout;
     public static ViewPager viewPager;
-    public static String URL = "http://192.168.1.13:8096/";
+    public static String URL = "http://192.168.0.12:8096/";
     public static ArrayList<Product> products = new ArrayList();
     public static ArrayList<Shop> shops = new ArrayList();
     public static ProgressDialog progress;

@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.pma.mastercart.asyncTasks.AddWalletTask;
 import com.pma.mastercart.asyncTasks.GetUsersTask;
@@ -93,6 +94,7 @@ public class AddWalletActivity extends AppCompatActivity implements View.OnClick
         walletDTO.setBalance(balance.getText().toString().trim());
         walletDTO.setUserEmail(us.getEmail().toString());
         AsyncTask<WalletDTO, Void, WalletDTO> task = new AddWalletTask().execute(walletDTO);
+        Toast.makeText(this, "Successfully add balance to " + us.getEmail() + "!", Toast.LENGTH_SHORT).show();
         return true;
 
     }
