@@ -141,8 +141,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
         }
         if(v==cart_start_shoping){
-            Intent i = new Intent(MainActivity.appContext, MainActivity.class);
-            startActivity(i);
+            finish();
         }
     }
 }

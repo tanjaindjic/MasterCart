@@ -16,6 +16,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:windowBackground="@drawable/logo"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
             android:name=".SettingsActivity"

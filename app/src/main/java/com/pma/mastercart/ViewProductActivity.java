@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.pma.mastercart.adapter.CommentAdapter;
 import com.pma.mastercart.adapter.ProductAdapter;
 import com.pma.mastercart.asyncTasks.AddCommentTask;
+import com.pma.mastercart.asyncTasks.AddToCartTask;
 import com.pma.mastercart.asyncTasks.AddToFavsTask;
 import com.pma.mastercart.asyncTasks.GetFavoriteIdsTask;
 import com.pma.mastercart.asyncTasks.GetProductTask;
@@ -205,7 +206,22 @@ public class ViewProductActivity  extends AppCompatActivity implements View.OnCl
 
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext(), "Item added to cart.", Toast.LENGTH_SHORT).show();
+                SharedPreferences sharedpreferences = getSharedPreferences(MainActivity.PREFS, 0);
+                if (sharedpreferences.contains("AuthToken")) {
+                    Object[] objects = {product, sharedpreferences.getString("AuthToken", null)};
+                    AsyncTask<Object, Void, String> task = new AddToCartTask().execute(objects);
+                    // The URL for making the POST request
+                    try {
+                        String resp = task.get();
+                        if(resp.equals("done")){
+                            Toast.makeText(view.getContext(), "Item added to cart.", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (InterruptedException e) {
+                    } catch (ExecutionException e) {
+                    }
+                }
+                else
+                    Toast.makeText(view.getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
             }
         });
     }
