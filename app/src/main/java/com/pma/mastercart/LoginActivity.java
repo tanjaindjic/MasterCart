@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -58,7 +59,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             try {
                 if(login()){
                     finish();
-                    progressDialog.dismiss();
+                 //   progressDialog.dismiss();
                     Intent i = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(i);
                 }
@@ -87,17 +88,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
         UserDTO userDTO = new UserDTO(email,password);
-        progressDialog = new ProgressDialog(this);
+/*        progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Loading");
         progressDialog.setMessage("Syncing with Database");
         progressDialog.setCancelable(false);
-        progressDialog.show();
-        Object[] objects = new Object[]{userDTO, progressDialog};
-        AsyncTask<Object, Void, UserDTO> task = new LoginUserTask(this).execute(objects);
+        progressDialog.show();*/
+        Object[] objects = new Object[]{userDTO, null};
+        AsyncTask<Object, Void, UserDTO> task = new LoginUserTask(LoginActivity.this).execute(objects);
         // The URL for making the POST request
         UserDTO user= task.get();
         if(user==null){
-            progressDialog.dismiss();
+           // progressDialog.dismiss();
             Toast.makeText(this, "Wrong credentials, log in failed", Toast.LENGTH_SHORT).show();
             return false;
         }

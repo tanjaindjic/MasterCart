@@ -170,10 +170,11 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
         this.getIntent().removeExtra("productUpdate");
         this.getIntent().removeExtra("shopUpdate");
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-        adapter = new HomePageTabsAdapter(getSupportFragmentManager());
+      //  adapter = new HomePageTabsAdapter(getSupportFragmentManager());
+        adapter.notifyDataSetChanged();
         viewPager.setAdapter(adapter);
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
+    /*    tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);*/
     }
 
     protected synchronized void buildGoogleApiClient() {
