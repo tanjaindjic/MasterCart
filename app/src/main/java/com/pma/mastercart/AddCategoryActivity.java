@@ -68,6 +68,7 @@ public class AddCategoryActivity extends AppCompatActivity implements View.OnCli
                 case 0:
                     editTextNameCategory.setText("");
                     Toast.makeText(this, "Category successfully added.", Toast.LENGTH_SHORT).show();
+                    finish();
                     break;
                 case 1:
                     Toast.makeText(this, "Something went wrong.", Toast.LENGTH_SHORT).show();

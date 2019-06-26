@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 
 import com.pma.mastercart.AddProductActivity;
 import com.pma.mastercart.AddShopActivity;
+import com.pma.mastercart.EditProductActivity;
 import com.pma.mastercart.MainActivity;
 import com.pma.mastercart.OfflineActivity;
 
@@ -64,7 +65,10 @@ public class ProductPictureTask  extends AsyncTask<Object, Void, Boolean> {
             homepage.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             MainActivity.appContext.startActivity(homepage);
         }
-        AddProductActivity.dialog.dismiss();
+        if(AddProductActivity.dialog!=null)
+            AddProductActivity.dialog.dismiss();
+        if(EditProductActivity.dialog!=null)
+            EditProductActivity.dialog.dismiss();
 
     }
 }

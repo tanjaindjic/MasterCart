@@ -37,6 +37,7 @@ import com.pma.mastercart.model.DTO.CommentDTO;
 import com.pma.mastercart.model.Product;
 import com.pma.mastercart.model.Shop;
 import com.pma.mastercart.model.User;
+import com.pma.mastercart.model.enums.Role;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -96,6 +97,9 @@ public class ViewProductActivity  extends AppCompatActivity implements View.OnCl
         productShop = (TextView) findViewById(R.id.single_product_shop);
         productShop.setText(product.getShop().getName());
         productShop.setPaintFlags(productShop.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        add_favorite = (ImageButton) findViewById(R.id.single_add_favorite);
+        add_cart = (ImageButton) findViewById(R.id.single_add_cart);
+        editText_add_comment = (EditText) findViewById(R.id.add_comment) ;
 
         productShop.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,10 +136,33 @@ public class ViewProductActivity  extends AppCompatActivity implements View.OnCl
         back_toolbar.setTitle(product.getName());
 
         layout_AddComment = (LinearLayout) findViewById(R.id.layout_AddComment);
-        layout_AddComment.setVisibility(View.INVISIBLE);
-        if (sharedpreferences.contains("AuthToken"))
-            layout_AddComment.setVisibility(View.VISIBLE);
-        editText_add_comment = (EditText) findViewById(R.id.add_comment);
+        User user = null;
+        if (sharedpreferences.contains("AuthToken")) {
+            AsyncTask<String, Void, User> task = new GetUserTask().execute(sharedpreferences.getString("AuthToken", null));
+            // The URL for making the POST request
+            try {
+                user = task.get();
+                if(user==null) {
+                    layout_AddComment.setVisibility(View.GONE);
+                    add_favorite.setVisibility(View.GONE);
+                    add_cart.setVisibility(View.GONE);
+                }
+                else if(user.getRole().equals(Role.ADMIN)){
+                    layout_AddComment.setVisibility(View.GONE);
+                    add_favorite.setVisibility(View.GONE);
+                    add_cart.setVisibility(View.GONE);
+                }else if(user.getRole().equals(Role.PRODAVAC)) {
+                    add_favorite.setVisibility(View.GONE);
+                    add_cart.setVisibility(View.GONE);
+                }
+            } catch (InterruptedException e) {
+                finish();
+            } catch (ExecutionException e) {
+                finish();
+            }
+        } else {
+            finish();
+        }
 
         button_sendComment = (Button) findViewById(R.id.btn_send_comment);
         button_sendComment.setOnClickListener(this);

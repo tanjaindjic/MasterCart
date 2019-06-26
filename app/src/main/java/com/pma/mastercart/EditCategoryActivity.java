@@ -83,6 +83,7 @@ public class EditCategoryActivity extends AppCompatActivity implements View.OnCl
                 resulet = saveChanges();
                 if(resulet==0){
                     Toast.makeText(this, "Category changed successfully", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
                 else if(resulet==1){
                     editCategory.setError("Name can not be empty");

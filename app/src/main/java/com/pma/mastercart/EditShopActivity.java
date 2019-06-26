@@ -1,9 +1,16 @@
 package com.pma.mastercart;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,10 +21,15 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.pma.mastercart.asyncTasks.EditShopTask;
+import com.pma.mastercart.asyncTasks.RetrieveProductsTask;
 import com.pma.mastercart.asyncTasks.RetrieveShopsTask;
+import com.pma.mastercart.asyncTasks.ShopPictureTask;
 import com.pma.mastercart.model.DTO.ShopDTO;
 import com.pma.mastercart.model.Shop;
 
+import org.springframework.util.support.Base64;
+
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
@@ -29,6 +41,39 @@ public class EditShopActivity  extends AppCompatActivity implements View.OnClick
     private static Uri selectedImage;
     private Long idShop;
     private Shop shop;
+    private static String filePath;
+    private static String file_extn;
+    private ImageView imageViewShop;
+    private String imagePath;
+    public static ProgressDialog dialog;
+
+    public static void onLoad(String id) {
+        if(file_extn==null){
+            if(AddShopActivity.dialog!=null)
+                AddShopActivity.dialog.dismiss();
+            if(EditShopActivity.dialog!=null)
+                EditShopActivity.dialog.dismiss();
+            return;
+        }
+        try {
+            if (file_extn.equals("img") || file_extn.equals("jpg") || file_extn.equals("jpeg") || file_extn.equals("gif") || file_extn.equals("png")) {
+                Bitmap bm = BitmapFactory.decodeFile(filePath);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] imageBytes = baos.toByteArray();
+                String encodedImage = Base64.encodeBytes(imageBytes);
+
+
+                Object[] objects = {encodedImage, id};
+                new ShopPictureTask().execute(objects);
+            } else {
+                //NOT IN REQUIRED FORMAT
+            }
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,7 +110,21 @@ public class EditShopActivity  extends AppCompatActivity implements View.OnClick
         editEditLatitudeShop = (EditText) findViewById(R.id.editEditLatitudeShop);
         editEditLatitudeShop.setText(Float.toString(shop.getLat()));
 
-        //Toast.makeText(this, idShop.toString(), Toast.LENGTH_SHORT).show();
+        imageViewShop = (ImageView) findViewById(R.id.imageViewShop);
+        if(shop.getImageResource()==null){
+            imageViewShop.setImageResource(R.drawable.ic_dummy);
+        }else {
+            Bitmap bitmap = BitmapFactory.decodeByteArray(shop.getImageResource(), 0, shop.getImageResource().length);
+            imageViewShop.setImageBitmap(bitmap);
+        }
+        dialog = new ProgressDialog(this);
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                finish();
+
+            }
+        });
 
     }
 
@@ -87,16 +146,46 @@ public class EditShopActivity  extends AppCompatActivity implements View.OnClick
             }
 
         }else if(view==btnEditPictureShop){
-            Intent i = new Intent(
-                    Intent.ACTION_PICK,
-                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-            startActivityForResult(i, PICK_IMAGE);
+            showFileChooser();
         }
     }
 
+    private void showFileChooser(){
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, 1);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1)
+            if (resultCode == Activity.RESULT_OK) {
+                Uri selectedImage = data.getData();
+
+                filePath = getPath(selectedImage);
+                file_extn = filePath.substring(filePath.lastIndexOf(".") + 1);
+                Bitmap bm = BitmapFactory.decodeFile(filePath);
+                imageViewShop.setImageBitmap(bm);
+
+            }
+    }
+
+    public String getPath(Uri uri) {
+        String[] projection = {MediaStore.MediaColumns.DATA};
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        int column_index = cursor
+                .getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
+        cursor.moveToFirst();
+        imagePath = cursor.getString(column_index);
+
+        return cursor.getString(column_index);
+    }
+
     private boolean editShop() throws ExecutionException, InterruptedException {
-        // Toast.makeText(this, idShop.toString(), Toast.LENGTH_SHORT).show();
+        dialog.setMessage("Updating shop...");
+        dialog.show();
+
         ShopDTO shopDTO = new ShopDTO();
         shopDTO.setId(idShop.toString());
         //Toast.makeText(this, shopDTO.getId().toString(), Toast.LENGTH_SHORT).show();
@@ -116,27 +205,7 @@ public class EditShopActivity  extends AppCompatActivity implements View.OnClick
             Toast.makeText(this, "Something went wrong. Updating failed", Toast.LENGTH_SHORT).show();
             return false;
         }
-        ArrayList<Long> ids = new ArrayList<>();
-        ids.add(idShop);
-        Intent intent = getIntent();
-        intent.removeExtra("shopUpdate");
-        intent.putExtra("shopUpdate", ids);
-        Toast.makeText(this, "Shop is updated", Toast.LENGTH_SHORT).show();
-        Intent i = new Intent(MainActivity.appContext, MainActivity.class);
-        startActivity(i);
         return true;
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && null != data) {
-            selectedImage = data.getData();
-
-            ImageView imageView = (ImageView) findViewById(R.id.imageViewShop);
-            imageView.setImageURI(selectedImage);
-
-        }
-    }
 }

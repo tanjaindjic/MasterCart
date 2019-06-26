@@ -3,6 +3,7 @@ package com.pma.mastercart.asyncTasks;
 import android.content.Intent;
 import android.os.AsyncTask;
 
+import com.pma.mastercart.EditShopActivity;
 import com.pma.mastercart.MainActivity;
 import com.pma.mastercart.OfflineActivity;
 import com.pma.mastercart.model.Category;
@@ -67,6 +68,8 @@ public class EditShopTask extends AsyncTask<ShopDTO, Void, ShopDTO> {
             Intent homepage = new Intent(MainActivity.appContext, OfflineActivity.class);
             homepage.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             MainActivity.appContext.startActivity(homepage);
+        }else{
+            EditShopActivity.onLoad(shopDTO.getId());
         }
     }
 }

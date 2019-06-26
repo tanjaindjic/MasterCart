@@ -82,9 +82,13 @@ public class ShopAdapter  extends BaseAdapter {
         nameTextView.setText(shop.getName());
         locationTextView = (TextView)convertView.findViewById(R.id.shop_address);
         locationTextView.setText(shop.getLocation());
-        Bitmap bitmap = BitmapFactory.decodeByteArray(shop.getImageResource(), 0, shop.getImageResource().length);
         pic = (ImageView)convertView.findViewById(R.id.shop_thumbnail);
-        pic.setImageBitmap(bitmap);
+        if(shop.getImageResource()==null){
+            pic.setImageResource(R.drawable.ic_dummy);
+        }else {
+            Bitmap bitmap = BitmapFactory.decodeByteArray(shop.getImageResource(), 0, shop.getImageResource().length);
+            pic.setImageBitmap(bitmap);
+        }
         ratingBar = (RatingBar) convertView.findViewById(R.id.shop_rating);
         ratingBar.setRating((float) shop.getRating());
 

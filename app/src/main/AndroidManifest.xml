@@ -63,7 +63,8 @@
         <activity
             android:name=".AddShopActivity"
             android:label="Add Shop"
-            android:parentActivityName=".MainActivity" />
+            android:windowSoftInputMode="adjustPan"
+        android:parentActivityName=".MainActivity" />
         <activity
             android:name=".AddCategoryActivity"
             android:label="Add Category"
@@ -75,6 +76,7 @@
         <activity
             android:name=".EditProductActivity"
             android:label="Edit Product"
+            android:windowSoftInputMode="adjustPan"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".ProfileActivity"
@@ -102,9 +104,11 @@
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".AddProductActivity"
+            android:windowSoftInputMode="adjustPan"
             android:label="Add Product" />
         <activity
             android:name=".EditShopActivity"
+            android:windowSoftInputMode="adjustPan"
             android:label="Edit Shop" />
         <activity
             android:name=".WalletActivity"

@@ -1,9 +1,17 @@
 package com.pma.mastercart;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -18,10 +26,15 @@ import android.widget.Toast;
 
 import com.pma.mastercart.asyncTasks.EditProductTask;
 import com.pma.mastercart.asyncTasks.GetCategoriesTask;
+import com.pma.mastercart.asyncTasks.ProductPictureTask;
+import com.pma.mastercart.asyncTasks.ShopPictureTask;
 import com.pma.mastercart.model.Category;
 import com.pma.mastercart.model.DTO.ProductDTO;
 import com.pma.mastercart.model.Product;
 
+import org.springframework.util.support.Base64;
+
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
@@ -35,6 +48,39 @@ public class EditProductActivity extends AppCompatActivity implements View.OnCli
     private Category cat;
     private Context ctx;
     private Product product;
+    private static String filePath;
+    private static String file_extn;
+    private ImageView imageViewProduct;
+    private String imagePath;
+    public static ProgressDialog dialog;
+
+    public static void onLoad(String id) {
+        if(file_extn==null){
+            if(AddProductActivity.dialog!=null)
+                AddProductActivity.dialog.dismiss();
+            if(EditProductActivity.dialog!=null)
+                EditProductActivity.dialog.dismiss();
+            return;
+        }
+        try {
+            if (file_extn.equals("img") || file_extn.equals("jpg") || file_extn.equals("jpeg") || file_extn.equals("gif") || file_extn.equals("png")) {
+                Bitmap bm = BitmapFactory.decodeFile(filePath);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] imageBytes = baos.toByteArray();
+                String encodedImage = Base64.encodeBytes(imageBytes);
+
+
+                Object[] objects = {encodedImage, id};
+                new ProductPictureTask().execute(objects);
+            } else {
+                //NOT IN REQUIRED FORMAT
+            }
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,6 +140,22 @@ public class EditProductActivity extends AppCompatActivity implements View.OnCli
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        imageViewProduct = (ImageView) findViewById(R.id.imageEditViewProduct);
+        if(product.getImageResource()==null){
+            imageViewProduct.setImageResource(R.drawable.ic_dummy);
+        }else {
+            Bitmap bitmap = BitmapFactory.decodeByteArray(product.getImageResource(), 0, product.getImageResource().length);
+            imageViewProduct.setImageBitmap(bitmap);
+        }
+
+        dialog = new ProgressDialog(this);
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                finish();
+            }
+        });
     }
 
     private void initializeUI() throws ExecutionException, InterruptedException {
@@ -120,10 +182,49 @@ public class EditProductActivity extends AppCompatActivity implements View.OnCli
                 Toast.makeText(this, "Invalid to update.", Toast.LENGTH_SHORT).show();
             else
                 editProduct();
+
+        }else if(view==btnEditPictureProduct){
+            showFileChooser();
         }
+}
+
+    private void showFileChooser(){
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, 1);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1)
+            if (resultCode == Activity.RESULT_OK) {
+                Uri selectedImage = data.getData();
+
+                filePath = getPath(selectedImage);
+                file_extn = filePath.substring(filePath.lastIndexOf(".") + 1);
+                Bitmap bm = BitmapFactory.decodeFile(filePath);
+                imageViewProduct.setImageBitmap(bm);
+
+            }
+    }
+
+    public String getPath(Uri uri) {
+        String[] projection = {MediaStore.MediaColumns.DATA};
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        int column_index = cursor
+                .getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
+        cursor.moveToFirst();
+        imagePath = cursor.getString(column_index);
+
+        return cursor.getString(column_index);
+
     }
 
     private boolean editProduct(){
+        dialog.setMessage("Updating product...");
+        dialog.show();
+
         ProductDTO productDTO = new ProductDTO();
         productDTO.setName(editEditTextNameProduct.getText().toString().trim());
         productDTO.setPrice(editEditTextPriceProduct.getText().toString().trim());
@@ -134,14 +235,7 @@ public class EditProductActivity extends AppCompatActivity implements View.OnCli
         productDTO.setId(idProduct.toString());
         productDTO.setIdCategory(cat.getId().toString());
         AsyncTask<ProductDTO, Void, ProductDTO> task = new EditProductTask().execute(productDTO);
-        ArrayList<Long> p = new ArrayList<>();
-        p.add(idProduct);
-        Intent intent = this.getParentActivityIntent();
-        intent.removeExtra("productUpdate");
-        intent.putExtra("productUpdate", p);
-        Toast.makeText(this, "Product is updated", Toast.LENGTH_SHORT).show();
-        Intent i = new Intent(MainActivity.appContext, MainActivity.class);
-        startActivity(i);
+
         return true;
     }
 }

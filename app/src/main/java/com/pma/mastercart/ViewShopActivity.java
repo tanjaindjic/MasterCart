@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -23,10 +24,13 @@ import android.widget.Toast;
 
 import com.pma.mastercart.adapter.CommentAdapter;
 import com.pma.mastercart.asyncTasks.AddCommentTask;
+import com.pma.mastercart.asyncTasks.GetUserTask;
 import com.pma.mastercart.model.Comment;
 import com.pma.mastercart.model.DTO.CommentDTO;
 import com.pma.mastercart.model.Product;
 import com.pma.mastercart.model.Shop;
+import com.pma.mastercart.model.User;
+import com.pma.mastercart.model.enums.Role;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +47,7 @@ public class ViewShopActivity extends AppCompatActivity implements View.OnClickL
     private RatingBar rating;
     private EditText add_comment_shop;
     private Button shop_comment_button;
+    private LinearLayout comment_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +103,28 @@ public class ViewShopActivity extends AppCompatActivity implements View.OnClickL
 
         shop_comment_button = (Button) findViewById(R.id.shop_comment_button);
         shop_comment_button.setOnClickListener(this);
+
+        comment_layout = (LinearLayout) findViewById(R.id.comment_layout);
+        User user = null;
+        SharedPreferences sharedpreferences = getSharedPreferences(MainActivity.PREFS, 0);
+        if (sharedpreferences.contains("AuthToken")) {
+            AsyncTask<String, Void, User> task = new GetUserTask().execute(sharedpreferences.getString("AuthToken", null));
+            // The URL for making the POST request
+            try {
+                user = task.get();
+                if(user==null)
+                    comment_layout.setVisibility(View.GONE);
+                else if(user.getRole().equals(Role.ADMIN))
+                    comment_layout.setVisibility(View.GONE);
+            } catch (InterruptedException e) {
+                finish();
+            } catch (ExecutionException e) {
+                finish();
+            }
+        } else {
+            finish();
+        }
+
 
     }
 

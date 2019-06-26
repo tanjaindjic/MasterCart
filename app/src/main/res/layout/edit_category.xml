@@ -50,18 +50,20 @@
             android:paddingRight="15dp"
             android:paddingLeft="15dp"/>
 
-        <android.support.v7.widget.FitWindowsLinearLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="8dp">
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:layout_marginBottom="8dp">
 
             <Button android:id="@+id/btn_edit_category"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:text="SAVE"/>
 
-        </android.support.v7.widget.FitWindowsLinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
 </android.support.v4.widget.DrawerLayout>

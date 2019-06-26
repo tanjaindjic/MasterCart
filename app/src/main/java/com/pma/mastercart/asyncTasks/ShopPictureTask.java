@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.util.Base64;
 
 import com.pma.mastercart.AddShopActivity;
+import com.pma.mastercart.EditShopActivity;
 import com.pma.mastercart.MainActivity;
 import com.pma.mastercart.OfflineActivity;
 
@@ -67,7 +68,10 @@ public class ShopPictureTask extends AsyncTask<Object, Void, Boolean> {
             homepage.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             MainActivity.appContext.startActivity(homepage);
         }
-        AddShopActivity.dialog.dismiss();
+        if(AddShopActivity.dialog!=null)
+            AddShopActivity.dialog.dismiss();
+        if(EditShopActivity.dialog!=null)
+            EditShopActivity.dialog.dismiss();
 
     }
 }

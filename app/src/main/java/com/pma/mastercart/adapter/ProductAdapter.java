@@ -82,9 +82,13 @@ public class ProductAdapter extends BaseAdapter {
           final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
           convertView = layoutInflater.inflate(R.layout.product_layout, null);
         }
-        Bitmap bitmap = BitmapFactory.decodeByteArray(product.getImageResource(), 0, product.getImageResource().length);
         imageView = (ImageView)convertView.findViewById(R.id.product_thumbnail);
-        imageView.setImageBitmap(bitmap);
+        if(product.getImageResource()==null){
+            imageView.setImageResource(R.drawable.ic_dummy);
+        }else {
+            Bitmap bitmap = BitmapFactory.decodeByteArray(product.getImageResource(), 0, product.getImageResource().length);
+            imageView.setImageBitmap(bitmap);
+        }
         nameTextView = (TextView)convertView.findViewById(R.id.product_name);
         nameTextView.setText(product.getName());
         priceTextView = (TextView)convertView.findViewById(R.id.product_price);

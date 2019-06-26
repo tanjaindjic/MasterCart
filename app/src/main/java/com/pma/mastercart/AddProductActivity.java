@@ -180,6 +180,13 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
 
     public static void onLoad(String id) {
 
+        if(file_extn==null){
+            if(AddProductActivity.dialog!=null)
+                AddProductActivity.dialog.dismiss();
+            if(EditProductActivity.dialog!=null)
+                EditProductActivity.dialog.dismiss();
+            return;
+        }
         try {
             if (file_extn.equals("img") || file_extn.equals("jpg") || file_extn.equals("jpeg") || file_extn.equals("gif") || file_extn.equals("png")) {
                 Bitmap bm = BitmapFactory.decodeFile(filePath);
