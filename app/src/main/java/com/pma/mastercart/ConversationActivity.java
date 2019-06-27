@@ -1,6 +1,7 @@
 package com.pma.mastercart;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import com.pma.mastercart.adapter.MessageListAdapter;
+import com.pma.mastercart.asyncTasks.GetMessagesTask;
 import com.pma.mastercart.model.Conversation;
 import com.pma.mastercart.model.Message;
 import com.pma.mastercart.model.Shop;
@@ -17,11 +19,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class ConversationActivity extends AppCompatActivity {
     private RecyclerView mMessageRecycler;
     private MessageListAdapter mMessageAdapter;
-
+    private String messagesString;
+    private String conversationId;
+    private Conversation con;
  /*   User currentUser = new User("John", "Doe", "jd@gmail.com", "johndoe", "Vase Stajica 6", R.drawable.ic_dummy);
     Shop shop1 = new Shop(1, R.string.dummy1, R.drawable.ic_shop, R.string.dummyLocation);
     Shop shop2 = new Shop(2, R.string.dummy2, R.drawable.ic_shop, R.string.dummyLocation);
@@ -51,9 +56,22 @@ public class ConversationActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         Intent intent = getIntent();
-        int conversationPosition = intent.getIntExtra("conversationPosition", -1);
+        conversationId = intent.getStringExtra("conversationId");
+        con = intent.getParcelableExtra("conversation");
+
+        List<Message> messagesFromConversation = new ArrayList<Message>();
+        AsyncTask<String, Void, List<Message>> task = new GetMessagesTask().execute(conversationId);
+        try {
+            List<Message> listMessage = task.get();
+            messagesFromConversation = listMessage;
+        } catch (InterruptedException e) {
+            messagesFromConversation = null;
+        } catch (ExecutionException e) {
+            messagesFromConversation = null;
+        }
+
         mMessageRecycler = (RecyclerView) findViewById(R.id.reyclerview_message_list);
-        mMessageAdapter = new MessageListAdapter(this, conversations[conversationPosition].getMessages());
+        mMessageAdapter = new MessageListAdapter(this, messagesFromConversation);
         mMessageRecycler.setAdapter(mMessageAdapter);
         mMessageRecycler.setLayoutManager(new LinearLayoutManager(this));
     }

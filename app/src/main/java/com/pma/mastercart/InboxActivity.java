@@ -82,7 +82,8 @@ public class InboxActivity extends AppCompatActivity {
                 // TODO Auto-generated method stub
                 Conversation selected = conversations[position];
                 Intent intent = new Intent(view.getContext(), ConversationActivity.class);
-                intent.putExtra("conversationPosition", position);
+                intent.putExtra("conversationId", selected.getId().toString());
+                intent.putExtra("conversation", selected);
                 startActivity(intent);
             }
 
