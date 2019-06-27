@@ -14,6 +14,7 @@ import com.pma.mastercart.model.Shop;
 import com.pma.mastercart.model.User;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -130,5 +131,9 @@ public class MessageListAdapter extends RecyclerView.Adapter {
                 profileImage.setImageResource( ((Shop) message.getSender()).getImageResource());
             else profileImage.setImageResource( ((User) message.getSender()).getImageResource());*/
         }
+    }
+    public void updateResults(ArrayList<Message> poruke) {
+        mMessageList = poruke;
+        notifyDataSetChanged();
     }
 }

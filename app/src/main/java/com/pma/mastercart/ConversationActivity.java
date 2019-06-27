@@ -111,7 +111,19 @@ public class ConversationActivity extends AppCompatActivity {
                 m.setConversationId(conversationId);
 
                 AsyncTask<MessageDTO, Void, Message> task = new SendTask().execute(m);
+                try {
+                    Message ms = task.get();
+                    if(ms!=null) {
+                        con.getMessages().add(ms);
+                        mMessageAdapter.updateResults((ArrayList<Message>) con.getMessages());
+                        message.setText("");
 
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
 
             }
 
