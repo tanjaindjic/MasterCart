@@ -23,11 +23,12 @@ public class User  implements Parcelable {
     private ArrayList<CartItem> cartItems;
     private ArrayList<Order> orders;
     private List<Conversation> conversations;
+    private boolean notifications;
 
     public User() {
     }
 
-    public User(Long id, String email, String password, String firstName, String lastName, String address, String phone, Role role, byte[] imageResource, ArrayList<Product> favorites, Wallet wallet, ArrayList<CartItem> cartItems, ArrayList<Order> orders, List<Conversation> conversations) {
+    public User(Long id, String email, String password, String firstName, String lastName, String address, String phone, Role role, byte[] imageResource, ArrayList<Product> favorites, Wallet wallet, ArrayList<CartItem> cartItems, ArrayList<Order> orders, List<Conversation> conversations, boolean notifications) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -41,6 +42,7 @@ public class User  implements Parcelable {
         this.wallet = wallet;
         this.cartItems = cartItems;
         this.conversations = conversations;
+        this.notifications = notifications;
     }
 
     public Long getId() {  return id;  }
@@ -149,6 +151,13 @@ public class User  implements Parcelable {
         this.conversations = conversations;
     }
 
+    public boolean isNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(boolean notifications) {
+        this.notifications = notifications;
+    }
 
     @Override
     public String toString() {
