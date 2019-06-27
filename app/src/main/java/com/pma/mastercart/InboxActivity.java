@@ -1,6 +1,8 @@
 package com.pma.mastercart;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.pma.mastercart.adapter.ConversationAdapter;
+import com.pma.mastercart.asyncTasks.GetConversationsTask;
 import com.pma.mastercart.model.Conversation;
 import com.pma.mastercart.model.Message;
 import com.pma.mastercart.model.Shop;
@@ -19,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class InboxActivity extends AppCompatActivity {
 
@@ -53,7 +57,22 @@ public class InboxActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         ListView listView = (ListView) findViewById(R.id.conversation_list_view);
-        conversationAdapter = new ConversationAdapter(this, conversations);
+        List<Conversation> listConversations = new ArrayList<Conversation>();
+        SharedPreferences sharedpreferences = getSharedPreferences(MainActivity.PREFS, 0);
+        if (sharedpreferences.contains("AuthToken")) {
+            AsyncTask<String, Void, List<Conversation>> task = new GetConversationsTask().execute(sharedpreferences.getString("AuthToken", null));
+            // The URL for making the POST request
+            try {
+                List<Conversation> conversation = task.get();
+                listConversations = conversation;
+            } catch (InterruptedException e) {
+                listConversations = null;
+            } catch (ExecutionException e) {
+                listConversations = null;
+            }
+        }
+        conversations= listConversations.toArray(new Conversation[listConversations.size()]);
+        conversationAdapter = new ConversationAdapter(this,conversations);
         listView.setAdapter(conversationAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
