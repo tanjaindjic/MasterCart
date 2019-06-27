@@ -1,5 +1,6 @@
 package com.pma.mastercart;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -9,8 +10,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,8 +28,10 @@ import android.widget.Toast;
 import com.pma.mastercart.adapter.CommentAdapter;
 import com.pma.mastercart.asyncTasks.AddCommentTask;
 import com.pma.mastercart.asyncTasks.GetUserTask;
+import com.pma.mastercart.asyncTasks.SendMessageTask;
 import com.pma.mastercart.model.Comment;
 import com.pma.mastercart.model.DTO.CommentDTO;
+import com.pma.mastercart.model.DTO.ConversationDTO;
 import com.pma.mastercart.model.Product;
 import com.pma.mastercart.model.Shop;
 import com.pma.mastercart.model.User;
@@ -47,6 +52,10 @@ public class ViewShopActivity extends AppCompatActivity implements View.OnClickL
     private RatingBar rating;
     private EditText add_comment_shop;
     private Button shop_comment_button;
+    private EditText messageText;
+    public static ImageButton message;
+    private String messages;
+    private String shopId;
     private LinearLayout comment_layout;
 
     @Override
@@ -104,6 +113,40 @@ public class ViewShopActivity extends AppCompatActivity implements View.OnClickL
         shop_comment_button = (Button) findViewById(R.id.shop_comment_button);
         shop_comment_button.setOnClickListener(this);
 
+
+        message = (ImageButton) findViewById(R.id.message);
+        message.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                View dialogView = LayoutInflater.from(view.getContext()).inflate(R.layout.message_layout, null);
+                builder.setView(dialogView);
+                builder.setCancelable(true);
+                messageText = (EditText) dialogView.findViewById(R.id.messageText);
+
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        messages = messageText.getText().toString();
+                        shopId = shop.getId().toString();
+                        sentMessage(view,messages,shopId);
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
+            }
+
+        });
+
         comment_layout = (LinearLayout) findViewById(R.id.comment_layout);
         User user = null;
         SharedPreferences sharedpreferences = getSharedPreferences(MainActivity.PREFS, 0);
@@ -134,6 +177,29 @@ public class ViewShopActivity extends AppCompatActivity implements View.OnClickL
     {
         onBackPressed();
         return true;
+    }
+
+    private void sentMessage(View v, String message, String shopId) {
+        User currentUser = null;
+        SharedPreferences sharedpreferences = v.getContext().getSharedPreferences(MainActivity.PREFS, 0);
+        if (sharedpreferences.contains("AuthToken")) {
+            AsyncTask<String, Void, User> task = new GetUserTask().execute(sharedpreferences.getString("AuthToken", null));
+            // The URL for making the POST request
+            try {
+                User user= task.get();
+                currentUser = user;
+            } catch (InterruptedException e) {
+                currentUser = null;
+            } catch (ExecutionException e) {
+                currentUser = null;
+            }
+        }
+        ConversationDTO c = new ConversationDTO(shopId,message, currentUser.getEmail().toString());
+        AsyncTask<ConversationDTO, Void, String> task= new SendMessageTask().execute(c);
+
+
+
+
     }
 
     @Override

@@ -53,7 +53,7 @@ public class ConversationAdapter extends BaseAdapter {
         shop_name_conversation = (TextView)convertView.findViewById(R.id.shop_name_conversation);
         conversation_text = (TextView)convertView.findViewById(R.id.conversation_text);
 
-        shop_name_conversation.setText(conversation.getReciever().getName());
+        shop_name_conversation.setText(conversation.getShop().getName());
         conversation_text.setText(conversation.getMessages().get(conversation.getMessages().size()-1).getMessage());
 
         return convertView;
