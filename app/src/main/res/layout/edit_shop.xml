@@ -45,7 +45,8 @@
                 android:paddingTop="15dp"
                 android:paddingRight="15dp"
                 android:paddingBottom="15dp"
-                android:textSize="20dp" />
+                android:textSize="20dp"
+                android:inputType="text"/>
 
             <EditText
                 android:id="@+id/editEditLocationShop"
@@ -56,7 +57,8 @@
                 android:paddingTop="15dp"
                 android:paddingRight="15dp"
                 android:paddingBottom="15dp"
-                android:textSize="20dp" />
+                android:textSize="20dp"
+                android:inputType="text"/>
 
             <EditText
                 android:id="@+id/editEditPhoneShop"
@@ -67,7 +69,8 @@
                 android:paddingTop="15dp"
                 android:paddingRight="15dp"
                 android:paddingBottom="15dp"
-                android:textSize="20dp" />
+                android:textSize="20dp"
+                android:inputType="phone"/>
 
             <EditText
                 android:id="@+id/editEditEmailShop"
@@ -78,7 +81,8 @@
                 android:paddingTop="15dp"
                 android:paddingRight="15dp"
                 android:paddingBottom="15dp"
-                android:textSize="20dp" />
+                android:textSize="20dp"
+                android:inputType="textEmailAddress" />
 
             <EditText
 
@@ -90,7 +94,8 @@
                 android:paddingTop="15dp"
                 android:paddingRight="15dp"
                 android:paddingBottom="15dp"
-                android:textSize="20dp" />
+                android:textSize="20dp"
+                android:inputType="numberDecimal"/>
 
             <EditText
                 android:id="@+id/editEditLongitudeShop"
@@ -101,7 +106,8 @@
                 android:paddingTop="15dp"
                 android:paddingRight="15dp"
                 android:paddingBottom="15dp"
-                android:textSize="20dp" />
+                android:textSize="20dp"
+                android:inputType="numberDecimal"/>
 
             <GridLayout
                 android:layout_width="wrap_content"

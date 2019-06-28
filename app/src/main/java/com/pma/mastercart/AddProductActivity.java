@@ -2,6 +2,7 @@ package com.pma.mastercart;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -21,6 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.pma.mastercart.asyncTasks.AddProductTask;
 import com.pma.mastercart.asyncTasks.GetCategoriesTask;
@@ -47,11 +49,15 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
     private static String filePath;
     private static String file_extn;
     private String imagePath;
+    private Context ctx;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_product);
+
+        ctx = this;
+
         Toolbar back_toolbar = (Toolbar) findViewById(R.id.back_toolbar);
         setSupportActionBar(back_toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -74,7 +80,6 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 cat = (Category) adapterView.getSelectedItem();
-
             }
 
             @Override
@@ -106,7 +111,14 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
 
         AsyncTask<Void, Void, ArrayList<Category>> task = new GetCategoriesTask().execute();
         ArrayList<Category> categorije =  task.get();
-
+        int obrisi=-1;
+        for(int i=0; i<categorije.size(); i++){
+            if(categorije.get(i).getName().equals("All"))
+                obrisi=i;
+        }
+        if(obrisi!=-1){
+            categorije.remove(obrisi);
+        }
 
         ArrayAdapter<Category> arrayAdapter = new ArrayAdapter<Category>(this,android.R.layout.simple_spinner_item,categorije);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -162,6 +174,41 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
     }
 
     private boolean addProduct(){
+        if(editTextNameProduct.getText().toString().trim().isEmpty() || editTextPriceProduct.getText().toString().trim().isEmpty() ||
+                editTextDescriptionProduct.getText().toString().trim().isEmpty() || editTextQuantityProduct.getText().toString().trim().isEmpty() ||
+                editTextSizeProduct.getText().toString().trim().isEmpty() || editTextDiscountProduct.getText().toString().trim().isEmpty()){
+            Toast.makeText(ctx, "All data must be entered", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else{
+            try{
+                Double value= Double.parseDouble(editTextPriceProduct.getText().toString().trim());
+            } catch (Exception e1) {
+                //e1.printStackTrace();
+                Toast.makeText(ctx, "Price has to be (decimal) number", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            try{
+                Integer value= Integer.parseInt(editTextQuantityProduct.getText().toString().trim());
+            } catch (Exception e1) {
+                //e1.printStackTrace();
+                Toast.makeText(ctx, "Quantity is not valid", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            try{
+                Integer value= Integer.parseInt(editTextDiscountProduct.getText().toString().trim());
+                if(value>99){
+                    Toast.makeText(ctx, "Discount must be number <100", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            } catch (Exception e1) {
+                //e1.printStackTrace();
+                Toast.makeText(ctx, "Discount must be number <100", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        }
         dialog.setMessage("Adding new product...");
         dialog.show();
         ProductDTO productDTO = new ProductDTO();

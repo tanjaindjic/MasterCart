@@ -163,7 +163,14 @@ public class EditProductActivity extends AppCompatActivity implements View.OnCli
 
         AsyncTask<Void, Void, ArrayList<Category>> task = new GetCategoriesTask().execute();
         ArrayList<Category> categorije =  task.get();
-
+        int obrisi=-1;
+        for(int i=0; i<categorije.size(); i++){
+            if(categorije.get(i).getName().equals("All"))
+                obrisi=i;
+        }
+        if(obrisi!=-1){
+            categorije.remove(obrisi);
+        }
 
         ArrayAdapter<Category> arrayAdapter = new ArrayAdapter<Category>(this,android.R.layout.simple_spinner_item,categorije);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -222,6 +229,31 @@ public class EditProductActivity extends AppCompatActivity implements View.OnCli
     }
 
     private boolean editProduct(){
+        try{
+            Double value= Double.parseDouble(editEditTextPriceProduct.getText().toString().trim());
+        } catch (Exception e1) {
+            //e1.printStackTrace();
+            Toast.makeText(ctx, "Price has to be (decimal) number", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        try{
+            Integer value= Integer.parseInt(editEditTextQuantityProduct.getText().toString().trim());
+        } catch (Exception e1) {
+            //e1.printStackTrace();
+            Toast.makeText(ctx, "Quantity is not valid", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        try{
+            Integer value= Integer.parseInt(editEditTextDiscountProduct.getText().toString().trim());
+            if(value>99){
+                Toast.makeText(ctx, "Discount must be number <100", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        } catch (Exception e1) {
+            //e1.printStackTrace();
+            Toast.makeText(ctx, "Discount must be number <100", Toast.LENGTH_SHORT).show();
+            return false;
+        }
         dialog.setMessage("Updating product...");
         dialog.show();
 

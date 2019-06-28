@@ -47,7 +47,8 @@
                 android:paddingTop="15dp"
                 android:paddingRight="15dp"
                 android:paddingBottom="15dp"
-                android:textSize="20dp" />
+                android:textSize="20dp"
+                android:inputType="text"/>
 
             <EditText
                 android:id="@+id/editLocationShop"
@@ -58,7 +59,8 @@
                 android:paddingTop="15dp"
                 android:paddingRight="15dp"
                 android:paddingBottom="15dp"
-                android:textSize="20dp" />
+                android:textSize="20dp"
+                android:inputType="text" />
 
             <EditText
                 android:id="@+id/editPhoneShop"
@@ -69,7 +71,8 @@
                 android:paddingTop="15dp"
                 android:paddingRight="15dp"
                 android:paddingBottom="15dp"
-                android:textSize="20dp" />
+                android:textSize="20dp"
+                android:inputType="phone" />
 
             <EditText
                 android:id="@+id/editEmailShop"
@@ -80,7 +83,8 @@
                 android:paddingTop="15dp"
                 android:paddingRight="15dp"
                 android:paddingBottom="15dp"
-                android:textSize="20dp" />
+                android:textSize="20dp"
+                android:inputType="textEmailAddress" />
 
             <EditText
                 android:id="@+id/editLatitudeShop"
@@ -91,7 +95,8 @@
                 android:paddingTop="15dp"
                 android:paddingRight="15dp"
                 android:paddingBottom="15dp"
-                android:textSize="20dp" />
+                android:textSize="20dp"
+                android:inputType="numberDecimal"/>
 
             <EditText
                 android:id="@+id/editLongitudeShop"
@@ -102,7 +107,8 @@
                 android:paddingTop="15dp"
                 android:paddingRight="15dp"
                 android:paddingBottom="15dp"
-                android:textSize="20dp" />
+                android:textSize="20dp"
+                android:inputType="numberDecimal"/>
 
             <EditText
                 android:id="@+id/editAddSellerShop"
@@ -113,7 +119,8 @@
                 android:paddingTop="15dp"
                 android:paddingRight="15dp"
                 android:paddingBottom="15dp"
-                android:textSize="20dp" />
+                android:textSize="20dp"
+                android:inputType="textEmailAddress"/>
 
             <GridLayout
                 android:layout_width="wrap_content"

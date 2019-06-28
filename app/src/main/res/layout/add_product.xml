@@ -47,7 +47,8 @@
                 android:paddingTop="15dp"
                 android:paddingRight="15dp"
                 android:paddingBottom="15dp"
-                android:textSize="20dp" />
+                android:textSize="20dp"
+                android:inputType="text"/>
 
             <EditText
                 android:id="@+id/editTextPriceProduct"
@@ -58,7 +59,8 @@
                 android:paddingTop="15dp"
                 android:paddingRight="15dp"
                 android:paddingBottom="15dp"
-                android:textSize="20dp" />
+                android:textSize="20dp"
+                android:inputType="numberDecimal" />
 
             <EditText
                 android:id="@+id/editTextDescriptionProduct"
@@ -69,7 +71,8 @@
                 android:paddingTop="15dp"
                 android:paddingRight="15dp"
                 android:paddingBottom="15dp"
-                android:textSize="20dp" />
+                android:textSize="20dp"
+                android:inputType="textMultiLine" />
 
             <EditText
                 android:id="@+id/editTextQuantityProduct"
@@ -80,7 +83,8 @@
                 android:paddingTop="15dp"
                 android:paddingRight="15dp"
                 android:paddingBottom="15dp"
-                android:textSize="20dp" />
+                android:textSize="20dp"
+                android:inputType="number" />
 
             <EditText
                 android:id="@+id/editTextSizeProduct"
@@ -91,7 +95,8 @@
                 android:paddingTop="15dp"
                 android:paddingRight="15dp"
                 android:paddingBottom="15dp"
-                android:textSize="20dp" />
+                android:textSize="20dp"
+                android:inputType="text"/>
 
             <EditText
                 android:id="@+id/editTextDiscountProduct"
@@ -102,7 +107,8 @@
                 android:paddingTop="15dp"
                 android:paddingRight="15dp"
                 android:paddingBottom="15dp"
-                android:textSize="20dp" />
+                android:textSize="20dp"
+                android:inputType="number"/>
 
             <Spinner
                 android:id="@+id/spinnerCategoryProduct"

@@ -248,6 +248,10 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
         cart_toolbar_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(currentUser==null){
+                    Toast.makeText(ctx, "You need to login first.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Intent i = new Intent(getApplicationContext(), CartActivity.class);
                 startActivity(i);
             }
@@ -257,6 +261,10 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
         inbox_toolbar_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(currentUser==null){
+                    Toast.makeText(ctx, "You need to login first.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 Intent i = new Intent(getApplicationContext(), InboxActivity.class);
                 startActivity(i);

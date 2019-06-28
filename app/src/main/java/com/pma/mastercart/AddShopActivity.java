@@ -2,6 +2,7 @@ package com.pma.mastercart;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -31,6 +32,8 @@ import org.springframework.util.support.Base64;
 
 import java.io.ByteArrayOutputStream;
 import java.util.concurrent.ExecutionException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AddShopActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -44,11 +47,15 @@ public class AddShopActivity extends AppCompatActivity implements View.OnClickLi
     private static String file_extn;
     private String imagePath;
     public static ProgressDialog dialog;
+    private Context ctx;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_shop);
+
+        ctx=this;
+
         Toolbar back_toolbar = (Toolbar) findViewById(R.id.back_toolbar);
         setSupportActionBar(back_toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -125,6 +132,36 @@ public class AddShopActivity extends AppCompatActivity implements View.OnClickLi
 
 
     private boolean addShop() throws ExecutionException, InterruptedException {
+        if(editTextNameShop.getText().toString().trim().isEmpty() || editLocationShop.getText().toString().trim().isEmpty() ||
+                editPhoneShop.getText().toString().trim().isEmpty() || editEmailShop.getText().toString().trim().isEmpty() ||
+                editLatitudeShop.getText().toString().trim().isEmpty() || editLongitudeShop.getText().toString().trim().isEmpty() ||
+                editAddSellerShop.getText().toString().trim().isEmpty()){
+            Toast.makeText(ctx, "All data must be entered", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else{
+            try{
+                Double value= Double.parseDouble(editLatitudeShop.getText().toString().trim());
+            } catch (Exception e1) {
+                //e1.printStackTrace();
+                Toast.makeText(ctx, "Latitude has to be (decimal) number", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            try{
+                Double value= Double.parseDouble(editLongitudeShop.getText().toString().trim());
+            } catch (Exception e1) {
+                //e1.printStackTrace();
+                Toast.makeText(ctx, "Longitude has to be (decimal) number", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+            if(!isEmailValid(editEmailShop.getText().toString().trim()) || !isEmailValid(editAddSellerShop.getText().toString().trim())){
+                Toast.makeText(ctx, "Email is not valid.", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+
+        }
         dialog.setMessage("Adding new shop...");
         dialog.show();
         ShopDTO shopDTO = new ShopDTO();
@@ -145,7 +182,12 @@ public class AddShopActivity extends AppCompatActivity implements View.OnClickLi
         }
         return true;
     }
-
+    public static boolean isEmailValid(String email) {
+        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
 
     public static void onLoad(String id) {
         if(file_extn==null){
