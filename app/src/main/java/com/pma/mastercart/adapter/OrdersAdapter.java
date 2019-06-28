@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.pma.mastercart.MainActivity;
 import com.pma.mastercart.OrdersActivity;
 import com.pma.mastercart.R;
+import com.pma.mastercart.asyncTasks.AddToCartTask;
 import com.pma.mastercart.asyncTasks.GetUserTask;
 import com.pma.mastercart.asyncTasks.SendReviewTask;
 import com.pma.mastercart.model.Comment;
@@ -106,8 +107,22 @@ public class OrdersAdapter extends BaseAdapter {
 
             @Override
             public void onClick(View view) {
-                //TODO dodati u korpu
-                Toast.makeText(mContext, "Item added to cart.", Toast.LENGTH_SHORT).show();
+                SharedPreferences sharedpreferences = mContext.getSharedPreferences(MainActivity.PREFS, 0);
+                if (sharedpreferences.contains("AuthToken")) {
+                    Object[] objects = {orders[position].getProduct(), sharedpreferences.getString("AuthToken", null)};
+                    AsyncTask<Object, Void, String> task = new AddToCartTask().execute(objects);
+                    // The URL for making the POST request
+                    try {
+                        String resp = task.get();
+                        if(resp.equals("done")){
+                            Toast.makeText(view.getContext(), "Item added to cart.", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (InterruptedException e) {
+                    } catch (ExecutionException e) {
+                    }
+                }
+                else
+                    Toast.makeText(view.getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
             }
         });
 

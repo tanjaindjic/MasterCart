@@ -3,6 +3,7 @@ package com.pma.mastercart;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -21,6 +22,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -94,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
     private Marker mCurrLocationMarker;
+    private Context ctx;
 
 
     @Override
@@ -190,6 +193,8 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ctx = this;
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             checkLocationPermission();
@@ -395,6 +400,7 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
         SharedPreferences sharedpreferences = getSharedPreferences(PREFS, 0);
         if (sharedpreferences.contains("AuthToken")) {
             SharedPreferences.Editor editor = sharedpreferences.edit();
+            editor.remove("AuthToken");
             editor.clear();
             editor.commit();
             onRestart();
@@ -500,6 +506,18 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
             case R.id.settings:
                 Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
                 startActivity(i);
+                break;
+            case R.id.mail:
+                AlertDialog alertDialog = new AlertDialog.Builder(ctx).create();
+                alertDialog.setTitle("Contact");
+                alertDialog.setMessage("If you want to contact us, write us an email on admin@gmail.com, or call us on 021-444-555");
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
                 break;
 
         }

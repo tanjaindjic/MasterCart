@@ -190,7 +190,7 @@
                     android:id="@+id/profile_phone_label"
                     android:layout_marginTop="8dp"
                     android:textSize="16dp"
-                    android:text="Address:"
+                    android:text="Phone:"
                     android:textStyle="bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
