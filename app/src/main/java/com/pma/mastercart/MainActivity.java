@@ -245,6 +245,12 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
         ImageButton cart_toolbar_button = (ImageButton) findViewById(R.id.cart_toolbar_button);
+        if(currentUser!=null)
+            if(currentUser.getRole().equals(Role.KUPAC))
+                cart_toolbar_button.setVisibility(View.VISIBLE);
+            else cart_toolbar_button.setVisibility(View.GONE);
+        else cart_toolbar_button.setVisibility(View.GONE);
+
         cart_toolbar_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

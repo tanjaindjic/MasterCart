@@ -65,6 +65,27 @@ public class ViewShopActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.single_shop_view);
         getIntent().removeExtra("shopUpdate");
 
+        comment_layout = (LinearLayout) findViewById(R.id.comment_layout);
+        User user = null;
+        SharedPreferences sharedpreferences = getSharedPreferences(MainActivity.PREFS, 0);
+        if (sharedpreferences.contains("AuthToken")) {
+            AsyncTask<String, Void, User> task = new GetUserTask().execute(sharedpreferences.getString("AuthToken", null));
+            // The URL for making the POST request
+            try {
+                user = task.get();
+                if(user==null)
+                    comment_layout.setVisibility(View.GONE);
+                else if(user.getRole().equals(Role.ADMIN))
+                    comment_layout.setVisibility(View.GONE);
+            } catch (InterruptedException e) {
+                finish();
+            } catch (ExecutionException e) {
+                finish();
+            }
+        } else {
+            finish();
+        }
+
         Intent intent = getIntent();
         ArrayList parcelableList = intent.getParcelableArrayListExtra("shop");
         shop = (Shop) parcelableList.get(0);
@@ -90,10 +111,13 @@ public class ViewShopActivity extends AppCompatActivity implements View.OnClickL
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         back_toolbar.setTitle(shop.getName());
 
-        ImageView pic = (ImageView) findViewById(R.id.single_shop_thumbnail); //TODO ucitati sliku
-        Bitmap bitmap = BitmapFactory.decodeByteArray(shop.getImageResource(), 0, shop.getImageResource().length);
-        pic.setImageBitmap(bitmap);
-
+        ImageView pic = (ImageView) findViewById(R.id.single_shop_thumbnail);
+        if(shop.getImageResource()!=null)
+            if(shop.getImageResource().length>0) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(shop.getImageResource(), 0, shop.getImageResource().length);
+                pic.setImageBitmap(bitmap);
+            }else pic.setImageResource(R.drawable.ic_dummy);
+        else pic.setImageResource(R.drawable.ic_dummy);
 
         shop_location = (ImageButton) findViewById(R.id.single_shop_location);
         shop_location.setOnClickListener(new View.OnClickListener() {
@@ -115,6 +139,12 @@ public class ViewShopActivity extends AppCompatActivity implements View.OnClickL
 
 
         message = (ImageButton) findViewById(R.id.message);
+        if(user!=null)
+            if(user.getRole().equals(Role.KUPAC))
+                message.setVisibility(View.VISIBLE);
+            else message.setVisibility(View.GONE);
+
+        else message.setVisibility(View.GONE);
         message.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -147,26 +177,7 @@ public class ViewShopActivity extends AppCompatActivity implements View.OnClickL
 
         });
 
-        comment_layout = (LinearLayout) findViewById(R.id.comment_layout);
-        User user = null;
-        SharedPreferences sharedpreferences = getSharedPreferences(MainActivity.PREFS, 0);
-        if (sharedpreferences.contains("AuthToken")) {
-            AsyncTask<String, Void, User> task = new GetUserTask().execute(sharedpreferences.getString("AuthToken", null));
-            // The URL for making the POST request
-            try {
-                user = task.get();
-                if(user==null)
-                    comment_layout.setVisibility(View.GONE);
-                else if(user.getRole().equals(Role.ADMIN))
-                    comment_layout.setVisibility(View.GONE);
-            } catch (InterruptedException e) {
-                finish();
-            } catch (ExecutionException e) {
-                finish();
-            }
-        } else {
-            finish();
-        }
+
 
 
     }

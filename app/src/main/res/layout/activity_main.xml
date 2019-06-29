@@ -49,6 +49,7 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_cart"
                     android:background="@null"
+                    android:paddingRight="15dp"
                     android:paddingTop="14dp"/>
 
                 <ImageButton
@@ -57,7 +58,7 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_inbox"
                     android:background="@android:color/transparent"
-                    android:paddingLeft="15dp"
+
                     android:paddingTop="14dp"
                     />
 
