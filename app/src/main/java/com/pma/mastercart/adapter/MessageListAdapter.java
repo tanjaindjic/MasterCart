@@ -86,8 +86,8 @@ public class MessageListAdapter extends RecyclerView.Adapter {
         SentMessageHolder(View itemView) {
             super(itemView);
 
-            messageText = (TextView) itemView.findViewById(R.id.text_message_body);
-            timeText = (TextView) itemView.findViewById(R.id.text_message_time);
+            messageText = (TextView) itemView.findViewById(R.id.text_message_body_sent);
+            timeText = (TextView) itemView.findViewById(R.id.text_message_time_sent);
         }
 
         void bind(Message message) {
@@ -110,7 +110,7 @@ public class MessageListAdapter extends RecyclerView.Adapter {
             messageText = (TextView) itemView.findViewById(R.id.text_message_body);
             timeText = (TextView) itemView.findViewById(R.id.text_message_time);
             nameText = (TextView) itemView.findViewById(R.id.text_message_name);
-            profileImage = (ImageView) itemView.findViewById(R.id.image_message_profile);
+           // profileImage = (ImageView) itemView.findViewById(R.id.image_message_profile);
         }
 
         void bind(Message message) {
