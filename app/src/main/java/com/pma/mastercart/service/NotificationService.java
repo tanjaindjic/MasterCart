@@ -66,8 +66,10 @@ public class NotificationService extends Service {
                     try {
                         User user = task.get();
                         currentUser = user;
-                        if(user.getRole().equals(Role.KUPAC) && user.isNotifications())
-                            products = new NotificationTask().execute(currentUser).get();
+                        if(currentUser!=null)
+                            if(user.getRole().equals(Role.KUPAC) && user.isNotifications())
+                                products = new NotificationTask().execute(currentUser).get();
+                            else return;
                         else return;
                     } catch (InterruptedException e) {
                         currentUser = null;
