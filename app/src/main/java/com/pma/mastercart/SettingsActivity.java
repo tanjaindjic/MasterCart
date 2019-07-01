@@ -84,6 +84,7 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         notification_switch = (Switch) findViewById(R.id.notification_switch);
+        notification_switch.setChecked(currentUser.isNotifications());
         notification_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){

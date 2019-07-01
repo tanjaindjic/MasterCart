@@ -65,6 +65,7 @@ import com.pma.mastercart.model.Product;
 import com.pma.mastercart.model.Shop;
 import com.pma.mastercart.model.User;
 import com.pma.mastercart.model.enums.Role;
+import com.pma.mastercart.service.NotificationService;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -148,6 +149,7 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
     protected void onRestart() {
         super.onRestart();
         Log.d("ONTEST", "restart");
+        startService(new Intent(this, NotificationService.class));
         //progress.show();
         //setupNavBar();
    /*     long productUpdates = this.getIntent().getLongExtra("productUpdate", -1);
@@ -189,11 +191,14 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
         mGoogleApiClient.connect();
     }
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        startService(new Intent(this, NotificationService.class));
         ctx = this;
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
@@ -268,8 +273,7 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
             @Override
             public void onClick(View v) {
                 if(currentUser==null){
-                    Toast.makeText(ctx, "You need to login first.", Toast.LENGTH_SHORT).show();
-                    return;
+                    inbox_toolbar_button.setVisibility(View.GONE);
                 }
 
                 Intent i = new Intent(getApplicationContext(), InboxActivity.class);
@@ -385,6 +389,7 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
                             case R.id.nav_logout:
                                 logOut();
                                 setupNavBar();
+                                stopService(new Intent(getBaseContext(), NotificationService.class));
                                 try {
                                     loadData(-1L);
                                 } catch (ExecutionException e) {
@@ -404,7 +409,6 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
                         return true;
                     }
                 });
-
 
 
     }

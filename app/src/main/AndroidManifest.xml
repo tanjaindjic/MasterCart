@@ -18,6 +18,10 @@
         android:supportsRtl="true"
         android:windowBackground="@drawable/logo"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <service
+            android:name=".service.NotificationService"
+            android:label="My Service" >
+        </service>
         <activity
             android:name=".SettingsActivity"
             android:parentActivityName=".MainActivity"

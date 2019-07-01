@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.pma.mastercart.asyncTasks.LoginUserTask;
 import com.pma.mastercart.model.DTO.UserDTO;
+import com.pma.mastercart.service.NotificationService;
 
 import java.util.concurrent.ExecutionException;
 
@@ -33,7 +34,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // setting default screen to login.xml
-
+        startService(new Intent(this, NotificationService.class));
 
         setContentView(R.layout.login);
         Toolbar back_toolbar = (Toolbar) findViewById(R.id.back_toolbar);
