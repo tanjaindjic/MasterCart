@@ -66,6 +66,7 @@ public class ViewShopActivity extends AppCompatActivity implements View.OnClickL
         getIntent().removeExtra("shopUpdate");
 
         comment_layout = (LinearLayout) findViewById(R.id.comment_layout);
+        message = (ImageButton) findViewById(R.id.message);
         User user = null;
         SharedPreferences sharedpreferences = getSharedPreferences(MainActivity.PREFS, 0);
         if (sharedpreferences.contains("AuthToken")) {
@@ -75,8 +76,9 @@ public class ViewShopActivity extends AppCompatActivity implements View.OnClickL
                 user = task.get();
                 if(user==null)
                     comment_layout.setVisibility(View.GONE);
-                else if(user.getRole().equals(Role.ADMIN))
-                    comment_layout.setVisibility(View.GONE);
+                else if(user.getRole().equals(Role.PRODAVAC)){
+                    message.setVisibility(View.GONE);
+                }
             } catch (InterruptedException e) {
                 finish();
             } catch (ExecutionException e) {
@@ -138,7 +140,6 @@ public class ViewShopActivity extends AppCompatActivity implements View.OnClickL
         shop_comment_button.setOnClickListener(this);
 
 
-        message = (ImageButton) findViewById(R.id.message);
         if(user!=null)
             if(user.getRole().equals(Role.KUPAC))
                 message.setVisibility(View.VISIBLE);
