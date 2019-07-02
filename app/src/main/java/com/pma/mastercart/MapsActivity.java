@@ -78,7 +78,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private List<List<HashMap<String, String>>> routes;
     public static ProgressDialog progressDialog;
     public static AlertDialog alertDialog;
-    public static String api_key = "postavi me";
+    public static String api_key = "AIzaSyA6KJ9-ndQWGvPs7fIq7CSukWZDaD62DKU";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

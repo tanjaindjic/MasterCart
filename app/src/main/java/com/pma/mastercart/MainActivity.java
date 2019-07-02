@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
     private DrawerLayout drawerLayout;
     private TabLayout tabLayout;
     public static ViewPager viewPager;
-    public static String URL = "http://192.168.0.12:8096/";
+    public static String URL = "http://192.168.1.10:8096/";
     public static ArrayList<Product> products = new ArrayList();
     public static ArrayList<Shop> shops = new ArrayList();
     public static ProgressDialog progress;
@@ -98,6 +98,8 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
     private Location mLastLocation;
     private Marker mCurrLocationMarker;
     private Context ctx;
+    private ImageButton inbox_toolbar_button;
+    private ImageButton cart_toolbar_button;
 
 
     @Override
@@ -150,16 +152,18 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
         super.onRestart();
         Log.d("ONTEST", "restart");
         startService(new Intent(this, NotificationService.class));
-        //progress.show();
-        //setupNavBar();
-   /*     long productUpdates = this.getIntent().getLongExtra("productUpdate", -1);
-        long shopUpdates = this.getIntent().getLongExtra("shopUpdate", -1);
-        Long pU = null;
-        Long sU = null;
-        if(productUpdates!=-1)
-            pU = Long.valueOf(productUpdates);
-        if(shopUpdates!=-1)
-            sU = Long.valueOf(shopUpdates);*/
+        /*if(cart_toolbar_button!=null)
+            if(currentUser!=null)
+                if(currentUser.getRole().equals(Role.KUPAC))
+                    cart_toolbar_button.setVisibility(View.VISIBLE);
+                else cart_toolbar_button.setVisibility(View.GONE);
+            else cart_toolbar_button.setVisibility(View.GONE);
+
+        if(inbox_toolbar_button!=null)
+            if(currentUser!=null)
+                inbox_toolbar_button.setVisibility(View.VISIBLE);
+            else inbox_toolbar_button.setVisibility(View.GONE);
+*/
         try {
             if(currentUser!=null) {
                 if (currentUser.getRole().equals(Role.PRODAVAC))
@@ -249,7 +253,7 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
-        ImageButton cart_toolbar_button = (ImageButton) findViewById(R.id.cart_toolbar_button);
+        cart_toolbar_button = (ImageButton) findViewById(R.id.cart_toolbar_button);
         if(currentUser!=null)
             if(currentUser.getRole().equals(Role.KUPAC))
                 cart_toolbar_button.setVisibility(View.VISIBLE);
@@ -268,14 +272,18 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
             }
         });
 
-        ImageButton inbox_toolbar_button = (ImageButton) findViewById(R.id.inbox_toolbar_button);
+        inbox_toolbar_button = (ImageButton) findViewById(R.id.inbox_toolbar_button);
+        if(currentUser==null){
+            inbox_toolbar_button.setVisibility(View.GONE);
+        }else if(currentUser.getRole().equals(Role.ADMIN))
+            inbox_toolbar_button.setVisibility(View.GONE);
         inbox_toolbar_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(currentUser==null){
-                    inbox_toolbar_button.setVisibility(View.GONE);
+                    Toast.makeText(ctx, "You need to login first.", Toast.LENGTH_SHORT).show();
+                    return;
                 }
-
                 Intent i = new Intent(getApplicationContext(), InboxActivity.class);
                 startActivity(i);
             }
@@ -390,6 +398,7 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
                                 logOut();
                                 setupNavBar();
                                 stopService(new Intent(getBaseContext(), NotificationService.class));
+
                                 try {
                                     loadData(-1L);
                                 } catch (ExecutionException e) {
@@ -422,6 +431,7 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
             editor.clear();
             editor.commit();
             onRestart();
+
         }
     }
 

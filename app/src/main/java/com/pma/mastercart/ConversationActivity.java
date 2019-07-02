@@ -53,6 +53,7 @@ public class ConversationActivity extends AppCompatActivity {
             new Conversation(3, shop3, currentUser, messageList3),
     };*/
     private Conversation[] conversations; //TODO povuci sa firebase konverzacije za CurrentUser-a
+    private List<Message> messagesFromConversation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,9 +67,9 @@ public class ConversationActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         conversationId = intent.getStringExtra("conversationId");
-        con = intent.getParcelableExtra("conversation");
+        //con = intent.getParcelableExtra("conversation");
 
-        List<Message> messagesFromConversation = new ArrayList<Message>();
+        messagesFromConversation = new ArrayList<Message>();
         AsyncTask<String, Void, List<Message>> task = new GetMessagesTask().execute(conversationId);
         try {
             List<Message> listMessage = task.get();
@@ -114,8 +115,8 @@ public class ConversationActivity extends AppCompatActivity {
                 try {
                     Message ms = task.get();
                     if(ms!=null) {
-                        con.getMessages().add(ms);
-                        mMessageAdapter.updateResults((ArrayList<Message>) con.getMessages());
+                        messagesFromConversation.add(ms);
+                        mMessageAdapter.updateResults((ArrayList<Message>) messagesFromConversation);
                         message.setText("");
 
                     }

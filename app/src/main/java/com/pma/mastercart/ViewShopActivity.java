@@ -76,6 +76,10 @@ public class ViewShopActivity extends AppCompatActivity implements View.OnClickL
                 user = task.get();
                 if(user==null)
                     comment_layout.setVisibility(View.GONE);
+                else if(user.getRole().equals(Role.ADMIN)){
+                    comment_layout.setVisibility(View.GONE);
+                    message.setVisibility(View.GONE);
+                }
                 else if(user.getRole().equals(Role.PRODAVAC)){
                     message.setVisibility(View.GONE);
                 }
@@ -85,7 +89,8 @@ public class ViewShopActivity extends AppCompatActivity implements View.OnClickL
                 finish();
             }
         } else {
-            finish();
+            comment_layout.setVisibility(View.GONE);
+            message.setVisibility(View.GONE);
         }
 
         Intent intent = getIntent();

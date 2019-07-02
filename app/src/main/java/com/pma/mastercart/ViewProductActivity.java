@@ -162,7 +162,9 @@ public class ViewProductActivity  extends AppCompatActivity implements View.OnCl
                 finish();
             }
         } else {
-            finish();
+            layout_AddComment.setVisibility(View.GONE);
+            add_favorite.setVisibility(View.GONE);
+            add_cart.setVisibility(View.GONE);
         }
 
         button_sendComment = (Button) findViewById(R.id.btn_send_comment);

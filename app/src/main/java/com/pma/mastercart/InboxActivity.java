@@ -83,7 +83,7 @@ public class InboxActivity extends AppCompatActivity {
                 Conversation selected = conversations[position];
                 Intent intent = new Intent(view.getContext(), ConversationActivity.class);
                 intent.putExtra("conversationId", selected.getId().toString());
-                intent.putExtra("conversation", selected);
+               // intent.putExtra("conversation", selected);
                 startActivity(intent);
             }
 
